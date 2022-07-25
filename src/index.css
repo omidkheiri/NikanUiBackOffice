@@ -1,13 +1,13 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import url('./assets/css/main.css');
+/* @import url('../../plugins/perfect-scrollbar/perfect-scrollbar.css'); */
+@import url('./assets/css/structure.css');
+/*
+    Importing highlight.js CSS code 
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+    Just for demo purpose only
+	
+	@Note:-  monokai-sublime.css stylesheet is for highliting the code;
+
+*/
+/* @import '../../plugins/highlight/styles/monokai-sublime.css'; */
