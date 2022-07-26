@@ -1,8 +1,8 @@
 import React from "react";
-
+import classes from "./CreateAccount.module.css";
 const CreateAccount = () => {
   return (
-    <div class="container">
+    <div className={(classes.container, classes.singlFormContent)}>
       <div className="row">
         <div id="flFormsGrid" className="col-lg-12 layout-spacing">
           <div className="statbox widget box box-shadow">

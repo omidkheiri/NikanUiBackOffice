@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-
+import classes from "./Header.module.css";
+import Language from "./Header/Language";
 const Header = () => {
+  const [showProfileMenu, setShowMenu] = useState(
+    "nav-item dropdown user-profile-dropdown order-lg-0 order-1"
+  );
+  const [profielInnerMenu, setProfielInnerMenu] = useState(
+    "dropdown-menu position-absolute"
+  );
+  const [t, i18n] = useTranslation("common");
+
+  const showProfielMenu = () => {
+    if (
+      showProfileMenu ==
+      "nav-item dropdown user-profile-dropdown order-lg-0 order-1"
+    ) {
+      setShowMenu(
+        "nav-item dropdown user-profile-dropdown order-lg-0 order-1 show"
+      );
+      setProfielInnerMenu("dropdown-menu position-absolute show");
+    } else {
+      setShowMenu("nav-item dropdown user-profile-dropdown order-lg-0 order-1");
+      setProfielInnerMenu("dropdown-menu position-absolute");
+    }
+  };
+
   return (
     <div className="header-container">
       <header className="header navbar navbar-expand-sm">
         <a href="#" className="sidebarCollapse" data-placement="bottom"></a>
 
         <div className="nav-logo align-self-center">
-          <a className="navbar-brand" href="index-2.html">
-            <img alt="logo" src="assets/img/logo2.svg" />
-            <span className="navbar-brand-name">واران</span>
+          <a className="navbar-brand" href="">
+            <img alt="logo" src={require("../../assets/img/Logo-Varan.png")} />
+            <span className="navbar-brand-name"></span>
           </a>
         </div>
 
@@ -19,7 +44,7 @@ const Header = () => {
             <nav id="topbar">
               <ul className="navbar-nav theme-brand flex-row  text-center">
                 <li className="nav-item theme-logo">
-                  <a href="index-2.html">
+                  <a href="">
                     <img
                       src="assets/img/logo2.svg"
                       className="navbar-logo"
@@ -28,9 +53,7 @@ const Header = () => {
                   </a>
                 </li>
                 <li className="nav-item theme-text">
-                  <a href="index-2.html" className="nav-link">
-                    واران
-                  </a>
+                  <a href="" className="nav-link"></a>
                 </li>
               </ul>
 
@@ -56,7 +79,7 @@ const Header = () => {
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                       </svg>
 
-                      <span>سازمانها</span>
+                      <span>{t("HeaderMenus.Accounts")}</span>
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +117,7 @@ const Header = () => {
                         <line x1="12" y1="22.08" x2="12" y2="12"></line>
                       </svg>
 
-                      <span>رزورها</span>
+                      <span>{t("HeaderMenus.Reserves")}</span>
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +153,7 @@ const Header = () => {
                         <line x1="12" y1="8" x2="12" y2="16"></line>
                         <line x1="8" y1="12" x2="16" y2="12"></line>
                       </svg>
-                      <span>رزرو جدید</span>
+                      <span>{t("HeaderMenus.NewReserve")}</span>
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +190,7 @@ const Header = () => {
                         <line x1="12" y1="8" x2="12" y2="16"></line>
                         <line x1="8" y1="12" x2="16" y2="12"></line>
                       </svg>
-                      <span>سازمان جدید</span>
+                      <span>{t("HeaderMenus.NewAccount")}</span>
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +226,7 @@ const Header = () => {
                         <line x1="12" y1="8" x2="12" y2="16"></line>
                         <line x1="8" y1="12" x2="16" y2="12"></line>
                       </svg>
-                      <span>شخص جدید</span>
+                      <span>{t("HeaderMenus.NewContact")}</span>
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -222,11 +245,23 @@ const Header = () => {
             </nav>
           </div>
         </ul>
-
-        <ul className="navbar-item flex-row ml-auto nav-dropdowns">
-          <li className="nav-item dropdown user-profile-dropdown order-lg-0 order-1">
+        <ul className="navbar-item flex-row ml-auto">
+          <li className="nav-item align-self-center search-animated"></li>
+        </ul>
+        <ul
+          className={
+            classes.profilemenu +
+            " navbar-item" +
+            " flex-row" +
+            " ml-auto" +
+            " nav-dropdowns"
+          }
+        >
+          <li className="nav-item dropdown message-dropdown"></li>
+          <li className="nav-item dropdown message-dropdown"></li>
+          <Language />
+          <li className={showProfileMenu}>
             <a
-              href="#"
               className="nav-link dropdown-toggle user"
               id="user-profile-dropdown"
               data-toggle="dropdown"
@@ -235,14 +270,15 @@ const Header = () => {
             >
               <div className="media">
                 <img
-                  src="assets/img/profile-7.jpg"
+                  onClick={showProfielMenu}
+                  src={require("../../assets/img/user.png")}
                   className="img-fluid"
                   alt="admin-profile"
                 />
               </div>
             </a>
             <div
-              className="dropdown-menu position-absolute"
+              className={profielInnerMenu}
               aria-labelledby="userProfileDropdown"
             >
               <div className="user-profile-section">

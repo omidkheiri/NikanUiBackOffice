@@ -1,0 +1,10 @@
+{
+    "direction":"rtl",
+    "HeaderMenus": {
+        "Accounts":"سازمانها",
+        "Reserves":"رزروها",
+        "NewReserve":"رزرو جدید",
+        "NewAccount":"سازمان جدید",
+        "NewContact":"شخص جدید"
+    }
+}
