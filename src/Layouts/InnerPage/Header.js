@@ -3,40 +3,20 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import classes from "./Header.module.css";
 import Language from "./Header/Language";
+import ProfielMenu from "./Header/ProfielMenu";
 const Header = () => {
-  const [showProfileMenu, setShowMenu] = useState(
-    "nav-item dropdown user-profile-dropdown order-lg-0 order-1"
-  );
-  const [profielInnerMenu, setProfielInnerMenu] = useState(
-    "dropdown-menu position-absolute"
-  );
   const [t, i18n] = useTranslation("common");
-
-  const showProfielMenu = () => {
-    if (
-      showProfileMenu ==
-      "nav-item dropdown user-profile-dropdown order-lg-0 order-1"
-    ) {
-      setShowMenu(
-        "nav-item dropdown user-profile-dropdown order-lg-0 order-1 show"
-      );
-      setProfielInnerMenu("dropdown-menu position-absolute show");
-    } else {
-      setShowMenu("nav-item dropdown user-profile-dropdown order-lg-0 order-1");
-      setProfielInnerMenu("dropdown-menu position-absolute");
-    }
-  };
 
   return (
     <div className="header-container">
       <header className="header navbar navbar-expand-sm">
-        <a href="#" className="sidebarCollapse" data-placement="bottom"></a>
+        <Link to="/" className="sidebarCollapse" data-placement="bottom"></Link>
 
         <div className="nav-logo align-self-center">
-          <a className="navbar-brand" href="">
+          <Link className="navbar-brand" to="/">
             <img alt="logo" src={require("../../assets/img/Logo-Varan.png")} />
             <span className="navbar-brand-name"></span>
-          </a>
+          </Link>
         </div>
 
         <ul className="navbar-item topbar-navigation">
@@ -44,23 +24,23 @@ const Header = () => {
             <nav id="topbar">
               <ul className="navbar-nav theme-brand flex-row  text-center">
                 <li className="nav-item theme-logo">
-                  <a href="">
+                  <Link to="">
                     <img
                       src="assets/img/logo2.svg"
                       className="navbar-logo"
                       alt="logo"
                     />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item theme-text">
-                  <a href="" className="nav-link"></a>
+                  <Link to="/" className="nav-link"></Link>
                 </li>
               </ul>
 
               <ul className="list-unstyled menu-categories" id="topAccordion">
                 <li className="menu single-menu">
-                  <a
-                    href="#menu1"
+                  <Link
+                    to="/"
                     data-toggle="collapse"
                     aria-expanded="false"
                     className="dropdown-toggle autodroprown"
@@ -92,12 +72,12 @@ const Header = () => {
                     >
                       <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="menu single-menu">
-                  <a
-                    href="#menu2"
+                  <Link
+                    to="/"
                     data-toggle="collapse"
                     aria-expanded="false"
                     className="dropdown-toggle"
@@ -129,12 +109,12 @@ const Header = () => {
                     >
                       <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="menu single-menu active">
-                  <a
-                    href="#starter-kit"
+                  <Link
+                    to="/"
                     data-toggle="collapse"
                     aria-expanded="true"
                     className="dropdown-toggle"
@@ -166,7 +146,7 @@ const Header = () => {
                     >
                       <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="menu single-menu active">
@@ -206,8 +186,8 @@ const Header = () => {
                   </Link>
                 </li>
                 <li className="menu single-menu active">
-                  <a
-                    href="#starter-kit"
+                  <Link
+                    to="/"
                     data-toggle="collapse"
                     aria-expanded="true"
                     className="dropdown-toggle"
@@ -239,7 +219,7 @@ const Header = () => {
                     >
                       <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -260,113 +240,7 @@ const Header = () => {
           <li className="nav-item dropdown message-dropdown"></li>
           <li className="nav-item dropdown message-dropdown"></li>
           <Language />
-          <li className={showProfileMenu}>
-            <a
-              className="nav-link dropdown-toggle user"
-              id="user-profile-dropdown"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <div className="media">
-                <img
-                  onClick={showProfielMenu}
-                  src={require("../../assets/img/user.png")}
-                  className="img-fluid"
-                  alt="admin-profile"
-                />
-              </div>
-            </a>
-            <div
-              className={profielInnerMenu}
-              aria-labelledby="userProfileDropdown"
-            >
-              <div className="user-profile-section">
-                <div className="media mx-auto">
-                  <div className="media-body">
-                    <h5>Shaun Park</h5>
-                    <p>Project Leader</p>
-                  </div>
-                </div>
-              </div>
-              <div className="dropdown-item">
-                <a href="user_profile.html">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="feather feather-user"
-                  >
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                  <span>Profile</span>
-                </a>
-              </div>
-              <div className="dropdown-item">
-                <a href="apps_mailbox.html">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="feather feather-inbox"
-                  >
-                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
-                    <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
-                  </svg>
-                  <span>Inbox</span>
-                </a>
-              </div>
-              <div className="dropdown-item">
-                <a href="auth_lockscreen.html">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="feather feather-lock"
-                  >
-                    <rect
-                      x="3"
-                      y="11"
-                      width="18"
-                      height="11"
-                      rx="2"
-                      ry="2"
-                    ></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                  </svg>
-                  <span>Lock Screen</span>
-                </a>
-              </div>
-              <div className="dropdown-item">
-                <a href="auth_login.html">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="feather feather-log-out"
-                  >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                  </svg>
-                  <span>Log Out</span>
-                </a>
-              </div>
-            </div>
-          </li>
+          <ProfielMenu />
         </ul>
       </header>
     </div>

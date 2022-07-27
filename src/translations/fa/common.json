@@ -1,4 +1,5 @@
 {
+    "textAlign":"right",
     "direction":"rtl",
     "HeaderMenus": {
         "Accounts":"سازمانها",
@@ -6,5 +7,18 @@
         "NewReserve":"رزرو جدید",
         "NewAccount":"سازمان جدید",
         "NewContact":"شخص جدید"
+    },
+    "Account": {
+        "FormElement": {
+        "FormTitle":"فرم ثبت سازمان جدید",
+        "Title":"عنوان",
+        "Phone":"شماره تلفن",
+        "EmailAddress":"آدرس ایمیل",
+        "PostalAddress":"آدرس پستی",
+        "SaveAccount":"ذخیره"
+        }
     }
+
+
+
 }
