@@ -11,11 +11,11 @@ import common_fa from "./translations/fa/common.json";
 import common_en from "./translations/en/common.json";
 
 i18next.init({
-  interpolation: { escapeValue: false }, // React already does escaping
+  interpolation: { escapeValue: false },
   lng: "fa", // language to use
   resources: {
     en: {
-      common: common_en, // 'common' is our custom namespace
+      common: common_en,
     },
     fa: {
       common: common_fa,

@@ -8,7 +8,9 @@
 			@Import	Mixins
 	===============================
 */
-
+html {
+  min-height: 100%;
+   }
 
 body {
   color: #888ea8;
