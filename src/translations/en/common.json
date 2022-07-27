@@ -1,0 +1,9 @@
+{   "direction":"ltr",
+    "HeaderMenus": {
+        "Accounts":"Accounts",
+        "Reserves":"Reserves",
+        "NewReserve":"New Reserver",
+        "NewAccount":"New Account",
+        "NewContact":"New Contact"
+    }
+}
