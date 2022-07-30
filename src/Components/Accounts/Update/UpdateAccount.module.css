@@ -1,0 +1,6 @@
+.singlFormContent{
+margin-right: auto;
+margin-left: auto;
+max-width: 500px;
+}
+h4 {direction: rtl!important;text-align:right;}

@@ -13,7 +13,29 @@
         "Phone":"Phone Number ",
         "EmailAddress":"Email Address",
         "PostalAddress":"Postal Address",
-        "SaveAccount":"Save"
+        "SaveAccount":"Save",
+        "EmailRequiredMessage":"Email Address Required",
+        "EmailFormatMessage":"Email Address is not valid",
+       
+        "TitleRequiredMessage":"Please fill Title",
+        "PhoneRequiredMessage":"Please fill Phone",
+      
+        "PhoneFormatMessage":"Phone Is not valid"
+        }
+    },
+    "LoginPage": {
+        "FormElement": {
+        "FormTitle":"Sign in",
+        "Title":"Log in to your account to continue.",
+        "UserName":"User Name",
+       
+        "Password":"Password",
+        "ForgetPassword":"Forgot Password",
+        "NotRegisterd":"Not registered?",
+        "CreateAnAccount":"Create An Account",
+        "UserNamePlaceHolder":"User Name",
+        "PasswordPlaceHolder":"Password",
+        "LogIn":"Log in"
         }
     }
 }

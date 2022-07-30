@@ -208,12 +208,12 @@ span.red {
 /*      Form Control       */
 .form-control {
   height: auto;
-  border: 1px solid #bfc9d4;
-  color: #3b3f5c;
+  border: 1px solid #000000;
+  color: #04050a;
   font-size: 15px;
   padding: 8px 10px;
   letter-spacing: 1px;
-  height: calc(1.4em + 1.4rem + 2px);
+  height: calc(1.1em + 1.1rem + 2px);
   padding: .75rem 1.25rem;
   border-radius: 6px; }
   .form-control[type="range"] {

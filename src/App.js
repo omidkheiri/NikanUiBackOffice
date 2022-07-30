@@ -7,14 +7,22 @@ import SupplierList from "./Components/Suppliers/SupplierList";
 import { Redirect, Route, Switch } from "react-router-dom";
 import SupplierDetail from "./Components/Suppliers/SupplierDetail/SupplierDetail";
 import AccountList from "./Components/Accounts/List";
-import AccountDetail from "./Components/Accounts/Panel/AccountPanel";
+import AccountPanel from "./Components/Accounts/Panel/AccountPanel";
 import CreateAccount from "./Components/Accounts/Create/CreateAccount";
+import SingleLayout from "./Layouts/SinglePage/SingleLayout";
+import BasicContext from "./Store/enviroment-context";
 
 function App() {
   const [isLogedIn] = useState(true);
 
   return (
-    <Fragment>
+    <BasicContext.Provider
+      value={{
+        baseAddress:
+          "http://localhost:5062/GW/Account/V1/company/d8b0747d-03ca-4720-a287-acc27c7067cb",
+      }}
+    >
+      {!isLogedIn && <SingleLayout></SingleLayout>}
       {isLogedIn && (
         <Fragment>
           <Header />
@@ -32,8 +40,8 @@ function App() {
               <Route path="/Accounts" exacts>
                 <AccountList />
               </Route>
-              <Route path="/Accounts/:AccountId">
-                <AccountDetail />
+              <Route path="/Account/:AccountId">
+                <AccountPanel />
               </Route>
               <Route path="/NewAccount">
                 <CreateAccount />
@@ -43,7 +51,7 @@ function App() {
           </MainContent>
         </Fragment>
       )}
-    </Fragment>
+    </BasicContext.Provider>
   );
 }
 
