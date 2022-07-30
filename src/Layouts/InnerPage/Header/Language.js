@@ -4,10 +4,10 @@ import i18n from "../../../i18n";
 import { Helmet } from "react-helmet";
 const Language = () => {
   const [currentLang, setCurrentLang] = useState("fa");
-  const [direction, setDirection] = useState("fa");
+  const [direction, setDirection] = useState("rtl");
 
   const updateCurrentLang = () => {
-    if (currentLang == "fa") {
+    if (currentLang === "fa") {
       setCurrentLang("en");
     } else {
       setCurrentLang("fa");
