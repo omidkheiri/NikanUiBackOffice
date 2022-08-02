@@ -7,6 +7,20 @@
         "NewAccount":"New Account",
         "NewContact":"New Contact"
     },"Account": {
+
+        "DashboardTitle":"Dashboard",
+        "List":{
+            "PageTitle":"َAccounts:",
+"AccountNumber":"No.",
+"Title":"Title",
+"EmailAddress":"Email Address",
+"Phone":"Phone ",
+"IsCustomer":"Customer",
+"IsSupplier":"Supplier",
+"Link":"Link"
+
+        },
+
         "FormElement": {
         "FormTitle":"َAdd new Account",
         "Title":"Title",

@@ -10,6 +10,17 @@
     },
     "Account": {
         "DashboardTitle":"داشبورد سازمان",
+        "List":{
+            "PageTitle":"فهرست سازمانها:",
+"AccountNumber":"شناسه",
+"Title":"عنوان",
+"EmailAddress":"ایمیل",
+"Phone":"شماره تلفن",
+"IsCustomer":"مشتری",
+"IsSupplier":"تامین کننده",
+"Link":"پیوند"
+
+        },
         "FormElement": {
         "FormTitle":"فرم ثبت سازمان جدید",
         "Title":"عنوان",
