@@ -84,6 +84,7 @@ const AccountList = () => {
           <div className="widget widget-chart-one" style={{ padding: "20px" }}>
             <div className="widget-heading">
               <DataGrid
+                hoverStateEnabled={true}
                 dataSource={store}
                 showBorders={true}
                 remoteOperations={true}

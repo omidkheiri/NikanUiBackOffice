@@ -11,3 +11,27 @@
 
 */
 /* @import '../../plugins/highlight/styles/monokai-sublime.css'; */
+
+.dx-datagrid .dx-row-alt {
+    background-color: #eeeeee!important;
+}
+.dx-widget {
+    display: block;
+    -ms-content-zooming: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: none;
+    -webkit-touch-callout: none;
+    padding: 0;
+    outline: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color: #333;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: Vazirmatn, "Helvetica Neue","Segoe UI",helvetica,verdana,sans-serif!important;
+    line-height: 1.35715;
+  }
+  .dx-state-hover{
+    background-color: #eeeeee!important;
+
+  }
