@@ -19,7 +19,8 @@ function App() {
     <BasicContext.Provider
       value={{
         baseAddress:
-          "http://localhost:30007/GW/Account/V1/company/d8b0747d-03ca-4720-a287-acc27c7067cb",
+          "http://localhost:30007/GW/Account/V1/company/bde02ce9-c19a-47b8-9630-18325894de5a",
+        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/bde02ce9-c19a-47b8-9630-18325894de5a`,
       }}
     >
       {!isLogedIn && <SingleLayout></SingleLayout>}
@@ -29,7 +30,7 @@ function App() {
           <MainContent>
             <Switch>
               <Route path="/" exact>
-                <Redirect to="/Suppliers" />
+                <Redirect to="/Accounts" />
               </Route>
               <Route path="/Suppliers" exact>
                 <SupplierList />

@@ -21,7 +21,7 @@ const UpdateAccount = (props) => {
 
     setFormData(formData);
     checkForm();
-    console.log(data);
+    props.FillForm(data);
   };
   const [t, i18n] = useTranslation("common");
   const [formData, setFormData] = useState({});
