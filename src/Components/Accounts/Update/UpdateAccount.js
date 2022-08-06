@@ -114,8 +114,7 @@ const UpdateAccount = (props) => {
 
   const submitForm = (event) => {
     event.preventDefault();
-    console.log("adasdasd");
-    console.log(formData);
+
     setUpdatedRequestData({
       Title: formData.Title.data,
       EmailAddress: formData.EmailAddress.data,
