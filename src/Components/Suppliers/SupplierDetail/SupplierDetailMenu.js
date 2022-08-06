@@ -7,6 +7,9 @@ const SupplierDetailMenu = (props) => {
   const serviceLocation = () => {
     props.updateCurrntPage("serviceLocation");
   };
+  const serviceLine = () => {
+    props.updateCurrntPage("serviceLine");
+  };
 
   return (
     <ul className="nav nav-tabs  mb-3 mt-3" id="iconTab" role="tablist">
@@ -94,9 +97,10 @@ const SupplierDetailMenu = (props) => {
       </li>
 
       <li
+        onClick={serviceLine}
         style={{ cursor: "pointer" }}
         className={
-          props.currntPage === "service"
+          props.currntPage === "serviceLine"
             ? "nav-item  show active "
             : " nav-item "
         }

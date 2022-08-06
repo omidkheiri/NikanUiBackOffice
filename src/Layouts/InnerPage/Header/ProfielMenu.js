@@ -7,9 +7,6 @@ const ProfielMenu = () => {
   const [showProfileMenu, setShowMenu] = useState("");
   const [profielInnerMenu, setProfielInnerMenu] = useState("");
   const showProfielMenu = () => {
-    console.log("-------------------------");
-    console.log(showProfileMenu);
-    console.log(profielInnerMenu);
     if (showProfileMenu === "") {
       setShowMenu(" show");
       setProfielInnerMenu(" show");

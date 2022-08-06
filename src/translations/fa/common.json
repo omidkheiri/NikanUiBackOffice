@@ -63,6 +63,33 @@
             "ErrorResponse_500-3": "رکوردی پیدا نشد "
         }
     },
+    "ServiceLine": {
+        "List": {
+            "PageTitle": "  سرویس",
+            "Title": "سرویسها"
+        },
+        "FormElement": {
+            "FormTitle": "فرم ثبت سرویس جدید",
+            "Title": "عنوان",
+            "Status": "سرویس فعال است",
+            "TaxInclude": "شامل مالیات",
+            "ServiceLocationId": "محل ارائه سرویس",
+            "ServiceTypeId": "نوع سرویس",
+            "FinancialCode": "کد مالی",
+            "FinancialTitle": "عنوان مالی",
+            "SaveAccount": "ذخیره",
+            "TitleRequiredMessage": "عنوان",
+            "StatusRequiredMessage": "وضعیت",
+            "TaxIncludeRequiredMessage": "شامل مالیات",
+            "ServiceLocationIdRequiredMessage": "محل ارائه سرویس",
+            "ServiceTypeIdRequiredMessage": "نوع سرویس",
+            "FinancialCodeRequiredMessage": "کد مالی",
+            "FinancialTitleRequiredMessage": "عنوان مالی",
+            "ErrorResponse_500-1": "اطلاعات ارسالی معتبر نیست",
+            "ErrorResponse_500-2": "رکورد تکراری",
+            "ErrorResponse_500-3": "رکوردی پیدا نشد "
+        }
+    },
     "LoginPage": {
         "FormElement": {
             "FormTitle": "ورود",

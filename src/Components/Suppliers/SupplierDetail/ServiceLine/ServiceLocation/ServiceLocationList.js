@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import useHttp from "../../../../Hooks/use-http";
-import BasicContext from "../../../../Store/enviroment-context";
+import useHttp from "../../../../../Hooks/use-http";
+import BasicContext from "../../../../../Store/enviroment-context";
 
 const ServiceLocationList = (props) => {
   const basicContext = useContext(BasicContext);

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
-import useHttp from "../../../../Hooks/use-http";
-import BasicContext from "../../../../Store/enviroment-context";
-import InputText from "../../../UI/FormElement/InputText";
+import useHttp from "../../../../../Hooks/use-http";
+import BasicContext from "../../../../../Store/enviroment-context";
+import InputText from "../../../../UI/FormElement/InputText";
 
-import Modal from "../../../UI/Modal";
+import Modal from "../../../../UI/Modal";
 const ServiceLocationForm = (props) => {
   const UpdateList = (data) => {
     // history.push("/account/" + data.id);

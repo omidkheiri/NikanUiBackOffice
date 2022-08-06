@@ -9,8 +9,6 @@ const Backdrop = (props) => {
   );
 };
 const ModalOverlay = (props) => {
-  console.log(222);
-  console.log(props);
   const cancelModal = () => {
     props.cancelModal();
   };
@@ -60,8 +58,6 @@ const ModalOverlay = (props) => {
 };
 const portalElemnt = document.getElementById("overlays");
 const Modal = (props) => {
-  console.log(111);
-  console.log(props);
   const cancelModal = () => {
     props.cntx.cancelCallBack();
   };
