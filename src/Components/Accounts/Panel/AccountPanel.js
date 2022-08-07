@@ -11,7 +11,10 @@ const AccountPanel = () => {
   const params = useParams();
   const [accountData, setAccountData] = useState("");
   const [currentPageName, setCurrentPage] = useState("intro");
-
+  const [maximize, setMaximize] = useState(false);
+  const maximizeTaggel = () => {
+    setMaximize(!maximize);
+  };
   const FillForm = (data) => {
     setAccountData(data);
   };
@@ -22,7 +25,13 @@ const AccountPanel = () => {
     <Fragment>
       <div className="layout-px-spacing">
         <div className="row layout-spacing">
-          <div className="col-xl-3 col-lg-6 col-md-5 col-sm-12 layout-top-spacing">
+          <div
+            className={
+              !maximize
+                ? "col-xl-3 col-lg-3 col-md-3 col-sm-12 layout-top-spacing"
+                : "d-none"
+            }
+          >
             <div className="user-profile layout-spacing">
               <div className="widget-content widget-content-area">
                 <div className=" justify-content-between">
@@ -35,7 +44,13 @@ const AccountPanel = () => {
               </div>
             </div>
           </div>
-          <div className="col-xl-9 col-lg-6 col-md-7 col-sm-12 layout-top-spacing">
+          <div
+            className={
+              !maximize
+                ? "col-xl-9 col-lg-6 col-md-7 col-sm-12 layout-top-spacing"
+                : "col-xl-12 col-lg-6 col-md-12 col-sm-12 layout-top-spacing"
+            }
+          >
             <div className="row">
               <div
                 id="tabsVerticalWithIcon"
@@ -45,7 +60,31 @@ const AccountPanel = () => {
                   <div className="widget-header">
                     <div className="row">
                       <div className="col-xl-12 col-md-12 col-sm-12 col-12">
-                        <h4>{accountData.title}</h4>
+                        <h4 style={{ float: "right" }}>{accountData.title}</h4>
+                        <div
+                          onClick={maximizeTaggel}
+                          className="icon-container"
+                          style={{
+                            float: "left",
+                            marginTop: "10px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="feather feather-maximize"
+                          >
+                            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>

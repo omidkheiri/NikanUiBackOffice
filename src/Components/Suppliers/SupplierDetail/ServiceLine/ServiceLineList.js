@@ -16,10 +16,16 @@ const ServiceLineList = (props) => {
     },
   };
   const params = useParams();
-  const [locationList, setLocationList] = useState([]);
+  const [lineFetchList, setLineFetchList] = useState([]);
+  const [lineDisplayList, setLineDisplayList] = useState([]);
   const [deletingId, setDeletingLocation] = useState();
   useEffect(() => {
     props.UpdateListFunc.current = updateList;
+
+    console.log(
+      `${basicContext.serviceLineAddress}/ServiceLine?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`
+    );
+
     fetchLocation();
     if (deletingId) {
       deleteLocation().then(() => {
@@ -29,8 +35,26 @@ const ServiceLineList = (props) => {
       fetchServiceList();
     }
   }, [deletingId]);
+
+  const filterList = (data, Id, valid) => {
+    let items = lineFetchList;
+    if (data.value == "all") {
+      setLineDisplayList(items);
+      return;
+    }
+    setLineDisplayList(
+      items
+        .filter((data1) => {
+          console.log(data1);
+          return data1.serviceLocationId == data.value;
+        })
+        .sort()
+    );
+  };
+
   const fillList = (data) => {
-    setLocationList(data);
+    setLineFetchList(data);
+    setLineDisplayList(data);
   };
   const updateList = () => {
     fetchServiceList();
@@ -39,16 +63,13 @@ const ServiceLineList = (props) => {
     setDeletingLocation(event.currentTarget.id);
     fetchServiceList();
   };
-  const filterList = () => {
-    return;
-  };
+
   const {
     isLoading,
     error,
     sendRequest: fetchServiceList,
   } = useHttp(
     {
-      // url: `${basicContext.serviceLineAddress}/ServiceLine?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       url: `${basicContext.serviceLineAddress}/ServiceLine?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -71,11 +92,11 @@ const ServiceLineList = (props) => {
     fillList
   );
   const fillLocationOption = (data) => {
-    setServiceLocationOption(
-      data.map((data) => {
-        return { value: data.id, label: data.title };
-      })
-    );
+    let items = data.map((data) => {
+      return { value: data.id, label: data.title };
+    });
+    items.push({ value: "all", label: "all" });
+    setServiceLocationOption(items);
   };
 
   const {
@@ -95,7 +116,7 @@ const ServiceLineList = (props) => {
     <table className="table table-bordered table-hover mb-4">
       <thead>
         <tr>
-          <th colspan={10}>
+          <th colSpan={10}>
             <DropDown
               textAlign={styles.textAlign}
               title={t("ServiceLine.FormElement.ServiceLocationId")}
@@ -106,26 +127,49 @@ const ServiceLineList = (props) => {
               RegexFormat=""
               options={serviceLocationOption}
               valueCallback={filterList}
-              requiredMassage={t(
-                "ServiceLine.FormElement.ServiceLocationIdRequiredMessage"
-              )}
             />
           </th>
         </tr>
         <tr>
           <th style={{ textAlign: "right" }}>Title</th>
+          <th style={{ textAlign: "right", width: "50px" }}>Location</th>
           <th style={{ textAlign: "right", width: "50px" }}>State</th>
+          <th style={{ textAlign: "right", width: "50px" }}>Tax</th>
 
           <th style={{ width: "100px" }}></th>
         </tr>
       </thead>
       <tbody>
-        {locationList.map((data) => {
+        {lineDisplayList.map((data) => {
           return (
             <tr key={data.id}>
               <td style={{ textAlign: "right" }}>{data.title}</td>
               <td style={{ textAlign: "center" }}>
-                {data.status && (
+                {data.serviceLocation.title}
+              </td>
+              <td style={{ textAlign: "center" }}>
+                {data.serviceLineStatus && (
+                  <div className="icon-container">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-check-circle"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                )}
+              </td>
+              <td style={{ textAlign: "center" }}>
+                {data.taxInclude && (
                   <div className="icon-container">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

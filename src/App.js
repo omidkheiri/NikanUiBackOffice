@@ -19,9 +19,9 @@ function App() {
     <BasicContext.Provider
       value={{
         baseAddress:
-          "http://localhost:30007/GW/Account/V1/company/bde02ce9-c19a-47b8-9630-18325894de5a",
-        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/bde02ce9-c19a-47b8-9630-18325894de5a`,
-        serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/company/bde02ce9-c19a-47b8-9630-18325894de5a`,
+          "http://localhost:30007/GW/Account/V1/company/cc7bebf0-d6b4-43e4-997b-585e2612e547",
+        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/cc7bebf0-d6b4-43e4-997b-585e2612e547`,
+        serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/company/cc7bebf0-d6b4-43e4-997b-585e2612e547`,
       }}
     >
       {!isLogedIn && <SingleLayout></SingleLayout>}
