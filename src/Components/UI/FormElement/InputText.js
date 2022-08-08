@@ -8,6 +8,8 @@ const InputText = (props) => {
   useEffect(() => {
     if (props.value) {
       setInputValue(props.value);
+      setValidation(true);
+      props.valueCallback(props.value, props.id, true);
     }
   }, [props.value]);
   const Blured = () => {

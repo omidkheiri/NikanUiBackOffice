@@ -47,8 +47,8 @@ const AccountPanel = () => {
           <div
             className={
               !maximize
-                ? "col-xl-9 col-lg-6 col-md-7 col-sm-12 layout-top-spacing"
-                : "col-xl-12 col-lg-6 col-md-12 col-sm-12 layout-top-spacing"
+                ? "col-xl-9 col-lg-9 col-md-7 col-sm-12 layout-top-spacing"
+                : "col-xl-12 col-lg-12 col-md-12 col-sm-12 layout-top-spacing"
             }
           >
             <div className="row">
