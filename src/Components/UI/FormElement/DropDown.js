@@ -3,15 +3,20 @@ import Select from "react-select";
 
 const DropDown = (props) => {
   const options = props.options;
-  const [inputValue, setInputValue] = useState("");
-  const [displayValdation, setdisplayValdation] = useState("none");
   const [valid, setValidation] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [inputValue, setInputValue] = useState(props.value);
   useEffect(() => {
     if (props.value) {
       setInputValue(props.value);
+
+      setValidation(true);
+      props.valueCallback(props.value, props.id, true);
     }
   }, [props.value]);
+  const [displayValdation, setdisplayValdation] = useState("none");
+
+  const [errorMessage, setErrorMessage] = useState("");
+
   const Blured = () => {
     if (!inputValue) {
       setdisplayValdation("block");
@@ -24,11 +29,9 @@ const DropDown = (props) => {
     }
   };
 
-  const state = {
-    selectedOption: null,
-  };
   const handleChange = (selectedOption) => {
     setInputValue(selectedOption);
+    props.valueCallback(selectedOption, props.id, true);
   };
 
   return (
@@ -37,6 +40,7 @@ const DropDown = (props) => {
         {props.title}
       </label>
       <Select
+        id="input"
         onBlur={Blured}
         value={inputValue}
         onChange={handleChange}

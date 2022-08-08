@@ -22,10 +22,6 @@ const ServiceLineList = (props) => {
   useEffect(() => {
     props.UpdateListFunc.current = updateList;
 
-    console.log(
-      `${basicContext.serviceLineAddress}/ServiceLine?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`
-    );
-
     fetchLocation();
     if (deletingId) {
       deleteLocation().then(() => {
@@ -45,7 +41,6 @@ const ServiceLineList = (props) => {
     setLineDisplayList(
       items
         .filter((data1) => {
-          console.log(data1);
           return data1.serviceLocationId == data.value;
         })
         .sort()
@@ -98,7 +93,13 @@ const ServiceLineList = (props) => {
     items.push({ value: "all", label: "all" });
     setServiceLocationOption(items);
   };
+  const openUpdateing = (event) => {
+    props.openUpdateForm(event.currentTarget.id);
+  };
 
+  const openPrices = (event) => {
+    props.openPricesForm(event.currentTarget.id);
+  };
   const {
     isLocationLoading,
     errorLocation,
@@ -132,11 +133,13 @@ const ServiceLineList = (props) => {
         </tr>
         <tr>
           <th style={{ textAlign: "right" }}>Title</th>
+          <th style={{ textAlign: "right", width: "50px" }}>Type</th>
           <th style={{ textAlign: "right", width: "50px" }}>Location</th>
           <th style={{ textAlign: "right", width: "50px" }}>State</th>
           <th style={{ textAlign: "right", width: "50px" }}>Tax</th>
 
           <th style={{ width: "100px" }}></th>
+          <th style={{ textAlign: "right", width: "50px" }}>price</th>
         </tr>
       </thead>
       <tbody>
@@ -144,6 +147,7 @@ const ServiceLineList = (props) => {
           return (
             <tr key={data.id}>
               <td style={{ textAlign: "right" }}>{data.title}</td>
+              <td style={{ textAlign: "center" }}>{data.serviceTypeId}</td>
               <td style={{ textAlign: "center" }}>
                 {data.serviceLocation.title}
               </td>
@@ -191,7 +195,13 @@ const ServiceLineList = (props) => {
               </td>
               <td style={{ textAlign: "center" }} className="text-center">
                 <div
-                  style={{ float: "right", padding: "0 5px" }}
+                  onClick={openUpdateing}
+                  id={data.id}
+                  style={{
+                    float: "right",
+                    padding: "0 5px",
+                    cursor: "pointer",
+                  }}
                   className="icon-container"
                 >
                   <svg
@@ -234,6 +244,35 @@ const ServiceLineList = (props) => {
                     <line x1="10" y1="11" x2="10" y2="17"></line>
                     <line x1="14" y1="11" x2="14" y2="17"></line>
                   </svg>
+                </div>
+              </td>
+              <td style={{ textAlign: "center" }} className="text-center">
+                <div
+                  onClick={openPrices}
+                  id={data.id}
+                  style={{
+                    float: "right",
+                    padding: "0 5px",
+                    cursor: "pointer",
+                  }}
+                  className="icon-container"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-dollar-sign"
+                  >
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                  <span className="icon-name"></span>
                 </div>
               </td>
             </tr>

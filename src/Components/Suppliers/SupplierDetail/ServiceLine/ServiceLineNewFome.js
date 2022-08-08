@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
 import useHttp from "../../../../Hooks/use-http";
@@ -7,8 +7,33 @@ import DropDown from "../../../UI/FormElement/DropDown";
 import InputText from "../../../UI/FormElement/InputText";
 
 import Modal from "../../../UI/Modal";
-const ServiceLineFome = (props) => {
+const ServiceLineNewFome = (props) => {
+  const taxElement = useRef();
+  const statusElement = useRef();
+  const [formData, setFormData] = useState({});
+  const [formIsValid, setformIsValid] = useState();
+  const basicContext = useContext(BasicContext);
+  const params = useParams();
+  const [serviceLocationOption, setServiceLocationOption] = useState([]);
+  const [serviceTypeOption, setServiceserviceTypeOption] = useState([]);
+  const [formIsSumited, setformIsSumited] = useState(false);
+  useEffect(() => {
+    if (formIsSumited) {
+      fetchServiceLine();
+    }
+  }, [formIsSumited]);
+  const [requestData, setRequestData] = useState({
+    Title: "",
+    Status: false,
+    TaxInclude: false,
+    ServiceLocationId: {},
+    ServiceTypeId: {},
+    FinancialCode: "",
+    FinancialTitle: "",
+  });
+
   const UpdateList = (data) => {
+    setformIsSumited(false);
     props.UpdateList();
   };
   const [t, i18n] = useTranslation("common");
@@ -18,20 +43,6 @@ const ServiceLineFome = (props) => {
       width: "100%",
     },
   };
-  const [formData, setFormData] = useState({});
-  const [formIsValid, setformIsValid] = useState();
-  const basicContext = useContext(BasicContext);
-  const params = useParams();
-
-  const [requestData, setRequestData] = useState({
-    Title: "",
-    Status: false,
-    TaxInclude: false,
-    ServiceLocationId: "",
-    ServiceTypeId: 0,
-    FinancialCode: "",
-    FinancialTitle: "",
-  });
 
   const {
     isLoading,
@@ -50,12 +61,9 @@ const ServiceLineFome = (props) => {
     formData[Id] = { data: data, isValid: valid };
 
     setFormData(formData);
-    console.log(formData);
     checkForm();
   };
 
-  const [serviceLocationOption, setServiceLocationOption] = useState([]);
-  const [serviceTypeOption, setServiceserviceTypeOption] = useState([]);
   const fillLocationOption = (data) => {
     setServiceLocationOption(
       data.map((data) => {
@@ -77,7 +85,6 @@ const ServiceLineFome = (props) => {
     fillLocationOption
   );
   const fillServieTypeOption = (data) => {
-    console.log(data);
     setServiceserviceTypeOption(
       data.map((data) => {
         return { value: data.id, label: data.name };
@@ -97,12 +104,6 @@ const ServiceLineFome = (props) => {
     },
     fillServieTypeOption
   );
-
-  useEffect(() => {
-    fetchLocation();
-    fetchServiceTypes();
-  }, []);
-
   const checkForm = () => {
     if (
       formData.Title &&
@@ -131,11 +132,28 @@ const ServiceLineFome = (props) => {
       setformIsValid(false);
     }
   };
+  useEffect(() => {
+    fetchLocation();
+    fetchServiceTypes();
+  }, [props.formIsShown]);
 
   const submitForm = (event) => {
     event.preventDefault();
-    fetchServiceLine();
+
+    if (formIsValid) {
+      setRequestData({
+        Title: formData.Title.data,
+        Status: taxElement.current.checked ? 1 : 0,
+        TaxInclude: statusElement.current.checked ? 1 : 0,
+        ServiceLocationId: formData.ServiceLocationId.data.value,
+        ServiceTypeId: formData.ServiceTypeId.data.value,
+        FinancialCode: formData.FinancialCode.data,
+        FinancialTitle: formData.FinancialTitle.data,
+      });
+      setformIsSumited(true);
+    }
   };
+
   return (
     <Modal cntx={props}>
       <div className="col-lg-12 layout-spacing">
@@ -225,7 +243,8 @@ const ServiceLineFome = (props) => {
               <div className="custom-control custom-checkbox">
                 <input
                   type="checkbox"
-                  value="true"
+                  value="1"
+                  ref={statusElement}
                   className="custom-control-input"
                   id="Status"
                 />
@@ -237,6 +256,8 @@ const ServiceLineFome = (props) => {
             <div className="form-group col-md-6">
               <div className="custom-control custom-checkbox">
                 <input
+                  ref={taxElement}
+                  value="1"
                   type="checkbox"
                   className="custom-control-input"
                   id="TaxInclude"
@@ -260,4 +281,4 @@ const ServiceLineFome = (props) => {
   );
 };
 
-export default ServiceLineFome;
+export default ServiceLineNewFome;

@@ -1,26 +1,38 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DropDown from "../../../UI/FormElement/DropDown";
-import ServiceLineFome from "./ServiceLineFome";
+import ServiceLineNewFome from "./ServiceLineNewFome";
 import ServiceLineList from "./ServiceLineList";
+import ServiceLineUpdateFome from "./ServiceLineUpdateFome";
+import ServiceLinePrice from "./ServiceLinePrice";
 
 const ServiceLine = () => {
   const [refreshList, setrefreshList] = useState();
+  const [updateingServiceLineId, setupdateingServiceLineId] = useState();
+  const [t, i18n] = useTranslation("common");
+  const [formIsShown, setFormIsShown] = useState("none");
   const ShowFormOnClick = () => {
-    setFormIsShown(!formIsShown);
+    setFormIsShown("new");
   };
   const UpdateListFunc = useRef(null);
   const cancelModal = () => {
-    setFormIsShown(!formIsShown);
+    setFormIsShown("none");
   };
+
   const UpdateList = () => {
-    setFormIsShown(!formIsShown);
+    setFormIsShown("none");
     setrefreshList(!refreshList);
     UpdateListFunc.current();
   };
-  const [t, i18n] = useTranslation("common");
-  const [formIsShown, setFormIsShown] = useState(false);
 
+  const openUpdateForm = (data) => {
+    setUpdatingRecord(data).then(setFormIsShown("update"));
+  };
+  const openPricesForm = (data) => {
+    setUpdatingRecord(data).then(setFormIsShown("price"));
+  };
+  const setUpdatingRecord = async (data) => {
+    setupdateingServiceLineId(data);
+  };
   return (
     <div className="widget-content widget-content-area">
       <div className="table-responsive">
@@ -46,14 +58,36 @@ const ServiceLine = () => {
               <line x1="8" y1="12" x2="16" y2="12"></line>
             </svg>
           </div>
-          <ServiceLineFome
-            cancelCallBack={cancelModal}
-            formIsShown={formIsShown}
-            UpdateList={UpdateList}
-          ></ServiceLineFome>
+          {formIsShown === "new" && (
+            <ServiceLineNewFome
+              cancelCallBack={cancelModal}
+              formIsShown={formIsShown}
+              UpdateList={UpdateList}
+            ></ServiceLineNewFome>
+          )}
+          {formIsShown === "update" && (
+            <ServiceLineUpdateFome
+              UpdatingRecordId={updateingServiceLineId}
+              cancelCallBack={cancelModal}
+              formIsShown={formIsShown}
+              UpdateList={UpdateList}
+            ></ServiceLineUpdateFome>
+          )}
+          {formIsShown === "price" && (
+            <ServiceLinePrice
+              UpdatingRecordId={updateingServiceLineId}
+              cancelCallBack={cancelModal}
+              formIsShown={formIsShown}
+              UpdateList={UpdateList}
+            ></ServiceLinePrice>
+          )}
         </div>
 
-        <ServiceLineList UpdateListFunc={UpdateListFunc} />
+        <ServiceLineList
+          openUpdateForm={openUpdateForm}
+          UpdateListFunc={UpdateListFunc}
+          openPricesForm={openPricesForm}
+        />
       </div>
     </div>
   );
