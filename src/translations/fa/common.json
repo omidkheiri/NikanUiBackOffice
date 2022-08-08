@@ -1,59 +1,107 @@
 {
-    "textAlign":"right",
-    "direction":"rtl",
+    "textAlign": "right",
+    "direction": "rtl",
     "HeaderMenus": {
-        "Accounts":"سازمانها",
-        "Reserves":"رزروها",
-        "NewReserve":"رزرو جدید",
-        "NewAccount":"سازمان جدید",
-        "NewContact":"شخص جدید"
+        "Accounts": "سازمانها",
+        "Reserves": "رزروها",
+        "NewReserve": "رزرو جدید",
+        "NewAccount": "سازمان جدید",
+        "NewContact": "شخص جدید"
     },
     "Account": {
-        "DashboardTitle":"داشبورد سازمان",
-        "List":{
-            "PageTitle":"فهرست سازمانها:",
-"AccountNumber":"شناسه",
-"Title":"عنوان",
-"EmailAddress":"ایمیل",
-"Phone":"شماره تلفن",
-"IsCustomer":"مشتری",
-"IsSupplier":"تامین کننده",
-"Link":"پیوند"
-
+        "Intro": {
+            "Palceholder": "یک معرفی برای این سازمان بنویسید",
+            "Title": "معرفی"
+        },
+        "DashboardTitle": "داشبورد سازمان",
+        "SupplierMenu": "تامین کننده",
+        "CustomerMenu": "مشتری",
+        "HomeMenu": "معرفی",
+        "List": {
+            "PageTitle": "فهرست سازمانها:",
+            "AccountNumber": "شناسه",
+            "Title": "عنوان",
+            "EmailAddress": "ایمیل",
+            "Phone": "شماره تلفن",
+            "IsCustomer": "مشتری",
+            "IsSupplier": "تامین کننده",
+            "Link": "پیوند"
         },
         "FormElement": {
-        "FormTitle":"فرم ثبت سازمان جدید",
-        "Title":"عنوان",
-        "Phone":"شماره تلفن",
-        "EmailAddress":"آدرس ایمیل",
-        "PostalAddress":"آدرس پستی",
-        "SaveAccount":"ذخیره",
-        "EmailRequiredMessage":"آدرس ایمیل لازم است",
-        "TitleRequiredMessage":"عنوان لازم است",
-        "PhoneRequiredMessage":"شماره تلفن لازم است",
-        "EmailFormatMessage":"آدرس ایمیل معتبر نیست",
-        "PhoneFormatMessage":"شماره تلفن معتبر نیست",
-        "ErrorResponse_500-1":"اطلاعات ارسالی معتبر نیست",
-        "ErrorResponse_500-2":"رکورد تکراری",
-        "ErrorResponse_500-3":"رکوردی پیدا نشد "
-
+            "FormTitle": "فرم ثبت سازمان جدید",
+            "Title": "عنوان",
+            "Phone": "شماره تلفن",
+            "EmailAddress": "آدرس ایمیل",
+            "PostalAddress": "آدرس پستی",
+            "SaveAccount": "ذخیره",
+            "EmailRequiredMessage": "آدرس ایمیل لازم است",
+            "TitleRequiredMessage": "عنوان لازم است",
+            "PhoneRequiredMessage": "شماره تلفن لازم است",
+            "EmailFormatMessage": "آدرس ایمیل معتبر نیست",
+            "PhoneFormatMessage": "شماره تلفن معتبر نیست",
+            "ErrorResponse_500-1": "اطلاعات ارسالی معتبر نیست",
+            "ErrorResponse_500-2": "رکورد تکراری",
+            "ErrorResponse_500-3": "رکوردی پیدا نشد "
+        }
+    },
+    "ServiceLocation": {
+        "List": {
+            "PageTitle": "محل ارائه سرویس",
+            "Title": "محل ارائه سرویس"
+        },
+        "FormElement": {
+            "FormTitle": "فرم ثبت سازمان جدید",
+            "Title": "عنوان",
+            "Address": "آدرس",
+            "Location": "موقعیت جغرافیایی",
+            "SaveAccount": "ذخیره",
+            "TitleRequiredMessage": "عنوان لازم است",
+            "AddressRequiredMessage": "آدرس لازم است",
+            "LocationRequiredMessage": "موقعیت جغرافیایی لازم است",
+            "ErrorResponse_500-1": "اطلاعات ارسالی معتبر نیست",
+            "ErrorResponse_500-2": "رکورد تکراری",
+            "ErrorResponse_500-3": "رکوردی پیدا نشد "
+        }
+    },
+    "ServiceLine": {
+        "List": {
+            "PageTitle": "  سرویس",
+            "Title": "سرویسها"
+        },
+        "FormElement": {
+            "FormTitle": "فرم ثبت سرویس جدید",
+            "Title": "عنوان",
+            "Status": "سرویس فعال است",
+            "TaxInclude": "شامل مالیات",
+            "ServiceLocationId": "محل ارائه سرویس",
+            "ServiceTypeId": "نوع سرویس",
+            "FinancialCode": "کد مالی",
+            "FinancialTitle": "عنوان مالی",
+            "SaveAccount": "ذخیره",
+            "TitleRequiredMessage": "عنوان",
+            "StatusRequiredMessage": "وضعیت",
+            "TaxIncludeRequiredMessage": "شامل مالیات",
+            "ServiceLocationIdRequiredMessage": "محل ارائه سرویس",
+            "ServiceTypeIdRequiredMessage": "نوع سرویس",
+            "FinancialCodeRequiredMessage": "کد مالی",
+            "FinancialTitleRequiredMessage": "عنوان مالی",
+            "ErrorResponse_500-1": "اطلاعات ارسالی معتبر نیست",
+            "ErrorResponse_500-2": "رکورد تکراری",
+            "ErrorResponse_500-3": "رکوردی پیدا نشد "
         }
     },
     "LoginPage": {
         "FormElement": {
-        "FormTitle":"ورود",
-        "Title":"برای ادامه لطفا وارد شوید",
-        "UserName":"نام کاربری ",
-        "Password":"رمز عبوز",
-        "ForgetPassword":"رمز عبور را فراموش کرده ام",
-        "NotRegisterd":"ثبت نام نکرده اید؟",
-        "CreateAnAccount":"یک حساب کاربری بسازید",
-        "UserNamePlaceHolder":"نام کاربری",
-        "PasswordPlaceHolder":"رمز عبوز",
-        "LogIn":"ورود"
+            "FormTitle": "ورود",
+            "Title": "برای ادامه لطفا وارد شوید",
+            "UserName": "نام کاربری ",
+            "Password": "رمز عبوز",
+            "ForgetPassword": "رمز عبور را فراموش کرده ام",
+            "NotRegisterd": "ثبت نام نکرده اید؟",
+            "CreateAnAccount": "یک حساب کاربری بسازید",
+            "UserNamePlaceHolder": "نام کاربری",
+            "PasswordPlaceHolder": "رمز عبوز",
+            "LogIn": "ورود"
         }
     }
-
-
-
 }

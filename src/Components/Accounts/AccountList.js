@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import "devextreme/data/odata/store";
 import DataGrid, {
@@ -12,8 +12,10 @@ import "whatwg-fetch";
 import { useTranslation } from "react-i18next";
 import CheckBox from "../UI/ListElement/CheckBox";
 import GotoButton from "../UI/ListElement/GotoButton";
+import BasicContext from "../../Store/enviroment-context";
 
 const AccountList = () => {
+  const basicContext = useContext(BasicContext);
   const [t, i18n] = useTranslation("common");
   function isNotEmpty(value) {
     return value !== undefined && value !== null && value !== "";
@@ -39,9 +41,7 @@ const AccountList = () => {
         }
       });
       params = params.slice(0, -1);
-      return fetch(
-        `http://localhost:30007/GW/Account/V1/company/68a70e32-6029-48e4-b903-02cc473c97a7/account${params}`
-      )
+      return fetch(`${basicContext.baseAddress}/account${params}`)
         .then((response) => response.json())
         .then((data) => ({
           data: data.data,

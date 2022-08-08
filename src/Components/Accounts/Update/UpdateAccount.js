@@ -21,7 +21,7 @@ const UpdateAccount = (props) => {
 
     setFormData(formData);
     checkForm();
-    console.log(data);
+    props.FillForm(data);
   };
   const [t, i18n] = useTranslation("common");
   const [formData, setFormData] = useState({});
@@ -114,8 +114,7 @@ const UpdateAccount = (props) => {
 
   const submitForm = (event) => {
     event.preventDefault();
-    console.log("adasdasd");
-    console.log(formData);
+
     setUpdatedRequestData({
       Title: formData.Title.data,
       EmailAddress: formData.EmailAddress.data,
