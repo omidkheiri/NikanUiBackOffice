@@ -1988,7 +1988,7 @@ select.form-control.form-custom {
 input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
   cursor: not-allowed;
   background-color: #f1f2f3 !important;
-  color: #bfc9d4; }
+  color: #2a2b2d; }
 
 .help-block, .help-inline {
   color: #555555; }

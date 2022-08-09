@@ -14,7 +14,11 @@ const GetServieLine = (props) => {
 
   const { isLoading, error, sendRequest } = useHttp(
     {
-      url: `${basicContext.serviceLineAddress}/Account/${props.accountId}/ServiceLine/${props.serviceId}`,
+      url: `${basicContext.serviceLineAddress}/Account/${
+        props.accountId
+      }/ServiceLine/${props.serviceId}?Extend=${
+        props.extend ? "true" : "false"
+      }`,
       method: "Get",
       headers: { "Content-Type": "application/json" },
       body: null,
