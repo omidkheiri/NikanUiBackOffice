@@ -3,7 +3,7 @@ import "flatpickr/dist/themes/light.css";
 import Flatpickr from "react-flatpickr";
 const DatePicker = (props) => {
   const pickerChanged = (event) => {
-    props.valueCallback(event);
+    props.valueCallback(event, props.id);
   };
   return (
     <Flatpickr

@@ -58,7 +58,6 @@ const ServiceLineUpdateFome = (props) => {
     UpdateList
   );
   const updateForm = (data, Id, valid) => {
-    console.log(data);
     formData[Id] = { data: data, isValid: valid };
 
     setFormData(formData);
@@ -75,8 +74,6 @@ const ServiceLineUpdateFome = (props) => {
   };
 
   const updateTypes = (data) => {
-    console.log("reponse");
-    console.log(data);
     setServiceTypeOption(
       data.map((d) => {
         return { value: d.id, label: d.name };

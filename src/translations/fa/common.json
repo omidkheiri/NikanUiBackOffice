@@ -6,7 +6,9 @@
         "Reserves": "رزروها",
         "NewReserve": "رزرو جدید",
         "NewAccount": "سازمان جدید",
-        "NewContact": "شخص جدید"
+        "NewContact": "شخص جدید",
+        "Flights": "شماره پروازها",
+        "AirLineNames": "ایرلاین ها"
     },
     "Account": {
         "Intro": {
@@ -42,6 +44,54 @@
             "ErrorResponse_500-1": "اطلاعات ارسالی معتبر نیست",
             "ErrorResponse_500-2": "رکورد تکراری",
             "ErrorResponse_500-3": "رکوردی پیدا نشد "
+        }
+    },
+    "FlightNumber": {
+        "List": {
+            "PageTitle": "فهرست پروازها",
+            "AirlineName": "نام ایرلاین",
+            "FlightName": "شماره پرواز",
+            "ArrivalCity": "شهر مقصد",
+            "DepartureCity": "شهر مبدا",
+            "FlightDate": "تاریخ پرواز",
+            "FlightTimeOnly": "زمان شروع پرواز",
+            "FlightType": "نوع پرواز",
+            "Scheduled": "پرواز برنامه ریزی شده",
+            "Status": "وضعیت",
+            "Link": "پیوند"
+        },
+        "FormElement": {
+            "Status": "پرواز فعال است",
+            "AirlineName": "نام ایرلاین",
+            "AirlineNameRequiredMessage": "نام ایرلاین لازم است",
+            "FlightNumber": "شماره پرواز",
+            "FlightNumberRequiredMessage": "شماره پرواز لازم است",
+            "FlightType": "نوع پرواز",
+            "FlightDate": "تاریخ پرواز",
+            "FlightTypeRequiredMessage": "نوع پرواز روردی یا خوردجی لازم است",
+            "Scheduled": "پرواز روتین",
+            "DepartureAirport": "فرودگاه مبدا",
+            "DepartureAirportRequiredMessage": "فرودگاه مبدا لازم است",
+            "DepartureCity": "شهر مبدا",
+            "DepartureCityRequiredMessage": "شهر مبدا لازم است",
+            "DepartureTime": "ساعت حرکت 00:00",
+            "DepartureTimeRequiredMessage": "ساعت حرکت لازم است",
+            "ArrivalAirport": "فرودگاه مقصد",
+            "ArrivalAirportRequiredMessage": "فرودگاه مقصد لازم است",
+            "ArrivalCity": "شهر مقصد",
+            "ArrivalCityRequiredMessage": "شهر مقصد لازم است",
+            "ArrivalTime": "ساعت ورود 00:00",
+            "ArrivalTimeRequiredMessage": "ساعت ورود لازم است",
+            "SaveFlightNumber": "ذخیره",
+            "ArrivalTimeFromatMessage": "ساعت را درست وارد کنید",
+            "DepartureTimeFromatMessage": "ساعت را درست وارد کنید"
+        }
+    },
+    "Airline": {
+        "List": {
+            "PageTitle": "فهرست ایرلاینها",
+            "Name": "نام ایرلاین",
+            "IconUrl": "آدرس آیکون"
         }
     },
     "ServiceLocation": {

@@ -12,6 +12,8 @@ import CreateAccount from "./Components/Accounts/Create/CreateAccount";
 import SingleLayout from "./Layouts/SinglePage/SingleLayout";
 import BasicContext from "./Store/enviroment-context";
 import "devextreme/dist/css/dx.light.css";
+import FlightList from "./Components/FlightNumber/FlightList";
+import AirlineNameList from "./Components/FlightNumber/AirlineNameList";
 function App() {
   const [isLogedIn] = useState(true);
 
@@ -19,9 +21,10 @@ function App() {
     <BasicContext.Provider
       value={{
         baseAddress:
-          "http://localhost:30007/GW/Account/V1/company/cc7bebf0-d6b4-43e4-997b-585e2612e547",
-        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/cc7bebf0-d6b4-43e4-997b-585e2612e547`,
-        serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/company/cc7bebf0-d6b4-43e4-997b-585e2612e547`,
+          "http://localhost:30007/GW/Account/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c",
+        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c`,
+        flightAddress: `http://localhost:30007/GW/FlightNumbers/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c`,
+        serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c`,
       }}
     >
       {!isLogedIn && <SingleLayout></SingleLayout>}
@@ -47,6 +50,12 @@ function App() {
               </Route>
               <Route path="/NewAccount">
                 <CreateAccount />
+              </Route>
+              <Route path="/Flights" exacts>
+                <FlightList />
+              </Route>
+              <Route path="/Flight/AirlineNames">
+                <AirlineNameList />
               </Route>
             </Switch>
             <Footer />

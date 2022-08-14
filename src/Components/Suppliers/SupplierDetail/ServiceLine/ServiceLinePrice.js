@@ -21,7 +21,6 @@ const ServiceLinePrice = (props) => {
     setTodate(data);
   };
   useEffect(() => {
-    console.log(serviceLinePrice);
     setFromdate(serviceLinePrice.start);
     setTodate(serviceLinePrice.end);
     setPrice(serviceLinePrice.price);
@@ -61,13 +60,10 @@ const ServiceLinePrice = (props) => {
 
   const SubmitForm = (event) => {
     event.preventDefault();
-    console.log(serviceLine);
     if (chekFrom() && checkTo()) {
       alert("form submited");
     }
-    console.log(
-      `${basicContext.serviceLineAddress}/account/${currentAccourntId}/ServiceLine/${props.UpdatingRecordId}/ServiceLinePrice`
-    );
+
     fetchAccount();
   };
 
