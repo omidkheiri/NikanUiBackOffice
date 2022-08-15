@@ -16,7 +16,7 @@ import BasicContext from "../../Store/enviroment-context";
 
 const AccountList = () => {
   const basicContext = useContext(BasicContext);
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   function isNotEmpty(value) {
     return value !== undefined && value !== null && value !== "";
   }

@@ -1,18 +1,19 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import useHttp from "../use-http";
 import BasicContext from "../../Store/enviroment-context";
 const GetServieLine = (props) => {
   const basicContext = useContext(BasicContext);
 
   useEffect(() => {
+    alert();
     sendRequest();
-  }, [props.accountId]);
+  }, []);
 
   const fillResult = (data) => {
     props.response(data);
   };
 
-  const { isLoading, error, sendRequest } = useHttp(
+  const { sendRequest } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/Account/${
         props.accountId
