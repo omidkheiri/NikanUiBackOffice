@@ -8,12 +8,14 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import SupplierDetail from "./Components/Suppliers/SupplierDetail/SupplierDetail";
 import AccountList from "./Components/Accounts/AccountList";
 import AccountPanel from "./Components/Accounts/Panel/AccountPanel";
-import CreateAccount from "./Components/Accounts/Create/CreateAccount";
+import AccountNewForm from "./Components/Accounts/Create/AccountNewForm";
 import SingleLayout from "./Layouts/SinglePage/SingleLayout";
 import BasicContext from "./Store/enviroment-context";
 import "devextreme/dist/css/dx.light.css";
 import FlightList from "./Components/FlightNumber/FlightList";
 import AirlineNameList from "./Components/FlightNumber/AirlineNameList";
+import ContactList from "./Components/Contacts/ContactList";
+import ContactFormNew from "./Components/Contacts/ContactFormNew.js";
 function App() {
   const [isLogedIn] = useState(true);
 
@@ -49,7 +51,16 @@ function App() {
                 <AccountPanel />
               </Route>
               <Route path="/NewAccount">
-                <CreateAccount />
+                <AccountNewForm />
+              </Route>
+              <Route path="/Contacts" exacts>
+                <ContactList />
+              </Route>
+              <Route path="/Contact/:ContactId">
+                <AccountPanel />
+              </Route>
+              <Route path="/NewContact">
+                <ContactFormNew />
               </Route>
               <Route path="/Flights" exacts>
                 <FlightList />

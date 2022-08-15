@@ -10,6 +10,16 @@
         "Flights": "Flights",
         "AirLineNames": "AirLines"
     },
+    "Contact": {
+        "FormElement": {
+            "FormTitle": "Add New Contact",
+            "Name": "Add New Contact",
+            "LastNAme": "Add New Contact",
+            "Phone": "Add New Contact",
+            "EmailAddress": "Add New Contact",
+            "BirthDate": "Add New Contact"
+        }
+    },
     "Account": {
         "DashboardTitle": "Dashboard",
         "List": {

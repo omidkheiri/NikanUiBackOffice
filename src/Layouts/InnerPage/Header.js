@@ -253,7 +253,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li className="menu single-menu ">
-                  <Link to="/" className="dropdown-toggle">
+                  <Link to="/NewContact" className="dropdown-toggle">
                     <div className="">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import useHttp from "../../../Hooks/use-http";
 import BasicContext from "../../../Store/enviroment-context";
 import InputText from "../../UI/FormElement/InputText";
-import classes from "./CreateAccount.module.css";
+import classes from "./AccountNewForm.module.css";
 
-const CreateAccount = () => {
+const AccountNewForm = () => {
   const GoToAccountPanel = (data) => {
     history.push("/account/" + data.id);
   };
@@ -190,4 +190,4 @@ const CreateAccount = () => {
   );
 };
 
-export default CreateAccount;
+export default AccountNewForm;
