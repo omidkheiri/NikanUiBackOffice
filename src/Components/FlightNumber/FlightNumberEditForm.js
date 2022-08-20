@@ -86,7 +86,6 @@ const FlightNumberEditForm = (props) => {
     props.UpdateList();
   };
   const FillForm = (data) => {
-    console.log(data);
     updateFormData(data);
     // formData.flightInfo.arrivalTime=data.flightInfo.arrivalTime.
   };
@@ -96,7 +95,7 @@ const FlightNumberEditForm = (props) => {
         return data.label === formData.airlineName;
       })
     );
-    console.log(formData.flightType, "d", flightTypes);
+
     setSelectedFlightType(
       flightTypes.find((data) => {
         return data.value === `${formData.flightType}`;

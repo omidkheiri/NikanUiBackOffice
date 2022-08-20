@@ -16,17 +16,20 @@ import FlightList from "./Components/FlightNumber/FlightList";
 import AirlineNameList from "./Components/FlightNumber/AirlineNameList";
 import ContactList from "./Components/Contacts/ContactList";
 import ContactFormNew from "./Components/Contacts/ContactFormNew.js";
+import ContactPanel from "./Components/Contacts/ContactPanel";
 function App() {
   const [isLogedIn] = useState(true);
 
   return (
     <BasicContext.Provider
       value={{
+        reportAddress:
+          "http://localhost:30007/GW/Report/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562",
         baseAddress:
-          "http://localhost:30007/GW/Account/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c",
-        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c`,
-        flightAddress: `http://localhost:30007/GW/FlightNumbers/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c`,
-        serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/company/6daf220b-f859-4b80-93e0-a2350d2aa90c`,
+          "http://localhost:30007/GW/Account/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562",
+        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
+        flightAddress: `http://localhost:30007/GW/FlightNumbers/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
+        serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
       }}
     >
       {!isLogedIn && <SingleLayout></SingleLayout>}
@@ -56,8 +59,8 @@ function App() {
               <Route path="/Contacts" exacts>
                 <ContactList />
               </Route>
-              <Route path="/Contact/:ContactId">
-                <AccountPanel />
+              <Route path="/Contact/:AccountId/:ContactId">
+                <ContactPanel />
               </Route>
               <Route path="/NewContact">
                 <ContactFormNew />
