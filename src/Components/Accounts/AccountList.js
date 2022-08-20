@@ -41,7 +41,7 @@ const AccountList = () => {
         }
       });
       params = params.slice(0, -1);
-      return fetch(`${basicContext.baseAddress}/account${params}`)
+      return fetch(`${basicContext.reportAddress}/account${params}`)
         .then((response) => response.json())
         .then((data) => ({
           data: data.data,

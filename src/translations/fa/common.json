@@ -10,6 +10,40 @@
         "Flights": "شماره پروازها",
         "AirLineNames": "ایرلاین ها"
     },
+    "Contact": {
+        "CustomerMenu": "رزروها",
+        "HomeMenu": "معرفی",
+        "DashboardTitle": "داشبورد اشخاص",
+        "Intro": {
+            "Palceholder": "یک معرفی برای این شخص بنویسید",
+            "Title": "معرفی"
+        },
+        "List": {
+            "PageTitle": "فهرست اشخاص:",
+            "ContactNumber": "شناسه",
+            "Name": "نام ",
+            "LastName": "نام خانوادگی",
+            "EmailAddress": "ایمیل",
+            "Phone": "شماره تلفن",
+            "َAccountTitle": "عنوان سازمان",
+            "Link": "پیوند"
+        },
+        "FormElement": {
+            "FormTitle": "یک شخص جدید اضافه کنید",
+            "AccountId": "نام سازمان",
+            "Name": "نام",
+            "LastName": "نام خانوادگی",
+            "Phone": "شماره موبایل",
+            "EmailAddress": "آدرس ایمیل",
+            "BirthDate": "تاریخ تولد",
+            "NameRequiredMessage": " نام لازم است",
+            "LastNameRequiredMessage": " نام خانوادگی لازم است",
+            "PhoneRequiredMessage": "شماره تلفن لازم است",
+            "PhoneFormatMessage": "شماره تلفن معتبر نیست",
+            "EmailFormatMessage": "آدرس ایمیل معتبر نیست",
+            "SaveContact": "دخیره"
+        }
+    },
     "Account": {
         "Intro": {
             "Palceholder": "یک معرفی برای این سازمان بنویسید",

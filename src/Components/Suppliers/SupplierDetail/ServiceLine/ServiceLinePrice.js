@@ -61,7 +61,6 @@ const ServiceLinePrice = (props) => {
   const SubmitForm = (event) => {
     event.preventDefault();
     if (chekFrom() && checkTo()) {
-      alert("form submited");
     }
 
     fetchAccount();

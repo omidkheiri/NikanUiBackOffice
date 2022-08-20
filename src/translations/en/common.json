@@ -11,13 +11,30 @@
         "AirLineNames": "AirLines"
     },
     "Contact": {
+        "List": {
+            "PageTitle": "Page Title",
+            "contactNumber": "ID",
+            "Name": "Name ",
+            "LastName": "Lats Name ",
+            "EmailAddress": "Email Address",
+            "Phone": "Phone",
+            "َAccountTitle": "َAccount Title ",
+            "Link": "Links"
+        },
         "FormElement": {
             "FormTitle": "Add New Contact",
-            "Name": "Add New Contact",
-            "LastNAme": "Add New Contact",
-            "Phone": "Add New Contact",
-            "EmailAddress": "Add New Contact",
-            "BirthDate": "Add New Contact"
+            "AccountId": "َAccount",
+            "Name": "Name",
+            "LastName": "Last Name",
+            "Phone": "Phone",
+            "EmailAddress": "Email Address",
+            "BirthDate": "Birth Date",
+            "NameRequiredMessage": "Name Required",
+            "LastNameRequiredMessage": "LastName Required",
+            "PhoneRequiredMessage": "Phone Required",
+            "PhoneFormatMessage": "Phone is not valid",
+            "EmailFormatMessage": "Email Address is not valid",
+            "SaveContact": "Save"
         }
     },
     "Account": {

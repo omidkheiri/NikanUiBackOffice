@@ -33,7 +33,9 @@ const DropDown = (props) => {
     setInputValue(selectedOption);
     props.valueCallback(selectedOption, props.id, true);
   };
-
+  const onInputChange = (data) => {
+    props.handleInputChange(data);
+  };
   return (
     <Fragment>
       <label htmlFor="input" style={props.textAlign}>
@@ -44,6 +46,7 @@ const DropDown = (props) => {
         onBlur={Blured}
         value={inputValue}
         onChange={handleChange}
+        onInputChange={onInputChange}
         options={options}
       />
       <div

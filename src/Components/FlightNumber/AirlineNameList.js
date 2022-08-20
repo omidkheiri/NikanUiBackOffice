@@ -15,7 +15,6 @@ import {
   Editing,
 } from "devextreme-react/data-grid";
 import { useTranslation } from "react-i18next";
-import BasicContext from "../../Store/enviroment-context";
 import AirlineNameService from "../../Hooks/AirlineName/AirlineNameService";
 const AirlineNameList = () => {
   const dataGridRef = useRef();

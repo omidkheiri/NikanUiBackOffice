@@ -1,41 +1,43 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useHttp from "../../Hooks/use-http";
 import BasicContext from "../../Store/enviroment-context";
 import InputText from "../UI/FormElement/InputText";
 import classes from "./ContactFormNew.module.css";
+import DatePicker from "../UI/FormElement/DatePicker";
+
+import Moment from "moment";
+import DropDown from "../UI/FormElement/DropDown";
 
 const ContactFormNew = () => {
+  const [accountOption, setAccountOption] = useState([]);
+
   const GoToContactPanel = (data) => {
-    history.push("/Contact/" + data.id);
+    history.push("/Contacts/" + data.id);
   };
   const [t, i18n] = useTranslation("common");
   const [formData, setFormData] = useState({});
   const [formIsValid, setformIsValid] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
+  useEffect(() => {
+    if (searchTerm && searchTerm.length > 2) {
+      fetchAccount();
+    }
+  }, [searchTerm]);
+
+  const history = useHistory();
+  const [accountId, setAccountIdValue] = useState("");
 
   const basicContext = useContext(BasicContext);
-  const history = useHistory();
   const [requestData, setRequestData] = useState({
-    PostalAddress: { data: "" },
+    Name: { data: "" },
+    LastName: { data: "" },
+    BirthDate: { data: {} },
     Phone: { data: "" },
     EmailAddress: { data: "" },
-    PostallAddress: { data: "" },
   });
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchContact,
-  } = useHttp(
-    {
-      url: basicContext.baseAddress + "/Contact",
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: requestData,
-    },
-    GoToContactPanel
-  );
   const styles = {
     textAlign: {
       textAlign: t("textAlign"),
@@ -43,32 +45,30 @@ const ContactFormNew = () => {
     },
   };
   const updateForm = (data, Id, valid) => {
-    formData[Id] = { data: data, isValid: valid };
-
+    if (Id === "birthDate") {
+      formData["BirthDate"] = {
+        data: Moment(new Date(data)).format("YYYY-MM-DD"),
+        isValid: true,
+      };
+    } else {
+      formData[Id] = { data: data, isValid: valid };
+    }
     setFormData(formData);
     checkForm();
   };
 
   const checkForm = () => {
     if (
-      formData.EmailAddress &&
-      formData.Title &&
+      formData.Name &&
+      formData.LastName &&
       formData.Phone &&
-      formData.EmailAddress.isValid === true &&
-      formData.Title.isValid === true &&
-      formData.Phone.isValid === true
+      accountId &&
+      formData.Name.isValid &&
+      formData.LastName.isValid &&
+      formData.Phone.isValid &&
+      accountId != ""
     ) {
       setformIsValid(true);
-      let PostalAddress = "";
-      if (formData.PostalAddress && formData.PostalAddress.data) {
-        PostalAddress = formData.PostalAddress.data;
-      }
-      setRequestData({
-        Title: formData.Title.data,
-        EmailAddress: formData.EmailAddress.data,
-        Phone: formData.Phone.data,
-        PostalAddress: PostalAddress,
-      });
     } else {
       setformIsValid(false);
     }
@@ -76,9 +76,65 @@ const ContactFormNew = () => {
 
   const submitForm = (event) => {
     event.preventDefault();
+
+    setRequestData({
+      Name: formData["Name"].data,
+      LastName: formData["LastName"].data,
+      BirthDate: formData["BirthDate"].data,
+      Phone: formData["Phone"].data,
+      EmailAddress: formData["EmailAddress"].data,
+    });
+  };
+  useEffect(() => {
     fetchContact();
+  }, [requestData]);
+  const fillAccountOption = (data) => {
+    let items = data.map((data) => {
+      return { value: data.id, label: data.title };
+    });
+    setAccountOption(items);
   };
 
+  const {
+    isLocationLoading,
+    errorLocation,
+    sendRequest: fetchAccount,
+  } = useHttp(
+    {
+      url: `${basicContext.baseAddress}/Account?SearchTerm=${searchTerm}&PageNumber=1&PageSize=500&OrderBy=title`,
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: null,
+    },
+    fillAccountOption
+  );
+
+  const handleInputChange = (data) => {
+    if (data.length < 3) {
+    } else {
+      setSearchTerm(data);
+    }
+  };
+  const {
+    isLoading,
+    error,
+    sendRequest: fetchContact,
+  } = useHttp(
+    {
+      url: `${basicContext.baseAddress}/account/${accountId}/contact`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: requestData,
+    },
+    GoToContactPanel
+  );
+  const setAccoutnId = (data) => {
+    if (data) {
+      setAccountIdValue(data.value);
+      formData["accountId"] = data.value;
+      setFormData(formData);
+    }
+  };
   return (
     <div className={(classes.container, classes.singlFormContent)}>
       <div className="row">
@@ -104,23 +160,71 @@ const ContactFormNew = () => {
             </div>
             <div className="widget-content widget-content-area">
               <form onSubmit={submitForm}>
-                <div className="form-group mb-4">
-                  <InputText
-                    textAlign={styles.textAlign}
-                    title={t("Contact.FormElement.Title")}
-                    type="text"
-                    id="Title"
-                    IsRequired={true}
-                    MinLength={3}
-                    RegexFormat=""
-                    valueCallback={updateForm}
-                    requiredMassage={t(
-                      "Contact.FormElement.TitleRequiredMessage"
-                    )}
-                  />
+                <div className="form-row mb-4">
+                  <div className="form-group col-md-12">
+                    <DropDown
+                      textAlign={styles.textAlign}
+                      title={t("Contact.FormElement.AccountId")}
+                      type="text"
+                      handleInputChange={handleInputChange}
+                      id="AccountId"
+                      IsRequired={true}
+                      MinLength={3}
+                      options={accountOption}
+                      valueCallback={setAccoutnId}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <InputText
+                      innerTextAlign="left"
+                      textAlign={styles.textAlign}
+                      title={t("Contact.FormElement.Name")}
+                      type="text"
+                      dir="ltr"
+                      id="Name"
+                      IsRequired={true}
+                      MinLength={3}
+                      requiredMassage={t(
+                        "Contact.FormElement.NameRequiredMessage"
+                      )}
+                      valueCallback={updateForm}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <InputText
+                      textAlign={styles.textAlign}
+                      title={t("Contact.FormElement.LastName")}
+                      type="text"
+                      id="LastName"
+                      dir="ltr"
+                      innerTextAlign="left"
+                      IsRequired={true}
+                      MinLength={3}
+                      valueCallback={updateForm}
+                      requiredMassage={t(
+                        "Contact.FormElement.LastNameRequiredMessage"
+                      )}
+                    />
+                  </div>
                 </div>
 
                 <div className="form-row mb-4">
+                  <div className="form-group col-md-12">
+                    <label htmlFor="AccountId" style={styles.textAlign}>
+                      {t("Contact.FormElement.BirthDate")}
+                    </label>
+                    <DatePicker
+                      innerTextAlign="left"
+                      textAlign={styles.textAlign}
+                      title={t("Contact.FormElement.BirthDate")}
+                      type="text"
+                      dir="ltr"
+                      id="birthDate"
+                      IsRequired={false}
+                      MinLength={3}
+                      valueCallback={updateForm}
+                    />
+                  </div>
                   <div className="form-group col-md-6">
                     <InputText
                       innerTextAlign="left"
@@ -129,14 +233,11 @@ const ContactFormNew = () => {
                       type="text"
                       dir="ltr"
                       id="EmailAddress"
-                      IsRequired={true}
+                      IsRequired={false}
                       MinLength={3}
                       RegexFormat="^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
                       formatMassage={t(
                         "Contact.FormElement.EmailFormatMessage"
-                      )}
-                      requiredMassage={t(
-                        "Contact.FormElement.EmailRequiredMessage"
                       )}
                       valueCallback={updateForm}
                     />
@@ -161,17 +262,6 @@ const ContactFormNew = () => {
                       )}
                     />
                   </div>
-                </div>
-                <div className="form-group mb-4">
-                  <InputText
-                    textAlign={styles.textAlign}
-                    title={t("Contact.FormElement.PostalAddress")}
-                    type="text"
-                    id="PostalAddress"
-                    IsRequired={false}
-                    MinLength={3}
-                    valueCallback={updateForm}
-                  />
                 </div>
 
                 <button

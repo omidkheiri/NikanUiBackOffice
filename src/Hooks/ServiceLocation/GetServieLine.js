@@ -5,7 +5,6 @@ const GetServieLine = (props) => {
   const basicContext = useContext(BasicContext);
 
   useEffect(() => {
-    alert();
     sendRequest();
   }, []);
 
