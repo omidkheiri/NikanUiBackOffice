@@ -123,7 +123,7 @@ const UpdateAccount = (props) => {
   useEffect(() => {
     fetchAccountGet();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+  }, []);
   useEffect(() => {
     return;
     // eslint-disable-next-line react-hooks/exhaustive-deps

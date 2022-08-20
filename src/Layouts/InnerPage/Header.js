@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import classes from "./Header.module.css";
 import Language from "./Header/Language";
+import LocationList from "./Header/LocationsList";
 import ProfielMenu from "./Header/ProfielMenu";
 import Shortcuts from "./Header/Shortcuts";
 
@@ -16,6 +17,9 @@ const Header = (props) => {
 
   const cancelModal = () => {
     setFormIsShown("none");
+  };
+  const openLocations = () => {
+    setFormIsShown("locations");
   };
   return (
     <div className="header-container">
@@ -160,6 +164,54 @@ const Header = (props) => {
                     </svg>
                   </Link>
                 </li>
+                <li
+                  className="menu single-menu"
+                  style={{ height: "100%", cursor: "pointer" }}
+                >
+                  <div
+                    onClick={openLocations}
+                    data-toggle="collapse"
+                    aria-expanded="false"
+                    className="dropdown-toggle"
+                    style={{ marginTop: "10px" }}
+                  >
+                    <div className="">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        className="feather feather-plus-circle"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                      </svg>
+
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "600",
+                          color: "#3b3f5c",
+                        }}
+                      >
+                        {t("HeaderMenus.NewReserve")}
+                      </span>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="feather feather-chevron-down"
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </div>
+                </li>
               </ul>
             </nav>
           </div>
@@ -214,13 +266,19 @@ const Header = (props) => {
                 </svg>
               </div>
             </div>
-            {formIsShown === "sidebare" && (
-              <Shortcuts
-                cancelCallBack={cancelModal}
-                formIsShown={formIsShown}
-              ></Shortcuts>
-            )}
           </li>
+          {formIsShown === "sidebare" && (
+            <Shortcuts
+              cancelCallBack={cancelModal}
+              formIsShown={formIsShown}
+            ></Shortcuts>
+          )}
+          {formIsShown === "locations" && (
+            <LocationList
+              cancelCallBack={cancelModal}
+              formIsShown={formIsShown}
+            ></LocationList>
+          )}
           <Language />
           <ProfielMenu />
         </ul>
