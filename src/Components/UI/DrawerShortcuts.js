@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "animate.css";
 import { Animated } from "react-animated-css";
-import "./Drawer.css";
+import "./DrawerShortcuts.css";
 const Backdrop = (props) => {
   return (
     <div
@@ -23,14 +23,14 @@ const ModalOverlay = (props) => {
         display: `${props.formIsShown ? "block" : "none"}`,
       }}
     >
-      <div className="drawer-dialog drawer" role="document">
+      <div className="shortcut-dialog shortcut" role="document">
         <Animated
-          className="drawer-content"
+          className="shortcut-content"
           animationIn="slideInLeft"
           animationOut="fadeOut"
           isVisible={props.formIsShown !== "none"}
         >
-          <div className="modal-content drawer-content ">
+          <div className="modal-content shortcut-content ">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 {props.title}
@@ -70,7 +70,7 @@ const ModalOverlay = (props) => {
 };
 const portalElemnt = document.getElementById("overlays");
 
-const Drawer = (props) => {
+const shortcutShortcuts = (props) => {
   const cancelModal = () => {
     props.cntx.cancelCallBack();
   };
@@ -93,4 +93,4 @@ const Drawer = (props) => {
   );
 };
 
-export default Drawer;
+export default shortcutShortcuts;

@@ -10,7 +10,6 @@ import DataGrid, {
 import CustomStore from "devextreme/data/custom_store";
 import "whatwg-fetch";
 import { useTranslation } from "react-i18next";
-import CheckBox from "../UI/ListElement/CheckBox";
 import GotoButton from "../UI/ListElement/GotoButton";
 import BasicContext from "../../Store/enviroment-context";
 
@@ -54,13 +53,7 @@ const ContactList = () => {
         });
     },
   });
-  const checkBoxCell = (data) => {
-    return (
-      <div>
-        <CheckBox data={data} />
-      </div>
-    );
-  };
+
   const gotoAccount = (data) => {
     return (
       <Fragment>

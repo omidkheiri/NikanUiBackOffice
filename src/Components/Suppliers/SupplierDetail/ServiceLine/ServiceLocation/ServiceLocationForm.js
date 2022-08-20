@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useHttp from "../../../../../Hooks/use-http";
 import BasicContext from "../../../../../Store/enviroment-context";
 import InputText from "../../../../UI/FormElement/InputText";
@@ -11,7 +11,7 @@ const ServiceLocationForm = (props) => {
     // history.push("/account/" + data.id);
     props.UpdateList();
   };
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const styles = {
     textAlign: {
       textAlign: t("textAlign"),
@@ -22,18 +22,14 @@ const ServiceLocationForm = (props) => {
   const [formIsValid, setformIsValid] = useState();
   const basicContext = useContext(BasicContext);
   const params = useParams();
-  const history = useHistory();
+
   const [requestData, setRequestData] = useState({
     Title: { data: "" },
     Address: { data: "" },
     Location: { data: "" },
   });
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchAccount,
-  } = useHttp(
+  const { sendRequest: fetchAccount } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/ServiceLocation`,
       method: "POST",

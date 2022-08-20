@@ -16,7 +16,7 @@ const ServiceLinePrice = (props) => {
   const [fromDate, setFromdate] = useState(Date.now);
   const [price, setPrice] = useState();
   const params = useParams();
-  const [currentAccourntId, setCurrentAccourntId] = useState(params.AccountId);
+  const [currentAccourntId] = useState(params.AccountId);
   const changeToDate = (data) => {
     setTodate(data);
   };
@@ -40,11 +40,7 @@ const ServiceLinePrice = (props) => {
   const changePrice = (data) => {
     setPrice(data);
   };
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchAccount,
-  } = useHttp(
+  const { sendRequest: fetchAccount } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/account/${currentAccourntId}/ServiceLine/${props.UpdatingRecordId}/ServiceLinePrice`,
       method: "POST",

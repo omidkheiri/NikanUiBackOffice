@@ -61,15 +61,13 @@ const AirlineNameService = (props) => {
   });
   useEffect(() => {
     props.getStore(store);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const GoToPanel = () => {
+    props.getStore(store);
     return;
   };
-  const {
-    isLoading,
-    error,
-    sendRequest: insertAirlineName,
-  } = useHttp(
+  const { sendRequest: insertAirlineName } = useHttp(
     {
       url: basicContext.flightAddress + "/AirlineName",
       method: "POST",
@@ -79,11 +77,7 @@ const AirlineNameService = (props) => {
     GoToPanel
   );
 
-  const {
-    isUpdateLoading,
-    errorUpdate,
-    sendRequest: updateAirlineName,
-  } = useHttp(
+  const { sendRequest: updateAirlineName } = useHttp(
     {
       url: `${basicContext.flightAddress}/AirlineName/${workingItem}`,
       method: "Put",
@@ -92,11 +86,7 @@ const AirlineNameService = (props) => {
     },
     GoToPanel
   );
-  const {
-    isDeleteLoading,
-    errorDelete,
-    sendRequest: deleteAirlineName,
-  } = useHttp(
+  const { sendRequest: deleteAirlineName } = useHttp(
     {
       url: `${basicContext.flightAddress}/AirlineName/${workingItem}`,
       method: "delete",
@@ -109,6 +99,7 @@ const AirlineNameService = (props) => {
     if (currentOpration === "insert") insertAirlineName(requestData);
     if (currentOpration === "delete") deleteAirlineName(requestData);
     if (currentOpration === "update") updateAirlineName(requestData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestData, workingItem]);
   return <Fragment />;
 };

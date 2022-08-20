@@ -22,7 +22,7 @@ const ServiceLineUpdateFome = (props) => {
   const [serviceTypeOption, setServiceTypeOption] = useState([]);
   const [selectedServiceType, setselectedServiceType] = useState({});
   const [currentAccourntId, setCurrentAccourntId] = useState(params.AccountId);
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const styles = {
     textAlign: {
       textAlign: t("textAlign"),
@@ -44,11 +44,7 @@ const ServiceLineUpdateFome = (props) => {
     props.UpdateList();
   };
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchServiceLine,
-  } = useHttp(
+  const { sendRequest: fetchServiceLine } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/Account/${params.AccountId}/ServiceLine/${props.UpdatingRecordId}`,
       method: "Put",
@@ -86,6 +82,7 @@ const ServiceLineUpdateFome = (props) => {
         serviceTypeOption.find((x) => x.value === requestData.ServiceTypeId)
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedServiceType]);
   // useEffect(() => {
   //   fetchUpdatingRecord();
@@ -129,6 +126,7 @@ const ServiceLineUpdateFome = (props) => {
 
   useEffect(() => {
     fetchServiceLine();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formISSubmitted]);
 
   const getServiceLine = (data) => {
@@ -154,6 +152,7 @@ const ServiceLineUpdateFome = (props) => {
   };
   useEffect(() => {
     setCurrentAccourntId(params.AccountId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedServiceLocation, selectedServiceType]);
 
   const updateServiceLineStatus = (event) => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AirlineNameService from "../../Hooks/AirlineName/AirlineNameService";
 import DatePicker from "../UI/FormElement/DatePicker";
@@ -34,7 +34,7 @@ const FlightNumberEditForm = (props) => {
   });
   const [flightDate, setFlightDate] = useState(Date.now);
 
-  const [flightTypes, setflightTypes] = useState([
+  const [flightTypes] = useState([
     { value: "0", label: "Arrival" },
     { value: "1", label: "Departure" },
   ]);
@@ -47,8 +47,8 @@ const FlightNumberEditForm = (props) => {
     value: "",
     label: "",
   });
-  const [formIsValid, setFormIsValid] = useState({});
-  const [t, i18n] = useTranslation("common");
+  const [formIsValid] = useState({});
+  const [t] = useTranslation("common");
   const styles = {
     textAlign: {
       textAlign: t("textAlign"),
@@ -105,12 +105,9 @@ const FlightNumberEditForm = (props) => {
 
     setStatusChecked(formData.status);
     setScheduledChecked(formData.scheduled);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData, scheduledChecked, statusChecked]);
-  const {
-    isLoading,
-    error,
-    sendRequest: postFlightNumber,
-  } = useHttp(
+  const { sendRequest: postFlightNumber } = useHttp(
     {
       url: `${basicContext.flightAddress}/FlightNumber/${props.FlightId}`,
       method: "PUT",
@@ -119,11 +116,7 @@ const FlightNumberEditForm = (props) => {
     },
     GoToFlightList
   );
-  const {
-    isLoading: flightloading,
-    error: flighterror,
-    sendRequest: getFlightNumber,
-  } = useHttp(
+  const { sendRequest: getFlightNumber } = useHttp(
     {
       url: `${basicContext.flightAddress}/FlightNumber/${props.FlightId}`,
       method: "GET",
@@ -167,6 +160,7 @@ const FlightNumberEditForm = (props) => {
   };
   useEffect(() => {
     getFlightNumber();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [airlineNamesList]);
 
   return (

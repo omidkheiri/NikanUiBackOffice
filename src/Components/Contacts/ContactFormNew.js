@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useHttp from "../../Hooks/use-http";
@@ -9,22 +9,18 @@ import DatePicker from "../UI/FormElement/DatePicker";
 
 import Moment from "moment";
 import DropDown from "../UI/FormElement/DropDown";
+import { formatDate } from "devextreme/localization";
 
 const ContactFormNew = () => {
   const [accountOption, setAccountOption] = useState([]);
-
+  const [formISSubmitted, setformISSubmitted] = useState(false);
   const GoToContactPanel = (data) => {
     history.push("/Contacts/" + data.id);
   };
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const [formData, setFormData] = useState({});
   const [formIsValid, setformIsValid] = useState();
   const [searchTerm, setSearchTerm] = useState("");
-  useEffect(() => {
-    if (searchTerm && searchTerm.length > 2) {
-      fetchAccount();
-    }
-  }, [searchTerm]);
 
   const history = useHistory();
   const [accountId, setAccountIdValue] = useState("");
@@ -66,7 +62,7 @@ const ContactFormNew = () => {
       formData.Name.isValid &&
       formData.LastName.isValid &&
       formData.Phone.isValid &&
-      accountId != ""
+      accountId !== ""
     ) {
       setformIsValid(true);
     } else {
@@ -84,10 +80,15 @@ const ContactFormNew = () => {
       Phone: formData["Phone"].data,
       EmailAddress: formData["EmailAddress"].data,
     });
+    setformISSubmitted(true);
   };
   useEffect(() => {
-    fetchContact();
-  }, [requestData]);
+    if (formISSubmitted) {
+      fetchContact();
+      setformISSubmitted(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formatDate, formISSubmitted]);
   const fillAccountOption = (data) => {
     let items = data.map((data) => {
       return { value: data.id, label: data.title };
@@ -135,6 +136,16 @@ const ContactFormNew = () => {
       setFormData(formData);
     }
   };
+
+  useEffect(() => {
+    if (searchTerm && searchTerm.length > 2) {
+      fetchAccount();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
+  useEffect(() => {
+    return;
+  }, [isLocationLoading, errorLocation]);
   return (
     <div className={(classes.container, classes.singlFormContent)}>
       <div className="row">

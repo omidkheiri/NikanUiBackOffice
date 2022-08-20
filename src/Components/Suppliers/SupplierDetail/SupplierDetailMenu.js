@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const SupplierDetailMenu = (props) => {
   const homePage = () => {
@@ -20,7 +20,7 @@ const SupplierDetailMenu = (props) => {
           props.currntPage === "home" ? "nav-item  show active " : " nav-item "
         }
       >
-        <a className="nav-link">
+        <p className="nav-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -37,7 +37,7 @@ const SupplierDetailMenu = (props) => {
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
           Home
-        </a>
+        </p>
       </li>
       <li
         style={{ cursor: "pointer" }}
@@ -47,7 +47,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link">
+        <p className="nav-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -65,7 +65,7 @@ const SupplierDetailMenu = (props) => {
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
           Reserves
-        </a>
+        </p>
       </li>
 
       <li
@@ -76,7 +76,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link ">
+        <p className="nav-link ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -93,7 +93,7 @@ const SupplierDetailMenu = (props) => {
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
           Contacts
-        </a>
+        </p>
       </li>
 
       <li
@@ -105,7 +105,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link ">
+        <p className="nav-link ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -123,7 +123,7 @@ const SupplierDetailMenu = (props) => {
             <line x1="10" y1="12" x2="14" y2="12"></line>
           </svg>
           Services
-        </a>
+        </p>
       </li>
 
       <li
@@ -135,7 +135,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link ">
+        <p className="nav-link ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -152,7 +152,7 @@ const SupplierDetailMenu = (props) => {
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
           Service Location
-        </a>
+        </p>
       </li>
     </ul>
   );

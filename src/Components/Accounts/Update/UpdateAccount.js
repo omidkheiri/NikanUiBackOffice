@@ -23,7 +23,7 @@ const UpdateAccount = (props) => {
     checkForm();
     props.FillForm(data);
   };
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const [formData, setFormData] = useState({});
   const [formIsValid, setformIsValid] = useState();
 
@@ -56,10 +56,6 @@ const UpdateAccount = (props) => {
     },
     FillForm
   );
-
-  useEffect(() => {
-    fetchAccountGet();
-  }, []);
 
   const {
     isLoading,
@@ -114,7 +110,8 @@ const UpdateAccount = (props) => {
 
   const submitForm = (event) => {
     event.preventDefault();
-
+    if (formIsValid) {
+    }
     setUpdatedRequestData({
       Title: formData.Title.data,
       EmailAddress: formData.EmailAddress.data,
@@ -123,7 +120,14 @@ const UpdateAccount = (props) => {
     });
     fetchAccount();
   };
-
+  useEffect(() => {
+    fetchAccountGet();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+  useEffect(() => {
+    return;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorGettingdata, isLoading, error]);
   return (
     <div className={(classes.container, classes.singlFormContent)}>
       <div className="row">

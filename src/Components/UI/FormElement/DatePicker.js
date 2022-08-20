@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import "flatpickr/dist/themes/light.css";
 import Flatpickr from "react-flatpickr";
 const DatePicker = (props) => {

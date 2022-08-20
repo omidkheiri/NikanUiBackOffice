@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import useHttp from "../../../../Hooks/use-http";
@@ -6,7 +6,7 @@ import BasicContext from "../../../../Store/enviroment-context";
 import DropDown from "../../../UI/FormElement/DropDown";
 
 const ServiceLineList = (props) => {
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const basicContext = useContext(BasicContext);
   const [serviceLocationOption, setServiceLocationOption] = useState([]);
   const styles = {
@@ -30,18 +30,19 @@ const ServiceLineList = (props) => {
     } else {
       fetchServiceList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletingId]);
 
   const filterList = (data, Id, valid) => {
     let items = lineFetchList;
-    if (data.value == "all") {
+    if (data.value === "all") {
       setLineDisplayList(items);
       return;
     }
     setLineDisplayList(
       items
         .filter((data1) => {
-          return data1.serviceLocationId == data.value;
+          return data1.serviceLocationId === data.value;
         })
         .sort()
     );
@@ -59,11 +60,7 @@ const ServiceLineList = (props) => {
     fetchServiceList();
   };
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchServiceList,
-  } = useHttp(
+  const { sendRequest: fetchServiceList } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/ServiceLine?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       method: "GET",
@@ -73,11 +70,7 @@ const ServiceLineList = (props) => {
     fillList
   );
 
-  const {
-    isLoadingDelete,
-    errorDelete,
-    sendRequest: deleteLocation,
-  } = useHttp(
+  const { sendRequest: deleteLocation } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/Account/${params.AccountId}/ServiceLine/${deletingId}`,
       method: "delete",
@@ -100,11 +93,7 @@ const ServiceLineList = (props) => {
   const openPrices = (event) => {
     props.openPricesForm(event.currentTarget.id);
   };
-  const {
-    isLocationLoading,
-    errorLocation,
-    sendRequest: fetchLocation,
-  } = useHttp(
+  const { sendRequest: fetchLocation } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/ServiceLocation?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       method: "GET",

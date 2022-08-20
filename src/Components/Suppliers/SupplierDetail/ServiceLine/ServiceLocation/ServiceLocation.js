@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 
 import ServiceLocationForm from "./ServiceLocationForm";
 import ServiceLocationList from "./ServiceLocationList";
-import { useTranslation } from "react-i18next";
 const ServiceLocation = () => {
   const [refreshList, setrefreshList] = useState();
   const ShowFormOnClick = () => {
@@ -17,7 +16,7 @@ const ServiceLocation = () => {
     setrefreshList(!refreshList);
     UpdateListFunc.current();
   };
-  const [t, i18n] = useTranslation("common");
+  // const [t, i18n] = useTranslation("common");
   const [formIsShown, setFormIsShown] = useState(false);
 
   return (

@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 
 const Intro = () => {
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   return (
     <Fragment>
       <h4>{t("Account.Intro.Title")}</h4>

@@ -11,6 +11,7 @@ const InputText = (props) => {
       setValidation(true);
       props.valueCallback(props.value, props.id, true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
   const Blured = () => {
     if (props.IsRequired && inputValue.length === 0) {

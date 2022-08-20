@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useHttp from "../../../../../Hooks/use-http";
 import BasicContext from "../../../../../Store/enviroment-context";
@@ -19,6 +19,7 @@ const ServiceLocationList = (props) => {
     } else {
       fetchLocation();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletingId]);
   const fillList = (data) => {
     setLocationList(data);
@@ -30,11 +31,7 @@ const ServiceLocationList = (props) => {
     setDeletingLocation(event.currentTarget.id);
     fetchLocation();
   };
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchLocation,
-  } = useHttp(
+  const { sendRequest: fetchLocation } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/ServiceLocation?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       method: "GET",
@@ -44,11 +41,7 @@ const ServiceLocationList = (props) => {
     fillList
   );
 
-  const {
-    isLoadingDelete,
-    errorDelete,
-    sendRequest: deleteLocation,
-  } = useHttp(
+  const { sendRequest: deleteLocation } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/Account/${params.AccountId}/ServiceLocation/${deletingId}`,
       method: "delete",

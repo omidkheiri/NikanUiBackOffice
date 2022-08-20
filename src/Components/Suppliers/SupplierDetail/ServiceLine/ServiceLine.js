@@ -1,5 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useRef, useState } from "react";
 import ServiceLineNewFome from "./ServiceLineNewFome";
 import ServiceLineList from "./ServiceLineList";
 import ServiceLineUpdateFome from "./ServiceLineUpdateFome";
@@ -8,7 +7,7 @@ import ServiceLinePrice from "./ServiceLinePrice";
 const ServiceLine = () => {
   const [refreshList, setrefreshList] = useState();
   const [updateingServiceLineId, setupdateingServiceLineId] = useState();
-  const [t, i18n] = useTranslation("common");
+  // const [t, i18n] = useTranslation("common");
   const [formIsShown, setFormIsShown] = useState("none");
   const ShowFormOnClick = () => {
     setFormIsShown("new");

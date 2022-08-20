@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AirlineNameService from "../../Hooks/AirlineName/AirlineNameService";
 import DatePicker from "../UI/FormElement/DatePicker";
@@ -47,13 +47,13 @@ const FlightNumberNewForm = (props) => {
     updateFormData(formData);
   };
 
-  const [flightTypes, setflightTypes] = useState([
+  const [flightTypes] = useState([
     { value: "0", label: "Arrival" },
     { value: "1", label: "Departure" },
   ]);
   const [airlineNamesList, setAirlineNamesList] = useState([]);
-  const [formIsValid, setFormIsValid] = useState({});
-  const [t, i18n] = useTranslation("common");
+  const [formIsValid] = useState({});
+  const [t] = useTranslation("common");
   const styles = {
     textAlign: {
       textAlign: t("textAlign"),
@@ -75,11 +75,7 @@ const FlightNumberNewForm = (props) => {
   const GoToFlightList = () => {
     props.UpdateList();
   };
-  const {
-    isLoading,
-    error,
-    sendRequest: postFlightNumber,
-  } = useHttp(
+  const { sendRequest: postFlightNumber } = useHttp(
     {
       url: basicContext.flightAddress + "/FlightNumber",
       method: "POST",
@@ -124,7 +120,9 @@ const FlightNumberNewForm = (props) => {
       );
     });
   };
-
+  const handleInputChange = (data) => {
+    console.log(data);
+  };
   return (
     <Modal cntx={props}>
       <AirlineNameService getStore={getStore} />
@@ -139,9 +137,9 @@ const FlightNumberNewForm = (props) => {
                     title={t("FlightNumber.FormElement.AirlineName")}
                     type="text"
                     id="airlineName"
+                    handleInputChange={handleInputChange}
                     IsRequired={true}
                     MinLength={0}
-                    RegexFormat=""
                     options={airlineNamesList}
                     valueCallback={updateForm}
                     requiredMassage={t(
@@ -234,6 +232,7 @@ const FlightNumberNewForm = (props) => {
                     type="text"
                     id="flightType"
                     IsRequired={true}
+                    handleInputChange={handleInputChange}
                     MinLength={0}
                     RegexFormat=""
                     options={flightTypes}
