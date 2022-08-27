@@ -1,14 +1,103 @@
-import React from "react";
-
-const FlightInfo = () => {
+import React, { Fragment } from "react";
+import moment from "moment";
+import { useTranslation } from "react-i18next";
+const FlightInfo = (props) => {
+  const [t] = useTranslation("common");
   return (
-    <div className="row layout-top-spacing ">
-      <div className="col-lg-12 col-12 layout-spacing">
-        <div className="statbox widget box ">
-          <div className="widget-content widget-content-area"></div>
+    <Fragment>
+      {props.selected && (
+        <div className="row layout-top-spacing " style={{ direction: "rtl" }}>
+          <div className="col-lg-12 col-12 layout-spacing">
+            <div className="row">
+              <div className="col">
+                <span>
+                  Airline: <b>{props.flightInfo.airlineName}</b>
+                </span>
+              </div>
+              <div className="col">
+                <span>
+                  Flight Name: <b>{props.flightInfo.flightName}</b>
+                </span>
+              </div>
+
+              <div className="col">
+                <span>
+                  Flight Date:
+                  <b>
+                    {moment(new Date(props.flightInfo.flightDate)).format(
+                      "YYYY-MM-DD"
+                    )}
+                  </b>
+                </span>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <blockquote
+                  className="blockquote"
+                  style={{ padding: "5px", margin: 0 }}
+                >
+                  <p style={{ textAlign: "center" }}>
+                    {t("ReservePage.FlightInfoForm.DepartureInfo")}
+                  </p>
+                  <p className="d-inline">
+                    {props.flightInfo.flightInfo.departureCity}
+                  </p>
+                  <small>
+                    {props.flightInfo.flightInfo.departureAirport}
+                    <span>
+                      <code> time </code>
+                    </span>
+                    <b>{props.flightInfo.flightInfo.departureTime}</b>
+                  </small>
+                </blockquote>
+              </div>
+              <div className="col" style={{ alignSelf: "center" }}>
+                <svg
+                  style={{
+                    margin: "auto",
+                    display: "block",
+                  }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="55"
+                  height="55"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#cccccc"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="feather feather-chevrons-left"
+                >
+                  <polyline points="11 17 6 12 11 7"></polyline>
+                  <polyline points="18 17 13 12 18 7"></polyline>
+                </svg>
+              </div>
+              <div className="col">
+                <blockquote
+                  className="blockquote"
+                  style={{ padding: "5px", margin: 0 }}
+                >
+                  <p style={{ textAlign: "center" }}>
+                    {t("ReservePage.FlightInfoForm.َArrivalInfo")}
+                  </p>
+                  <p className="d-inline">
+                    {props.flightInfo.flightInfo.arrivalCity}
+                  </p>
+                  <small>
+                    {props.flightInfo.flightInfo.arrivalAirport}
+                    <span>
+                      <code> time </code>
+                    </span>
+                    <b>{props.flightInfo.flightInfo.arrivalTime}</b>
+                  </small>
+                </blockquote>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </Fragment>
   );
 };
 

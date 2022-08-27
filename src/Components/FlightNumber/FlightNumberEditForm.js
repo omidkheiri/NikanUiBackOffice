@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AirlineNameService from "../../Hooks/AirlineName/AirlineNameService";
 import DatePicker from "../UI/FormElement/DatePicker";
@@ -11,6 +11,7 @@ import useHttp from "../../Hooks/use-http";
 
 import BasicContext from "../../Store/enviroment-context";
 const FlightNumberEditForm = (props) => {
+  const scheduledElement = useRef();
   const basicContext = useContext(BasicContext);
   const [formData, updateFormData] = useState({
     flightInfo: {
@@ -31,6 +32,7 @@ const FlightNumberEditForm = (props) => {
     status: false,
     scheduled: false,
     flightType: 0,
+    flightSource: 0,
   });
   const [flightDate, setFlightDate] = useState(Date.now);
 
@@ -38,12 +40,20 @@ const FlightNumberEditForm = (props) => {
     { value: "0", label: "Arrival" },
     { value: "1", label: "Departure" },
   ]);
+  const [flightSources] = useState([
+    { value: "0", label: "Native" },
+    { value: "1", label: "Foreigner" },
+  ]);
   const [airlineNamesList, setAirlineNamesList] = useState([]);
   const [selectedAirline, setSelectedAirline] = useState({
     value: "",
     label: "",
   });
   const [selectedFlightType, setSelectedFlightType] = useState({
+    value: "",
+    label: "",
+  });
+  const [selectedFlightSource, setSelectedFlightSource] = useState({
     value: "",
     label: "",
   });
@@ -61,7 +71,9 @@ const FlightNumberEditForm = (props) => {
     },
   };
   const [scheduledChecked, setScheduledChecked] = useState(false);
-
+  const handleInputChange = (data) => {
+    console.log(data);
+  };
   const updatescheduled = (event) => {
     setScheduledChecked(event.currentTarget.checked);
     formData["scheduled"] = event.currentTarget.checked;
@@ -86,6 +98,7 @@ const FlightNumberEditForm = (props) => {
     props.UpdateList();
   };
   const FillForm = (data) => {
+    console.log(data);
     updateFormData(data);
     // formData.flightInfo.arrivalTime=data.flightInfo.arrivalTime.
   };
@@ -101,10 +114,16 @@ const FlightNumberEditForm = (props) => {
         return data.value === `${formData.flightType}`;
       })
     );
+    setSelectedFlightSource(
+      flightSources.find((data) => {
+        return data.value === `${formData.flightSource}`;
+      })
+    );
     setFlightDate(formData.flightDate);
 
     setStatusChecked(formData.status);
     setScheduledChecked(formData.scheduled);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData, scheduledChecked, statusChecked]);
   const { sendRequest: postFlightNumber } = useHttp(
@@ -135,10 +154,15 @@ const FlightNumberEditForm = (props) => {
       id !== "arrivalCity" &&
       id !== "arrivalTime"
     ) {
-      if (id === "flightType" || id === "airlineName") {
+      if (id === "airlineName") {
         formData[id] = data.label;
+      } else if (id === "flightType") {
+        formData[id] = data.value;
+      } else if (id === "flightSource") {
+        formData[id] = data.value;
       } else if (id === "flightDate") {
         formData["flightDate"] = Moment(new Date(data)).format("YYYY-MM-DD");
+        scheduledElement.current.enabled = false;
       } else {
         formData[id] = data;
       }
@@ -183,6 +207,7 @@ const FlightNumberEditForm = (props) => {
                     value={selectedAirline}
                     options={airlineNamesList}
                     valueCallback={updateForm}
+                    handleInputChange={handleInputChange}
                     requiredMassage={t(
                       "FlightNumber.FormElement.AirlineNameRequiredMessage"
                     )}
@@ -237,6 +262,7 @@ const FlightNumberEditForm = (props) => {
                       id="scheduled"
                       checked={scheduledChecked}
                       onChange={updatescheduled}
+                      ref={scheduledElement}
                     />
                     <label
                       style={{ textAlign: t("textAlign"), float: "right" }}
@@ -277,10 +303,29 @@ const FlightNumberEditForm = (props) => {
                     IsRequired={true}
                     MinLength={0}
                     RegexFormat=""
+                    handleInputChange={handleInputChange}
                     options={flightTypes}
                     valueCallback={updateForm}
                     requiredMassage={t(
                       "FlightNumber.FormElement.FlightTypeRequiredMessage"
+                    )}
+                  />
+                </div>
+                <div className="form-group col-md-4">
+                  <DropDown
+                    textAlign={styles.textAlign}
+                    title={t("FlightNumber.FormElement.FlightSource")}
+                    type="text"
+                    id="flightSource"
+                    value={selectedFlightSource}
+                    IsRequired={true}
+                    MinLength={0}
+                    RegexFormat=""
+                    handleInputChange={handleInputChange}
+                    options={flightSources}
+                    valueCallback={updateForm}
+                    requiredMassage={t(
+                      "FlightNumber.FormElement.FlightSourceRequiredMessage"
                     )}
                   />
                 </div>

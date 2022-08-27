@@ -11,66 +11,87 @@ import BasicContext from "../../../../Store/enviroment-context";
 const ServiceLinePrice = (props) => {
   const basicContext = useContext(BasicContext);
   const [serviceLine, setServiceLine] = useState();
-  const [serviceLinePrice, setServiceLinePrice] = useState({});
-  const [toDate, setTodate] = useState(Date.now);
-  const [fromDate, setFromdate] = useState(Date.now);
-  const [price, setPrice] = useState();
+  const [start, setStart] = useState();
+  const [end, setEnd] = useState();
+  const [price, setPrice] = useState(0);
+
   const params = useParams();
   const [currentAccourntId] = useState(params.AccountId);
-  const changeToDate = (data) => {
-    setTodate(data);
+  const [updatePrice, setupdatePrice] = useState(false);
+  const [selectedPriceId, setselectedPriceId] = useState();
+
+  const changeEnd = (data) => {
+    setEnd(data);
   };
-  useEffect(() => {
-    setFromdate(serviceLinePrice.start);
-    setTodate(serviceLinePrice.end);
-    setPrice(serviceLinePrice.price);
-  }, [serviceLinePrice]);
-  const changeFromDate = (data) => {
-    setFromdate(data);
-  };
-  const chekFrom = () => {
-    return false;
-  };
-  const checkTo = () => {
-    return false;
-  };
-  const GoToAccountPanel = (data) => {
-    setServiceLine(data);
+
+  const changeStart = (data) => {
+    setStart(data);
   };
   const changePrice = (data) => {
     setPrice(data);
   };
-  const { sendRequest: fetchAccount } = useHttp(
+  const GoToPanel = (data) => {
+    console.log(data);
+    setServiceLine(data);
+  };
+
+  const { sendRequest: postPrice } = useHttp(
     {
-      url: `${basicContext.serviceLineAddress}/account/${currentAccourntId}/ServiceLine/${props.UpdatingRecordId}/ServiceLinePrice`,
+      url: `${basicContext.serviceLineAddress}/account/${currentAccourntId}/ServiceLine/${props.updatingRecordId}/ServiceLinePrice`,
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: {
         price: price,
-        start: fromDate ? Moment(new Date(fromDate)).format("YYYY-MM-DD") : "",
-        end: toDate ? Moment(new Date(toDate)).format("YYYY-MM-DD") : "",
+        start: start ? Moment(new Date(start)).format("YYYY-MM-DD") : "",
+        end: end ? Moment(new Date(end)).format("YYYY-MM-DD") : "",
       },
     },
-    GoToAccountPanel
+    GoToPanel
+  );
+  const { sendRequest: putPrice } = useHttp(
+    {
+      url: `${basicContext.serviceLineAddress}/account/${currentAccourntId}/ServiceLine/${props.updatingRecordId}/ServiceLinePrice/${selectedPriceId}`,
+      method: "Put",
+      headers: { "Content-Type": "application/json" },
+      body: {
+        price: price,
+        start: start ? Moment(new Date(start)).format("YYYY-MM-DD") : "",
+        end: end ? Moment(new Date(end)).format("YYYY-MM-DD") : "",
+      },
+    },
+    GoToPanel
   );
 
   const SubmitForm = (event) => {
     event.preventDefault();
-    if (chekFrom() && checkTo()) {
-    }
 
-    fetchAccount();
+    if (updatePrice) {
+      putPrice();
+    } else {
+      postPrice();
+    }
   };
 
   const getServieLine = (data) => {
     setServiceLine(data);
   };
   const fillForm = (event) => {
-    setServiceLinePrice(
-      serviceLine.serviceLinePrices.find((data) => {
-        return data.id === event.currentTarget.id;
-      })
-    );
+    setupdatePrice(true);
+    setselectedPriceId(event.currentTarget.id);
+    let item = serviceLine.serviceLinePrices.find((data) => {
+      return data.id === event.currentTarget.id;
+    });
+    console.log(item);
+    setPrice(item.price);
+    setStart(item.start);
+    setEnd(item.end);
+  };
+  const ClearForm = () => {
+    setPrice(0);
+    setStart([]);
+    setEnd([]);
+    setupdatePrice(false);
+    setselectedPriceId("");
   };
   return (
     <Drawer cntx={props}>
@@ -78,37 +99,38 @@ const ServiceLinePrice = (props) => {
         extend={true}
         response={getServieLine}
         accountId={currentAccourntId}
-        serviceId={props.UpdatingRecordId}
+        serviceId={props.updatingRecordId}
       />
       <div className="col-lg-12 layout-spacing">
         <div id="timelineBasic" className="col-lg-12 layout-spacing">
           <div className="widget-content widget-content-area mb-1">
+            <h1>{serviceLine ? serviceLine.title : ""}</h1>
             <div className="mt-container mx-auto ">
               <form onSubmit={SubmitForm}>
                 <div className="row mb-4">
                   <div className="form-group mb-0 col">
-                    <label htmlFor="from">From:</label>
+                    <label htmlFor="start">From:</label>
                     <DatePicker
-                      id="from"
-                      minDate={"2022-08-09"}
-                      value={fromDate}
+                      id="start"
+                      value={start}
                       type="text"
                       placeholder="Select Date.."
-                      valueCallback={changeFromDate}
+                      valueCallback={changeStart}
                     />
                   </div>
                   <div className="form-group mb-0 col">
-                    <label htmlFor="to">To:</label>
+                    <label htmlFor="end">To:</label>
                     <DatePicker
-                      id="to"
-                      valueCallback={changeToDate}
+                      id="end"
+                      valueCallback={changeEnd}
                       type="text"
-                      value={toDate}
+                      value={end}
                       placeholder="Select Date.."
                     />
                   </div>
                   <div className="form-group mb-0 col">
                     <label htmlFor="price">Price:</label>
+
                     <InputText
                       id="price"
                       value={price}
@@ -122,6 +144,14 @@ const ServiceLinePrice = (props) => {
                   <div className="form-group mb-0 col">
                     <button type="submit" className="btn btn-primary">
                       save
+                    </button>
+                    <button
+                      style={{ marginRight: "5px", marginLeft: "5px" }}
+                      type="button"
+                      onClick={ClearForm}
+                      className="btn btn-warning"
+                    >
+                      reset
                     </button>
                   </div>
                 </div>

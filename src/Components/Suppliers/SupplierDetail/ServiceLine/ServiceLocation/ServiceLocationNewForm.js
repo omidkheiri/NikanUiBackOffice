@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 import useHttp from "../../../../../Hooks/use-http";
 import BasicContext from "../../../../../Store/enviroment-context";
 import InputText from "../../../../UI/FormElement/InputText";
-
+import Moment from "moment";
 import Modal from "../../../../UI/Modal";
+import DatePicker from "../../../../UI/FormElement/DatePicker";
 const ServiceLocationForm = (props) => {
   const UpdateList = (data) => {
-    // history.push("/account/" + data.id);
     props.UpdateList();
   };
   const [t] = useTranslation("common");
@@ -27,6 +27,7 @@ const ServiceLocationForm = (props) => {
     Title: { data: "" },
     Address: { data: "" },
     Location: { data: "" },
+    maxAcceptDate: { data: [] },
   });
 
   const { sendRequest: fetchAccount } = useHttp(
@@ -45,6 +46,12 @@ const ServiceLocationForm = (props) => {
     checkForm();
   };
 
+  const updateMAxDateForm = (data, Id, valid) => {
+    formData[Id] = { data: data, isValid: true };
+    setFormData(formData);
+    checkForm();
+  };
+
   const checkForm = () => {
     if (
       formData.Address &&
@@ -54,17 +61,20 @@ const ServiceLocationForm = (props) => {
       formData.Title.isValid === true &&
       formData.Location.isValid === true
     ) {
-      setformIsValid(true);
+      if (formData.maxAcceptDate) {
+        setformIsValid(true);
 
-      setRequestData({
-        Title: formData.Title.data,
-        Address: formData.Address.data,
-        Location: formData.Location.data,
-        Account: {
-          id: `${params.AccountId}`,
-          title: " ",
-        },
-      });
+        setRequestData({
+          Title: formData.Title.data,
+          Address: formData.Address.data,
+          Location: formData.Location.data,
+          maxAcceptDate: formData.maxAcceptDate,
+          Account: {
+            id: `${params.AccountId}`,
+            title: " ",
+          },
+        });
+      }
     } else {
       setformIsValid(false);
     }
@@ -72,6 +82,10 @@ const ServiceLocationForm = (props) => {
 
   const submitForm = (event) => {
     event.preventDefault();
+    console.log(Moment(requestData.maxAcceptDate).format("YYYY-MM-DD"));
+    requestData.maxAcceptDate = Moment(requestData.maxAcceptDate).format(
+      "YYYY-MM-DD"
+    );
     fetchAccount();
   };
   return (
@@ -121,6 +135,20 @@ const ServiceLocationForm = (props) => {
               requiredMassage={t(
                 "ServiceLocation.FormElement.LocationRequiredMessage"
               )}
+            />
+          </div>
+
+          <div className="form-group mb-4">
+            <label htmlFor="from">
+              {t("ServiceLocation.FormElement.MaxAllowtedDate")}
+            </label>
+            <DatePicker
+              id="maxAcceptDate"
+              minDate={new Date()}
+              type="text"
+              placeholder="Select Date.."
+              IsRequired={true}
+              valueCallback={updateMAxDateForm}
             />
           </div>
 

@@ -7,7 +7,7 @@ const Backdrop = (props) => {
   return (
     <div
       className={`modal-backdrop fade ${props.formIsShown ? "show" : " "}`}
-      style={{ display: `${props.formIsShown ? "blok" : "none"}` }}
+      style={{ display: `${props.formIsShown ? "block" : "none"}` }}
     ></div>
   );
 };

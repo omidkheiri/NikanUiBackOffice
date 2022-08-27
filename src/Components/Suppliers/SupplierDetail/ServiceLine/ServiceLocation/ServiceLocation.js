@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import ServiceLocationForm from "./ServiceLocationForm";
+import ServiceLocationNewForm from "./ServiceLocationNewForm";
 import ServiceLocationList from "./ServiceLocationList";
 const ServiceLocation = () => {
   const [refreshList, setrefreshList] = useState();
@@ -41,11 +41,11 @@ const ServiceLocation = () => {
               <line x1="8" y1="12" x2="16" y2="12"></line>
             </svg>
           </div>
-          <ServiceLocationForm
+          <ServiceLocationNewForm
             cancelCallBack={cancelModal}
             formIsShown={formIsShown}
             UpdateList={UpdateList}
-          ></ServiceLocationForm>
+          ></ServiceLocationNewForm>
         </div>
 
         <ServiceLocationList UpdateListFunc={UpdateListFunc} />

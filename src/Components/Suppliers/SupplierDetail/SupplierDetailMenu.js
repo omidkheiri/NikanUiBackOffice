@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const SupplierDetailMenu = (props) => {
+  const [t] = useTranslation("common");
   const homePage = () => {
     props.updateCurrntPage("home");
   };
@@ -36,7 +38,7 @@ const SupplierDetailMenu = (props) => {
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
-          Home
+          {t("SupplierPanel.Menu.Home")}
         </p>
       </li>
       <li
@@ -64,7 +66,7 @@ const SupplierDetailMenu = (props) => {
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
-          Reserves
+          {t("SupplierPanel.Menu.Reserves")}
         </p>
       </li>
 
@@ -92,7 +94,7 @@ const SupplierDetailMenu = (props) => {
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          Contacts
+          {t("SupplierPanel.Menu.Contacts")}
         </p>
       </li>
 
@@ -122,7 +124,7 @@ const SupplierDetailMenu = (props) => {
             <rect x="1" y="3" width="22" height="5"></rect>
             <line x1="10" y1="12" x2="14" y2="12"></line>
           </svg>
-          Services
+          {t("SupplierPanel.Menu.Services")}
         </p>
       </li>
 
@@ -151,7 +153,7 @@ const SupplierDetailMenu = (props) => {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
-          Service Location
+          {t("SupplierPanel.Menu.ServiceLocations")}
         </p>
       </li>
     </ul>

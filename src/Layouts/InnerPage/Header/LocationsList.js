@@ -12,7 +12,6 @@ const LocationList = (props) => {
   const [locations, setlocations] = useState({});
   const params = useParams();
   const fillLocationOption = (data) => {
-    console.log(data);
     setlocations(data);
   };
   const { sendRequest: fetchLocation } = useHttp(

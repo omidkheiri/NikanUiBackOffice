@@ -74,7 +74,7 @@ const ServiceLine = () => {
           )}
           {formIsShown === "price" && (
             <ServiceLinePrice
-              UpdatingRecordId={updateingServiceLineId}
+              updatingRecordId={updateingServiceLineId}
               cancelCallBack={cancelModal}
               formIsShown={formIsShown}
               UpdateList={UpdateList}

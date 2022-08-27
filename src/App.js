@@ -71,7 +71,7 @@ function App() {
               <Route path="/Reserves">
                 <ReserveList />
               </Route>
-              <Route path="/NewReserve">
+              <Route path="/NewReserve/:LocationId">
                 <ReserveNewForm />
               </Route>
 

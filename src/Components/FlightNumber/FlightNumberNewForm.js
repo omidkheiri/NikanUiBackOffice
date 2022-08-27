@@ -31,6 +31,7 @@ const FlightNumberNewForm = (props) => {
     status: false,
     scheduled: false,
     flightType: 0,
+    flightSources: 0,
   });
   const [scheduledChecked, setScheduledChecked] = useState(false);
   const scheduledElement = useRef();
@@ -50,6 +51,10 @@ const FlightNumberNewForm = (props) => {
   const [flightTypes] = useState([
     { value: "0", label: "Arrival" },
     { value: "1", label: "Departure" },
+  ]);
+  const [flightSources] = useState([
+    { value: "0", label: "Native" },
+    { value: "1", label: "Foreigner" },
   ]);
   const [airlineNamesList, setAirlineNamesList] = useState([]);
   const [formIsValid] = useState({});
@@ -98,6 +103,8 @@ const FlightNumberNewForm = (props) => {
         formData[id] = data.label;
       } else if (id === "flightType") {
         formData[id] = data.value;
+      } else if (id === "flightSource") {
+        formData[id] = data.value;
       } else if (id === "flightDate") {
         formData["flightDate"] = Moment(new Date(data)).format("YYYY-MM-DD");
         scheduledElement.current.enabled = false;
@@ -120,9 +127,7 @@ const FlightNumberNewForm = (props) => {
       );
     });
   };
-  const handleInputChange = (data) => {
-    console.log(data);
-  };
+  const handleInputChange = (data) => {};
   return (
     <Modal cntx={props}>
       <AirlineNameService getStore={getStore} />
@@ -239,6 +244,23 @@ const FlightNumberNewForm = (props) => {
                     valueCallback={updateForm}
                     requiredMassage={t(
                       "FlightNumber.FormElement.FlightTypeRequiredMessage"
+                    )}
+                  />
+                </div>
+                <div className="form-group col-md-4">
+                  <DropDown
+                    textAlign={styles.textAlign}
+                    title={t("FlightNumber.FormElement.FlightSource")}
+                    type="text"
+                    id="flightSource"
+                    IsRequired={true}
+                    handleInputChange={handleInputChange}
+                    MinLength={0}
+                    RegexFormat=""
+                    options={flightSources}
+                    valueCallback={updateForm}
+                    requiredMassage={t(
+                      "FlightNumber.FormElement.FlightSourceRequiredMessage"
                     )}
                   />
                 </div>

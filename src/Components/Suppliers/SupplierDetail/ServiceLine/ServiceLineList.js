@@ -89,7 +89,7 @@ const ServiceLineList = (props) => {
   const openUpdateing = (event) => {
     props.openUpdateForm(event.currentTarget.id);
   };
-
+  const handleInputChange = () => {};
   const openPrices = (event) => {
     props.openPricesForm(event.currentTarget.id);
   };
@@ -117,18 +117,30 @@ const ServiceLineList = (props) => {
               RegexFormat=""
               options={serviceLocationOption}
               valueCallback={filterList}
+              handleInputChange={handleInputChange}
             />
           </th>
         </tr>
         <tr>
-          <th style={{ textAlign: "right" }}>Title</th>
-          <th style={{ textAlign: "right", width: "50px" }}>Type</th>
-          <th style={{ textAlign: "right", width: "50px" }}>Location</th>
-          <th style={{ textAlign: "right", width: "50px" }}>State</th>
+          <th style={{ textAlign: "right" }}>
+            {" "}
+            {t("ServiceLine.FormElement.Title")}
+          </th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Type")}
+          </th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Location")}
+          </th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Status")}
+          </th>
           <th style={{ textAlign: "right", width: "50px" }}>Tax</th>
 
           <th style={{ width: "100px" }}></th>
-          <th style={{ textAlign: "right", width: "50px" }}>price</th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Price")}
+          </th>
         </tr>
       </thead>
       <tbody>

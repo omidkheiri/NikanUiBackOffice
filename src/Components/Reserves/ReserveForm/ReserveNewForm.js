@@ -1,78 +1,122 @@
-import React, { Fragment } from "react";
-import FlightInfo from "./FlightInfo";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useParams } from "react-router-dom";
+import useHttp from "../../../Hooks/use-http";
+import BasicContext from "../../../Store/enviroment-context";
+import FlightInfoForm from "./FlightInfoForm";
 import HeaderLocationInfo from "./HeaderLocationInfo";
 import "./ReserveNewForm.css";
+import Moment from "moment";
+import ServiceList from "./ServiceList";
+import ReserveService from "../../../Hooks/Reserve/ReserveService";
+
 const ReserveNewForm = () => {
+  const reserveServiceRef = useRef(null);
+  const [reserve, setReserve] = useState({});
+  const basicContext = useContext(BasicContext);
+  const params = useParams();
+  const [location, setlocation] = useState();
+  const [flightDate, setflightDate] = useState();
+  const [flightnumber, setflightnumber] = useState();
+  const [serviceList, setserviceList] = useState();
+  const [showServiceList, setShowServiceList] = useState();
+  const getReserve = (reserve) => {
+    setReserve(reserve);
+  };
+  useEffect(() => {
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+    if (!reserveStorage) {
+      reserveServiceRef.current.AddReserveTemp(params.LocationId);
+      fetchLocation();
+    } else {
+      setlocation(reserveStorage.locationId);
+    }
+  }, []);
+  const GetData = (data) => {
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+
+    reserveStorage.locationId = data;
+    setReserve(reserveStorage);
+    setlocation(reserveStorage.locationId);
+    reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
+  };
+  const GetServiceListData = (data) => {
+    setserviceList(data);
+  };
+
+  const setFlightNumber = (show, value) => {
+    console.log("HHHHHHHHHHHHHHHHHHHHHh");
+    console.log(show);
+    console.log(value);
+    setflightDate(value);
+    setShowServiceList(show);
+  };
+
+  const { sendRequest: fetchLocation } = useHttp(
+    {
+      url:
+        basicContext.serviceLocationAddress +
+        "/ServiceLocation/" +
+        params.LocationId,
+      method: "Get",
+      headers: { "Content-Type": "application/json" },
+      body: null,
+    },
+    GetData
+  );
+  const { sendRequest: fetchLocationServiceWithPrice } = useHttp(
+    {
+      url:
+        basicContext.serviceLineAddress +
+        "/ServiceLine/Location/" +
+        params.LocationId +
+        "?DateTime=" +
+        Moment(new Date(flightDate)).format("YYYY-MM-DD"),
+      method: "Get",
+      headers: { "Content-Type": "application/json" },
+      body: null,
+    },
+    GetServiceListData
+  );
+
+  useEffect(() => {
+    fetchLocationServiceWithPrice();
+    console.log("vvvvvvvvvvvvvvvvvvvv");
+    console.log(
+      basicContext.serviceLineAddress +
+        "/ServiceLine/Location/" +
+        params.LocationId +
+        "?DateTime=" +
+        Moment(new Date(flightDate)).format("YYYY-MM-DD")
+    );
+  }, [showServiceList]);
+
   return (
     <Fragment>
+      <ReserveService getReserve={getReserve} ref={reserveServiceRef} />
       <div id="content" className="main-content">
         <div className="page-header page-header-scrollspy">
-          <HeaderLocationInfo />
+          {location && <HeaderLocationInfo location={location} />}
         </div>
 
         <div className="container">
           <div className="container">
-            <div
-              id="navSection"
-              data-spy="affix"
-              className="nav  sidenav"
-              style={{ top: "95px", width: "280px" }}
-            >
-              <div className="list-group">
-                <div
-                  className="nav-link active"
-                  style={{ borderBottom: "1px solid #edeaea" }}
-                >
-                  <div className="row">
-                    <div className="col-md-2">
-                      <span
-                        style={{
-                          height: "23px",
-                          width: "23px",
-                          display: "block",
-                          float: "right",
-                        }}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          className="feather feather-plus-circle"
-                        >
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <line x1="12" y1="8" x2="12" y2="16"></line>
-                          <line x1="8" y1="12" x2="16" y2="12"></line>
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="col-md-8">Passengers</div>
-                    <hr
-                      style={{ display: "block", width: "100%", margin: "5px" }}
-                    />
-                    <div className="col-md-10" style={{ direction: "ltr" }}>
-                      1 X 120,000,000
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <FlightInfo />
-
-            <div className="row layout-top-spacing ">
-              <div className="col-lg-12 col-12 layout-spacing">
-                <div className="statbox widget box ">
-                  <div className="widget-header">
-                    <div className="row">
-                      <div className="col-xl-12 col-md-12 col-sm-12 col-12">
-                        <h4>Form controls</h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="widget-content widget-content-area"></div>
-                </div>
+            {showServiceList && <ServiceList serviceList={serviceList} />}
+            <div className="statbox widget box ">
+              <div className="widget-content widget-content-area">
+                <FlightInfoForm
+                  locationId={params.LocationId}
+                  flightInfo={setFlightNumber}
+                />
               </div>
             </div>
           </div>
