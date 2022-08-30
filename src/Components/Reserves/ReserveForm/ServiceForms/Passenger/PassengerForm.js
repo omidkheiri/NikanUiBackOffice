@@ -4,10 +4,14 @@ import PassengerNew from "./PassengerNew";
 import PassengerSelections from "./PassengerSelections";
 
 const PassengerForm = (props) => {
+  const UpdateReserve = () => {
+    props.UpdateReserve();
+  };
+
   return (
     <Drawer cntx={props}>
       <PassengerSelections />
-      <PassengerNew />
+      <PassengerNew UpdateReserve={UpdateReserve} scheme={props.scheme} />
     </Drawer>
   );
 };

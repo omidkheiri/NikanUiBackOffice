@@ -3,6 +3,7 @@ import ServiceLineNewFome from "./ServiceLineNewFome";
 import ServiceLineList from "./ServiceLineList";
 import ServiceLineUpdateFome from "./ServiceLineUpdateFome";
 import ServiceLinePrice from "./ServiceLinePrice";
+import ServiceLineSchema from "./ServiceLineSchema";
 
 const ServiceLine = () => {
   const [refreshList, setrefreshList] = useState();
@@ -29,6 +30,11 @@ const ServiceLine = () => {
   const openPricesForm = (data) => {
     setUpdatingRecord(data).then(setFormIsShown("price"));
   };
+
+  const openSchemaForm = (data) => {
+    setUpdatingRecord(data).then(setFormIsShown("schema"));
+  };
+
   const setUpdatingRecord = async (data) => {
     setupdateingServiceLineId(data);
   };
@@ -80,12 +86,22 @@ const ServiceLine = () => {
               UpdateList={UpdateList}
             ></ServiceLinePrice>
           )}
+
+          {formIsShown === "schema" && (
+            <ServiceLineSchema
+              updatingRecordId={updateingServiceLineId}
+              cancelCallBack={cancelModal}
+              formIsShown={formIsShown}
+              UpdateList={UpdateList}
+            ></ServiceLineSchema>
+          )}
         </div>
 
         <ServiceLineList
           openUpdateForm={openUpdateForm}
           UpdateListFunc={UpdateListFunc}
           openPricesForm={openPricesForm}
+          openSchemaForm={openSchemaForm}
         />
       </div>
     </div>

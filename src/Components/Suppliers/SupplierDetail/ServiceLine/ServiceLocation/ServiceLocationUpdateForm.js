@@ -27,9 +27,6 @@ const ServiceLocationUpdateForm = (props) => {
 
   const [requestData, setRequestData] = useState({});
   const fillList = (data) => {
-    //{"title":"dddfgdfg","address":"dfgdfgdfg","location":"ddfgdfg","account":null,"maxAcceptDate":"0001-01-01T00:00:00+00:00","status":true,"id":"6d32c225-f903-4c40-87ec-914dc6f7adad"}
-
-    console.log(data);
     setRequestData(data);
 
     setloaded(true);
@@ -45,7 +42,6 @@ const ServiceLocationUpdateForm = (props) => {
   );
 
   useEffect(() => {
-    console.log(props.LocationId);
     if (props.LocationId) {
       getLocation();
     }
@@ -60,7 +56,6 @@ const ServiceLocationUpdateForm = (props) => {
     UpdateList
   );
   const updateForm = (data, Id, valid) => {
-    console.log();
     requestData[Id] = data;
 
     setRequestData(requestData);
@@ -74,7 +69,6 @@ const ServiceLocationUpdateForm = (props) => {
   };
 
   const checkForm = () => {
-    console.log(requestData);
     if (
       requestData.address &&
       requestData.title &&
@@ -92,7 +86,6 @@ const ServiceLocationUpdateForm = (props) => {
     requestData.maxAcceptDate = Moment(
       new Date(requestData.maxAcceptDate)
     ).format("YYYY-MM-DD");
-    console.log(requestData);
     fetchAccount();
   };
   return (

@@ -93,6 +93,9 @@ const ServiceLineList = (props) => {
   const openPrices = (event) => {
     props.openPricesForm(event.currentTarget.id);
   };
+  const openSchema = (event) => {
+    props.openSchemaForm(event.currentTarget.id);
+  };
   const { sendRequest: fetchLocation } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/ServiceLocation?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
@@ -141,6 +144,7 @@ const ServiceLineList = (props) => {
           <th style={{ textAlign: "right", width: "50px" }}>
             {t("ServiceLine.FormElement.Price")}
           </th>
+          <th style={{ textAlign: "right", width: "50px" }}>Schema</th>
         </tr>
       </thead>
       <tbody>
@@ -272,6 +276,38 @@ const ServiceLineList = (props) => {
                   >
                     <line x1="12" y1="1" x2="12" y2="23"></line>
                     <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                  <span className="icon-name"></span>
+                </div>
+              </td>
+              <td style={{ textAlign: "center" }} className="text-center">
+                <div
+                  onClick={openSchema}
+                  id={data.id}
+                  style={{
+                    float: "right",
+                    padding: "0 5px",
+                    cursor: "pointer",
+                  }}
+                  className="icon-container"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-share-2"
+                  >
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                   </svg>
                   <span className="icon-name"></span>
                 </div>

@@ -71,9 +71,7 @@ const FlightNumberEditForm = (props) => {
     },
   };
   const [scheduledChecked, setScheduledChecked] = useState(false);
-  const handleInputChange = (data) => {
-    console.log(data);
-  };
+  const handleInputChange = (data) => {};
   const updatescheduled = (event) => {
     setScheduledChecked(event.currentTarget.checked);
     formData["scheduled"] = event.currentTarget.checked;
@@ -98,7 +96,6 @@ const FlightNumberEditForm = (props) => {
     props.UpdateList();
   };
   const FillForm = (data) => {
-    console.log(data);
     updateFormData(data);
     // formData.flightInfo.arrivalTime=data.flightInfo.arrivalTime.
   };

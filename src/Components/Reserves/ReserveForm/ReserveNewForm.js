@@ -12,17 +12,22 @@ import FlightInfoForm from "./FlightInfoForm";
 import HeaderLocationInfo from "./HeaderLocationInfo";
 import "./ReserveNewForm.css";
 import Moment from "moment";
-import ServiceList from "./ServiceList";
+import Opreations from "./Opreations";
+
+import PassengerList from "./ServiceForms/Passenger/PassengerList";
 import ReserveService from "../../../Hooks/Reserve/ReserveService";
+import AttendeeList from "./ServiceForms/Attendee/AttendeeList";
+import TransferList from "./ServiceForms/Transfer/TransferList";
+import ReserveContext from "../../../Store/ReserveContext";
 
 const ReserveNewForm = () => {
   const reserveServiceRef = useRef(null);
+
   const [reserve, setReserve] = useState({});
   const basicContext = useContext(BasicContext);
   const params = useParams();
   const [location, setlocation] = useState();
   const [flightDate, setflightDate] = useState();
-  const [flightnumber, setflightnumber] = useState();
   const [serviceList, setserviceList] = useState();
   const [showServiceList, setShowServiceList] = useState();
   const getReserve = (reserve) => {
@@ -38,6 +43,7 @@ const ReserveNewForm = () => {
     } else {
       setlocation(reserveStorage.locationId);
     }
+    setReserve(reserveStorage);
   }, []);
   const GetData = (data) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
@@ -54,9 +60,6 @@ const ReserveNewForm = () => {
   };
 
   const setFlightNumber = (show, value) => {
-    console.log("HHHHHHHHHHHHHHHHHHHHHh");
-    console.log(show);
-    console.log(value);
     setflightDate(value);
     setShowServiceList(show);
   };
@@ -90,19 +93,21 @@ const ReserveNewForm = () => {
 
   useEffect(() => {
     fetchLocationServiceWithPrice();
-    console.log("vvvvvvvvvvvvvvvvvvvv");
-    console.log(
-      basicContext.serviceLineAddress +
-        "/ServiceLine/Location/" +
-        params.LocationId +
-        "?DateTime=" +
-        Moment(new Date(flightDate)).format("YYYY-MM-DD")
-    );
   }, [showServiceList]);
 
+  const reserveUpdated = () => {
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+    setReserve(reserveStorage);
+  };
   return (
-    <Fragment>
-      <ReserveService getReserve={getReserve} ref={reserveServiceRef} />
+    <ReserveContext.Provider value={[reserve, setReserve]}>
+      <ReserveService
+        reserveUpdated={reserveUpdated}
+        getReserve={getReserve}
+        ref={reserveServiceRef}
+      />
       <div id="content" className="main-content">
         <div className="page-header page-header-scrollspy">
           {location && <HeaderLocationInfo location={location} />}
@@ -110,7 +115,7 @@ const ReserveNewForm = () => {
 
         <div className="container">
           <div className="container">
-            {showServiceList && <ServiceList serviceList={serviceList} />}
+            {showServiceList && <Opreations serviceList={serviceList} />}
             <div className="statbox widget box ">
               <div className="widget-content widget-content-area">
                 <FlightInfoForm
@@ -119,10 +124,32 @@ const ReserveNewForm = () => {
                 />
               </div>
             </div>
+
+            {reserve && reserve.passenger && (
+              <div className="statbox widget box mt-3">
+                <div className="widget-content widget-content-area">
+                  <PassengerList></PassengerList>
+                </div>
+              </div>
+            )}
+            {reserve && reserve.attendee && (
+              <div className="statbox widget box mt-3">
+                <div className="widget-content widget-content-area">
+                  <AttendeeList></AttendeeList>
+                </div>
+              </div>
+            )}
+            {reserve && reserve.transfer && (
+              <div className="statbox widget box mt-3">
+                <div className="widget-content widget-content-area">
+                  <TransferList></TransferList>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </Fragment>
+    </ReserveContext.Provider>
   );
 };
 

@@ -15,30 +15,9 @@ const ReserveService = forwardRef((props, ref) => {
       flightTime: "",
       flightType: "",
     },
-    passenger: [
-      {
-        name: "",
-        lastName: "",
-        gender: "",
-        nationalCode: "",
-        passportNumber: "",
-        passportExpireDate: "",
-        mobileNumber: "",
-        emailAddress: "",
-        birthDate: "",
-        age: "",
-        nationality: "",
-      },
-    ],
-    transfer: [
-      {
-        fromAddress: "",
-        toAddress: "",
-        description: "",
-        mobileNumber: "",
-      },
-    ],
-    attendee: [{ fullName: "" }],
+    passenger: [],
+    transfer: [],
+    attendee: [],
     pet: 0,
   });
 
@@ -47,8 +26,8 @@ const ReserveService = forwardRef((props, ref) => {
       localStorage.setItem(id, JSON.stringify(reserve));
     },
     UpdateReserve(id, data) {
-      console.log(data);
       localStorage.setItem(id, JSON.stringify(data));
+      props.reserveUpdated();
     },
     GetReserve(id) {
       return JSON.parse(localStorage.getItem(id));

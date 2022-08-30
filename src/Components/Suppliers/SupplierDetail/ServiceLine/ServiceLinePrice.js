@@ -31,7 +31,6 @@ const ServiceLinePrice = (props) => {
     setPrice(data);
   };
   const GoToPanel = (data) => {
-    console.log(data);
     setServiceLine(data);
   };
 
@@ -81,7 +80,7 @@ const ServiceLinePrice = (props) => {
     let item = serviceLine.serviceLinePrices.find((data) => {
       return data.id === event.currentTarget.id;
     });
-    console.log(item);
+
     setPrice(item.price);
     setStart(item.start);
     setEnd(item.end);

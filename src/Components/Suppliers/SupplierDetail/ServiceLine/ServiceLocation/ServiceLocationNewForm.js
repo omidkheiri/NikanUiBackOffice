@@ -82,7 +82,6 @@ const ServiceLocationForm = (props) => {
 
   const submitForm = (event) => {
     event.preventDefault();
-    console.log(Moment(requestData.maxAcceptDate).format("YYYY-MM-DD"));
     requestData.maxAcceptDate = Moment(requestData.maxAcceptDate).format(
       "YYYY-MM-DD"
     );

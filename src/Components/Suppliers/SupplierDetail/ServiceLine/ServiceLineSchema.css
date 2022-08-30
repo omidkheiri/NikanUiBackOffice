@@ -1,0 +1,126 @@
+.timeline-line .item-timeline {
+    display: flex; }
+    .timeline-line .item-timeline:hover {
+        background-color:rgb(238, 238, 236);
+    cursor:pointer; }
+    .timeline-line .item-timeline .t-dot {
+      position: relative; }
+      .timeline-line .item-timeline .t-dot:before {
+        content: '';
+        position: absolute;
+        border-color: inherit;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        top: 15px;
+        right: 50%;
+        transform: translateX(50%);
+        border-color: #2196f3; }
+      .timeline-line .item-timeline .t-dot:after {
+        content: '';
+        position: absolute;
+        border-color: inherit;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        top: 15px;
+        right: 50%;
+        transform: translateX(50%);
+        border-color: #2196f3;
+        width: 0;
+        height: auto;
+        top: 25px;
+        bottom: -15px;
+        border-left-width: 0;
+        border-top-width: 0;
+        border-bottom-width: 0;
+        border-radius: 0; }
+      .timeline-line .item-timeline .t-dot.t-dot-primary:before {
+        border-color: #1b55e2; }
+      .timeline-line .item-timeline .t-dot.t-dot-success:before {
+        border-color: #8dbf42; }
+      .timeline-line .item-timeline .t-dot.t-dot-warning:before {
+        border-color: #e2a03f; }
+      .timeline-line .item-timeline .t-dot.t-dot-info:before {
+        border-color: #2196f3; }
+      .timeline-line .item-timeline .t-dot.t-dot-danger:before {
+        border-color: #e7515a; }
+      .timeline-line .item-timeline .t-dot.t-dot-dark:before {
+        border-color: #3b3f5c; }
+      .timeline-line .item-timeline .t-dot.t-dot-primary:after {
+        border-color: #1b55e2; }
+      .timeline-line .item-timeline .t-dot.t-dot-success:after {
+        border-color: #8dbf42; }
+      .timeline-line .item-timeline .t-dot.t-dot-warning:after {
+        border-color: #e2a03f; }
+      .timeline-line .item-timeline .t-dot.t-dot-info:after {
+        border-color: #2196f3; }
+      .timeline-line .item-timeline .t-dot.t-dot-danger:after {
+        border-color: #e7515a; }
+      .timeline-line .item-timeline .t-dot.t-dot-dark:after {
+        border-color: #3b3f5c; }
+    .timeline-line .item-timeline:last-child .t-dot:after {
+      display: none; }
+    .timeline-line .item-timeline .t-meta-time {
+      margin: 0;
+      min-width: 100px;
+      max-width: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #888ea8;
+      align-self: center; }
+    .timeline-line .item-timeline .t-text {
+      padding: 10px;
+      align-self: center;
+      margin-right: 10px; }
+      .timeline-line .item-timeline .t-text p {
+        font-size: 13px;
+        margin: 0;
+        color: #3b3f5c;
+        font-weight: 600; }
+        .timeline-line .item-timeline .t-text p a {
+          color: #1b55e2;
+          font-weight: 600; }
+    .timeline-line .item-timeline .t-time {
+        margin: 0;
+        min-width: 151px;
+        max-width: 160px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #3b3f5c;
+        padding: 10px 10px; }
+    .timeline-line .item-timeline .t-text .t-meta-time {
+        margin: 0;
+        min-width: 279px;
+        max-width: 100px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #888ea8;
+        align-self: center; }
+  
+  @media (max-width: 767px) {
+    .timeline-simple .timeline-list .timeline-post-content .post-gallery-img img {
+      width: 150px;
+      margin-bottom: 23px; } }
+  
+  @media (max-width: 575px) {
+    .timeline-alter .item-timeline {
+      display: block;
+      text-align: center; }
+      .timeline-alter .item-timeline .t-meta-time p, .timeline-alter .item-timeline .t-usr-txt p {
+        margin: 0 auto; }
+    .timeline-simple .timeline-list .timeline-post-content {
+      display: block; }
+      .timeline-simple .timeline-list .timeline-post-content div.user-profile {
+        margin-bottom: 18px;
+        text-align: center; }
+        .timeline-simple .timeline-list .timeline-post-content div.user-profile:after {
+          display: none; }
+        .timeline-simple .timeline-list .timeline-post-content div.user-profile img {
+          margin-left: 0; }
+      .timeline-simple .timeline-list .timeline-post-content h4, .timeline-simple .timeline-list .timeline-post-content .meta-time-date {
+        text-align: center; } }
