@@ -7,7 +7,7 @@ import "./ContactPanel.css";
 
 import Intro from "./Intro";
 const ContactPanel = (props) => {
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const params = useParams();
 
   const [ContactData, setContactData] = useState("");

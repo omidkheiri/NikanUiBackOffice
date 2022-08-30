@@ -2,7 +2,7 @@ import Moment from "moment";
 import React, { useState, useContext, useEffect } from "react";
 
 import { useTranslation } from "react-i18next";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import useHttp from "../../Hooks/use-http";
 import BasicContext from "../../Store/enviroment-context";
 import DatePicker from "../UI/FormElement/DatePicker";
@@ -52,17 +52,10 @@ const UpdateContact = (props) => {
   const [formData, setFormData] = useState({});
   const [formIsValid, setformIsValid] = useState();
   const [searchTerm, setSearchTerm] = useState("");
-  const [birthDate] = useState(Date.now);
+
   const [identity] = useState(props);
 
-  useEffect(() => {
-    fetchContactGet();
-  }, [identity]);
-  const {
-    isLoading: isLoadingContact,
-    errorGettingdata,
-    sendRequest: fetchContactGet,
-  } = useHttp(
+  const { sendRequest: fetchContactGet } = useHttp(
     {
       url:
         basicContext.baseAddress +
@@ -80,16 +73,13 @@ const UpdateContact = (props) => {
     if (searchTerm && searchTerm.length > 2) {
       fetchAccount();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   const history = useHistory();
   const [accountId, setAccountIdValue] = useState("");
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchContact,
-  } = useHttp(
+  const { sendRequest: fetchContact } = useHttp(
     {
       url: `${basicContext.baseAddress}/account/${identity.accountId}/contact/${identity.contactId}`,
       method: "PUT",
@@ -126,7 +116,7 @@ const UpdateContact = (props) => {
       formData.Name.isValid &&
       formData.LastName.isValid &&
       formData.Phone.isValid &&
-      accountId != ""
+      accountId !== ""
     ) {
       setformIsValid(true);
     } else {
@@ -147,6 +137,7 @@ const UpdateContact = (props) => {
   };
   useEffect(() => {
     fetchContact();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestData]);
   const fillAccountOption = (data) => {
     let items = data.map((data) => {
@@ -157,7 +148,7 @@ const UpdateContact = (props) => {
 
   const {
     isLoadingData,
-    errorLocation,
+
     sendRequest: fetchAccount,
   } = useHttp(
     {
@@ -182,6 +173,10 @@ const UpdateContact = (props) => {
       setFormData(formData);
     }
   };
+  useEffect(() => {
+    fetchContactGet();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [identity]);
   return (
     <div className={(classes.container, classes.singlFormContent)}>
       <div className="row">

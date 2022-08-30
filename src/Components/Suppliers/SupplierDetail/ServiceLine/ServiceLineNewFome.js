@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useHttp from "../../../../Hooks/use-http";
 import BasicContext from "../../../../Store/enviroment-context";
 import DropDown from "../../../UI/FormElement/DropDown";
@@ -21,6 +21,7 @@ const ServiceLineNewFome = (props) => {
     if (formIsSumited) {
       fetchServiceLine();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formIsSumited]);
   const [requestData, setRequestData] = useState({
     Title: "",
@@ -32,11 +33,11 @@ const ServiceLineNewFome = (props) => {
     FinancialTitle: "",
   });
 
-  const UpdateList = (data) => {
+  const UpdateList = () => {
     setformIsSumited(false);
     props.UpdateList();
   };
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const styles = {
     textAlign: {
       textAlign: t("textAlign"),
@@ -44,11 +45,7 @@ const ServiceLineNewFome = (props) => {
     },
   };
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchServiceLine,
-  } = useHttp(
+  const { sendRequest: fetchServiceLine } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/Account/${params.AccountId}/ServiceLine`,
       method: "POST",
@@ -71,11 +68,7 @@ const ServiceLineNewFome = (props) => {
       })
     );
   };
-  const {
-    isLocationLoading,
-    errorLocation,
-    sendRequest: fetchLocation,
-  } = useHttp(
+  const { sendRequest: fetchLocation } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/ServiceLocation?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       method: "GET",
@@ -91,11 +84,7 @@ const ServiceLineNewFome = (props) => {
       })
     );
   };
-  const {
-    isServiceTypeLoading,
-    errorServiceType,
-    sendRequest: fetchServiceTypes,
-  } = useHttp(
+  const { sendRequest: fetchServiceTypes } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/ServiceTypes`,
       method: "GET",
@@ -135,8 +124,11 @@ const ServiceLineNewFome = (props) => {
   useEffect(() => {
     fetchLocation();
     fetchServiceTypes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.formIsShown]);
-
+  const handleInputChange = () => {
+    return;
+  };
   const submitForm = (event) => {
     event.preventDefault();
 
@@ -167,6 +159,7 @@ const ServiceLineNewFome = (props) => {
               IsRequired={true}
               MinLength={0}
               RegexFormat=""
+              handleInputChange={handleInputChange}
               options={serviceLocationOption}
               valueCallback={updateForm}
               requiredMassage={t(
@@ -183,6 +176,7 @@ const ServiceLineNewFome = (props) => {
               IsRequired={true}
               MinLength={0}
               options={serviceTypeOption}
+              handleInputChange={handleInputChange}
               RegexFormat=""
               valueCallback={updateForm}
               requiredMassage={t(

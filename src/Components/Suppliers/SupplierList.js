@@ -8,48 +8,7 @@ const SupplierList = () => {
 
       <div className="row layout-top-spacing">
         <div className="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
-          <div className="widget-content widget-content-area br-6">
-            <table id="default-ordering" className={classes.table}>
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-
-                  <th className="text-center dt-no-sorting">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-
-                  <td className="text-center">
-                    <button className="btn btn-primary btn-sm">View</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-
-                  <td className="text-center">
-                    <button className="btn btn-primary btn-sm">View</button>
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Name</th>
-                  <th>Position</th>
-                  <th>Office</th>
-
-                  <th className="invisible"></th>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+          <div className="widget-content widget-content-area br-6"></div>
         </div>
       </div>
     </div>

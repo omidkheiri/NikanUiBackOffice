@@ -88,7 +88,8 @@
             "ArrivalCity": "شهر مقصد",
             "DepartureCity": "شهر مبدا",
             "FlightDate": "تاریخ پرواز",
-            "FlightTimeOnly": "زمان شروع پرواز",
+            "DepartureTime": "زمان شروع پرواز",
+            "ArrivalTime": "زمان پایان پرواز",
             "FlightType": "نوع پرواز",
             "Scheduled": "پرواز برنامه ریزی شده",
             "Status": "وضعیت",
@@ -102,8 +103,9 @@
             "FlightNumberRequiredMessage": "شماره پرواز لازم است",
             "FlightType": "نوع پرواز",
             "FlightDate": "تاریخ پرواز",
-            "FlightTypeRequiredMessage": "نوع پرواز روردی یا خوردجی لازم است",
+            "FlightTypeRequiredMessage": "نوع پرواز ورودی یا خروجی لازم است",
             "Scheduled": "پرواز روتین",
+            "FlightSource": "محدوده پرواز",
             "DepartureAirport": "فرودگاه مبدا",
             "DepartureAirportRequiredMessage": "فرودگاه مبدا لازم است",
             "DepartureCity": "شهر مبدا",
@@ -138,6 +140,7 @@
             "Title": "عنوان",
             "Address": "آدرس",
             "Location": "موقعیت جغرافیایی",
+            "MaxAllowtedDate": "آخرین زمان مجاز",
             "SaveAccount": "ذخیره",
             "TitleRequiredMessage": "عنوان لازم است",
             "AddressRequiredMessage": "آدرس لازم است",
@@ -171,7 +174,10 @@
             "FinancialTitleRequiredMessage": "عنوان مالی",
             "ErrorResponse_500-1": "اطلاعات ارسالی معتبر نیست",
             "ErrorResponse_500-2": "رکورد تکراری",
-            "ErrorResponse_500-3": "رکوردی پیدا نشد "
+            "ErrorResponse_500-3": "رکوردی پیدا نشد ",
+            "Type": "نوع سرویس",
+            "Location": "محل ارائه",
+            "Price": "قیمت"
         }
     },
     "LoginPage": {
@@ -186,6 +192,97 @@
             "UserNamePlaceHolder": "نام کاربری",
             "PasswordPlaceHolder": "رمز عبوز",
             "LogIn": "ورود"
+        }
+    },
+    "ReservePage": {
+        "LocationHeaderTitle": "محل ارائه سرویس",
+        "FlightInfoForm": {
+            "DepartureInfo": "اطلاعات حرکت",
+            "َArrivalInfo": "اطلاعات ورود",
+            "FlightDate": "تاریخ پرواز",
+            "FlightType": "نوع پرواز",
+            "FlightNumber": "شماره پرواز",
+            "DepartureFlightTime": "ساعت حرکت",
+            "ArrivalFlightTime": "ساعت ورود",
+            "FlightTimeMessage": "فیلد اجباری",
+            "FlightNumberRequiredMessage": "شماره پرواز لازم است",
+            "FlightTypeRequiredMessage": "نوع پرواز لازم است"
+        },
+        "Transfer": {
+            "List": {
+                "Type": "نوع ترنسفر",
+                "FromAddress": "مبدا سفر",
+                "ToAddress": "مقصد سفر"
+            },
+            "FormElement": {
+                "TransferType": "نوع ترنسفر",
+                "FromAddress": "مبدا سفر",
+                "ToAddress": "مقصد سفر",
+                "Description": "توضیحات",
+                "Mobile": "شماره تماس",
+                "FromAddressRequired": "آدرس مبدا اجباری است",
+                "ToAddressRequired": "آدرس مقصد اجباری است"
+            }
+        },
+        "Passenger": {
+            "Genders": {
+                "Male": "آقا",
+                "Female": "خانم"
+            },
+            "Nationality": {
+                "Iranian": "ایرانی",
+                "Foreigner": "خارجی"
+            },
+            "List": {
+                "FullName": "نام ",
+                "GenderType": {
+                    "Male": "آقای",
+                    "Female": "خانم"
+                },
+                "Gender": "جنسیت",
+                "Visa": "خدمات ویزا",
+                "Wheelchair": "خدمات ویلچر"
+            },
+            "FormElement": {
+                "PassengerType": "نوع مسافر",
+                "Name": "نام",
+                "LastName": "نام خانوادگی",
+                "Gender": "جنسیت",
+                "NationalCode": "کد ملی",
+                "PassportNumber": "شماره پاسپورت",
+                "PassportExpireDate": "تاریخ انقضای پاسپورت",
+                "MobileNumber": "شماره موبایل",
+                "EmailAddress": "ایمیل",
+                "BirthDate": "تاریخ تولد",
+                "Age": "خردسال",
+                "Nationality": "ملیت",
+                "GenderRequired": "جنسیت لازم است",
+                "NameRequired": "نام لازم است",
+                "LastNameRequired": "نام  خانوادگی لازم است",
+                "NationalityRequired": "تعیین ملیت اجبرای است",
+                "Visa": "خدمات ویزا",
+                "Wheelchair": "خدمات ویلچر",
+                "SaveThis": "این رکورد رو دخیره کن",
+                "MobileNumberRequired": "شماره موبایل لازم است",
+                "EmailAddressRequired": "آدرس ایمیل لازم است",
+                "PassportNumberRequired": "شماره پاسپورت لازم است",
+                "NationalCodeRequired": "کدملی لازم است"
+            }
+        },
+        "Attendance": {
+            "FormElement": {
+                "FullName": "نام کامل",
+                "FullNameRequired": "نام کامل"
+            }
+        }
+    },
+    "SupplierPanel": {
+        "Menu": {
+            "Home": "خانه",
+            "Reserves": "رزروها",
+            "Contacts": "اشخاص",
+            "Services": "سرویسها",
+            "ServiceLocations": "محل ارائه سرویس"
         }
     }
 }

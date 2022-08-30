@@ -14,16 +14,17 @@ import {
   LoadPanel,
   Toolbar,
   Item,
+  FilterRow,
+  HeaderFilter,
+  FilterPanel,
   SearchPanel,
 } from "devextreme-react/data-grid";
 
 import CustomStore from "devextreme/data/custom_store";
 import { useTranslation } from "react-i18next";
 import CheckBox from "../UI/ListElement/CheckBox";
-import GotoButton from "../UI/ListElement/GotoButton";
 import BasicContext from "../../Store/enviroment-context";
 import FlightNumberNewForm from "./FlightNumberNewForm";
-import AirlineNameService from "../../Hooks/AirlineName/AirlineNameService";
 import FlightNumberEditForm from "./FlightNumberEditForm";
 
 const FlightList = () => {
@@ -43,7 +44,7 @@ const FlightList = () => {
     setCurrentFlightId("");
   };
   const basicContext = useContext(BasicContext);
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   function isNotEmpty(value) {
     return value !== undefined && value !== null && value !== "";
   }
@@ -119,6 +120,11 @@ const FlightList = () => {
       </div>
     );
   };
+
+  const flightType = (data) => {
+    return <div>{data.value === 0 ? <p>Arrival</p> : <p>Departure</p>}</div>;
+  };
+
   useEffect(() => {
     if (currentFlightId) {
       setformIsShown("update");
@@ -165,6 +171,10 @@ const FlightList = () => {
                   showRowLines={true}
                   rowAlternationEnabled={true}
                 >
+                  <FilterRow visible={true} />
+                  <FilterPanel visible={true} />
+
+                  <HeaderFilter visible={true} />
                   <LoadPanel enabled={true} />
                   <SearchPanel visible={true} />
                   <Toolbar>
@@ -185,8 +195,10 @@ const FlightList = () => {
                     caption={t("FlightNumber.List.AirlineName")}
                     dataType="string"
                     width={120}
+                    allowHeaderFiltering={true}
                   />
                   <Column
+                    allowHeaderFiltering={true}
                     direction="rtl"
                     alignment={"right"}
                     dataField="flightName"
@@ -215,15 +227,21 @@ const FlightList = () => {
                   />
                   <Column
                     width={200}
-                    dataField="flightTimeOnly"
+                    dataField="flightInfo.departureTime"
                     dataType="text"
-                    caption={t("FlightNumber.List.FlightTimeOnly")}
-                    cellRender={timeCell}
+                    caption={t("FlightNumber.List.DepartureTime")}
+                  />
+                  <Column
+                    width={200}
+                    dataField="flightInfo.arrivalTime"
+                    dataType="text"
+                    caption={t("FlightNumber.List.ArrivalTime")}
                   />
                   <Column
                     width={90}
                     dataField="flightType"
                     dataType="text"
+                    cellRender={flightType}
                     caption={t("FlightNumber.List.FlightType")}
                   />
 

@@ -19,7 +19,7 @@ const Language = () => {
   return (
     <li className="nav-item dropdown message-dropdown">
       <Helmet htmlAttributes={{ lang: currentLang, dir: direction }} />
-      <a
+      <div
         className="nav-link dropdown-toggle user"
         id="user-profile-dropdown"
         data-toggle="dropdown"
@@ -34,7 +34,7 @@ const Language = () => {
             onClick={updateCurrentLang}
           />
         </div>
-      </a>
+      </div>
     </li>
   );
 };

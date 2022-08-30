@@ -5,8 +5,8 @@ const TabMenuItem = (props) => {
     props.updateCurrentPage(props.type);
   };
   return (
-    <a
-      style={{ cursor: "pointer" }}
+    <div
+      style={{ cursor: "pointer", textAlign: "center" }}
       className={"nav-link  mb-2 mx-auto " + props.active}
       onClick={updateCurrentPage}
     >
@@ -66,7 +66,7 @@ const TabMenuItem = (props) => {
         </svg>
       )}
       {props.title}
-    </a>
+    </div>
   );
 };
 

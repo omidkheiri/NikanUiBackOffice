@@ -7,7 +7,7 @@ import "./AccountPanel.css";
 import SupplierDetail from "../../Suppliers/SupplierDetail/SupplierDetail";
 import Intro from "../Intro/Intro";
 const AccountPanel = () => {
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const params = useParams();
   const [accountData, setAccountData] = useState("");
   const [currentPageName, setCurrentPage] = useState("intro");

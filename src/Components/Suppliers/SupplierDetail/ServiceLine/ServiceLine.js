@@ -1,14 +1,14 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useRef, useState } from "react";
 import ServiceLineNewFome from "./ServiceLineNewFome";
 import ServiceLineList from "./ServiceLineList";
 import ServiceLineUpdateFome from "./ServiceLineUpdateFome";
 import ServiceLinePrice from "./ServiceLinePrice";
+import ServiceLineSchema from "./ServiceLineSchema";
 
 const ServiceLine = () => {
   const [refreshList, setrefreshList] = useState();
   const [updateingServiceLineId, setupdateingServiceLineId] = useState();
-  const [t, i18n] = useTranslation("common");
+  // const [t, i18n] = useTranslation("common");
   const [formIsShown, setFormIsShown] = useState("none");
   const ShowFormOnClick = () => {
     setFormIsShown("new");
@@ -30,6 +30,11 @@ const ServiceLine = () => {
   const openPricesForm = (data) => {
     setUpdatingRecord(data).then(setFormIsShown("price"));
   };
+
+  const openSchemaForm = (data) => {
+    setUpdatingRecord(data).then(setFormIsShown("schema"));
+  };
+
   const setUpdatingRecord = async (data) => {
     setupdateingServiceLineId(data);
   };
@@ -75,11 +80,20 @@ const ServiceLine = () => {
           )}
           {formIsShown === "price" && (
             <ServiceLinePrice
-              UpdatingRecordId={updateingServiceLineId}
+              updatingRecordId={updateingServiceLineId}
               cancelCallBack={cancelModal}
               formIsShown={formIsShown}
               UpdateList={UpdateList}
             ></ServiceLinePrice>
+          )}
+
+          {formIsShown === "schema" && (
+            <ServiceLineSchema
+              updatingRecordId={updateingServiceLineId}
+              cancelCallBack={cancelModal}
+              formIsShown={formIsShown}
+              UpdateList={UpdateList}
+            ></ServiceLineSchema>
           )}
         </div>
 
@@ -87,6 +101,7 @@ const ServiceLine = () => {
           openUpdateForm={openUpdateForm}
           UpdateListFunc={UpdateListFunc}
           openPricesForm={openPricesForm}
+          openSchemaForm={openSchemaForm}
         />
       </div>
     </div>

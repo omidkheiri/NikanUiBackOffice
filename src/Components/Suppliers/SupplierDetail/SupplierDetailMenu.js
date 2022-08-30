@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 const SupplierDetailMenu = (props) => {
+  const [t] = useTranslation("common");
   const homePage = () => {
     props.updateCurrntPage("home");
   };
@@ -20,7 +22,7 @@ const SupplierDetailMenu = (props) => {
           props.currntPage === "home" ? "nav-item  show active " : " nav-item "
         }
       >
-        <a className="nav-link">
+        <p className="nav-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -36,8 +38,8 @@ const SupplierDetailMenu = (props) => {
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
-          Home
-        </a>
+          {t("SupplierPanel.Menu.Home")}
+        </p>
       </li>
       <li
         style={{ cursor: "pointer" }}
@@ -47,7 +49,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link">
+        <p className="nav-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -64,8 +66,8 @@ const SupplierDetailMenu = (props) => {
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
-          Reserves
-        </a>
+          {t("SupplierPanel.Menu.Reserves")}
+        </p>
       </li>
 
       <li
@@ -76,7 +78,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link ">
+        <p className="nav-link ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -92,8 +94,8 @@ const SupplierDetailMenu = (props) => {
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          Contacts
-        </a>
+          {t("SupplierPanel.Menu.Contacts")}
+        </p>
       </li>
 
       <li
@@ -105,7 +107,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link ">
+        <p className="nav-link ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -122,8 +124,8 @@ const SupplierDetailMenu = (props) => {
             <rect x="1" y="3" width="22" height="5"></rect>
             <line x1="10" y1="12" x2="14" y2="12"></line>
           </svg>
-          Services
-        </a>
+          {t("SupplierPanel.Menu.Services")}
+        </p>
       </li>
 
       <li
@@ -135,7 +137,7 @@ const SupplierDetailMenu = (props) => {
             : " nav-item "
         }
       >
-        <a className="nav-link ">
+        <p className="nav-link ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -151,8 +153,8 @@ const SupplierDetailMenu = (props) => {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
-          Service Location
-        </a>
+          {t("SupplierPanel.Menu.ServiceLocations")}
+        </p>
       </li>
     </ul>
   );

@@ -39,6 +39,13 @@
     },
     "Account": {
         "DashboardTitle": "Dashboard",
+        "SupplierMenu": "Supplier",
+        "CustomerMenu": "Customer",
+        "HomeMenu": "Intro",
+        "Intro": {
+            "Title": "Intro",
+            "Palceholder": "Write an Intro"
+        },
         "List": {
             "PageTitle": "َAccounts:",
             "AccountNumber": "No.",
@@ -109,6 +116,56 @@
             "IconUrl": "Airline Name"
         }
     },
+    "ServiceLocation": {
+        "List": {
+            "PageTitle": "Service Location",
+            "Title": "Service Location"
+        },
+        "FormElement": {
+            "FormTitle": "Location Form",
+            "Title": "Title",
+            "Address": "Address",
+            "Location": "Location",
+            "MaxAllowtedDate": "Max Allowted Date",
+            "SaveAccount": "Save",
+            "TitleRequiredMessage": "Title Required",
+            "AddressRequiredMessage": "Address Required",
+            "LocationRequiredMessage": "Location Required",
+            "ErrorResponse_500-1": "Invalid Data",
+            "ErrorResponse_500-2": "Duplicate Recored",
+            "ErrorResponse_500-3": "Not Found "
+        }
+    },
+    "ServiceLine": {
+        "List": {
+            "PageTitle": "  Service",
+            "Title": "Services"
+        },
+        "FormElement": {
+            "FormTitle": "New Service",
+            "Title": "Title",
+            "Status": "Status",
+            "TaxInclude": "Tax Include",
+            "ServiceLocationId": "Service Location",
+            "ServiceTypeId": "Service Type",
+            "FinancialCode": "Financial Code",
+            "FinancialTitle": "Financial Title",
+            "SaveAccount": "Save",
+            "TitleRequiredMessage": "Title Required",
+            "StatusRequiredMessage": "Status Required",
+            "TaxIncludeRequiredMessage": "Tax Include Required",
+            "ServiceLocationIdRequiredMessage": "Service Location Required",
+            "ServiceTypeIdRequiredMessage": "Service Type Required",
+            "FinancialCodeRequiredMessage": "Financial Code Required",
+            "FinancialTitleRequiredMessage": "Financial Title Required",
+            "ErrorResponse_500-1": "Invalid Data",
+            "ErrorResponse_500-2": "Duplicate Recored",
+            "ErrorResponse_500-3": "Not Found",
+            "Type": "Type",
+            "Location": "Location",
+            "Price": "Price"
+        }
+    },
     "LoginPage": {
         "FormElement": {
             "FormTitle": "Sign in",
@@ -121,6 +178,48 @@
             "UserNamePlaceHolder": "User Name",
             "PasswordPlaceHolder": "Password",
             "LogIn": "Log in"
+        }
+    },
+    "ReservePage": {
+        "LocationHeaderTitle": "Service Location",
+        "FlightInfoForm": {
+            "DepartureInfo": "Departure Info",
+            "َArrivalInfo": "َArrival Info",
+            "FlightDate": "Flight Date",
+            "FlightType": "Flight Type",
+            "FlightNumber": "Flight Number",
+            "DepartureFlightTime": "Departure Flight Time ",
+            "ArrivalFlightTime": "Arrival Flight Time",
+            "FlightTimeMessage": "Flight Time Message"
+        },
+        "Passenger": {
+            "Genders": {
+                "Male": "Male",
+                "Female": "Female"
+            },
+            "FormElement": {
+                "Name": "Name",
+                "LastName": "LastName",
+                "Gender": "Gender",
+                "NationalCode": "National Code",
+                "PassportNumber": "Passport Number",
+                "PassportExpireDate": "Passport Expire Date",
+                "MobileNumber": "Mobile Number",
+                "EmailAddress": "Email Address",
+                "BirthDate": "Birth Date",
+                "Age": "Age",
+                "Nationality": "Nationality",
+                "GenderRequired": "Gender Required"
+            }
+        }
+    },
+    "SupplierPanel": {
+        "Menu": {
+            "Home": "Home",
+            "Reserves": "Reserves",
+            "Contacts": "Contacts",
+            "Services": "Services",
+            "ServiceLocations": "ServiceLocations"
         }
     }
 }

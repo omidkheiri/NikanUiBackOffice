@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./Login.css";
 const Login = () => {
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   return (
     <div className="form-container outer">
       <div className="form-form">
@@ -112,9 +112,9 @@ const Login = () => {
 
                   <p className="signup-link">
                     {t("LoginPage.FormElement.NotRegisterd")}
-                    <a href="auth_register_boxed.html">
+                    <p href="auth_register_boxed.html">
                       {t("LoginPage.FormElement.CreateAnAccount")}
-                    </a>
+                    </p>
                   </p>
                 </div>
               </form>

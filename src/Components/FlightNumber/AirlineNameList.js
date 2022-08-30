@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useRef, useState } from "react";
 import {
   DataGrid,
   Column,
@@ -19,7 +13,7 @@ import AirlineNameService from "../../Hooks/AirlineName/AirlineNameService";
 const AirlineNameList = () => {
   const dataGridRef = useRef();
   const [store, setStore] = useState();
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
 
   const getStore = (data) => {
     setStore(data);

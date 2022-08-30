@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
 
-import ServiceLocationForm from "./ServiceLocationForm";
+import ServiceLocationNewForm from "./ServiceLocationNewForm";
 import ServiceLocationList from "./ServiceLocationList";
-import { useTranslation } from "react-i18next";
 const ServiceLocation = () => {
   const [refreshList, setrefreshList] = useState();
   const ShowFormOnClick = () => {
@@ -17,7 +16,7 @@ const ServiceLocation = () => {
     setrefreshList(!refreshList);
     UpdateListFunc.current();
   };
-  const [t, i18n] = useTranslation("common");
+  // const [t, i18n] = useTranslation("common");
   const [formIsShown, setFormIsShown] = useState(false);
 
   return (
@@ -42,11 +41,11 @@ const ServiceLocation = () => {
               <line x1="8" y1="12" x2="16" y2="12"></line>
             </svg>
           </div>
-          <ServiceLocationForm
+          <ServiceLocationNewForm
             cancelCallBack={cancelModal}
             formIsShown={formIsShown}
             UpdateList={UpdateList}
-          ></ServiceLocationForm>
+          ></ServiceLocationNewForm>
         </div>
 
         <ServiceLocationList UpdateListFunc={UpdateListFunc} />

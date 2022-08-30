@@ -6,6 +6,7 @@ const GetServieLine = (props) => {
 
   useEffect(() => {
     sendRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fillResult = (data) => {

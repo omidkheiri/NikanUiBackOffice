@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "animate.css";
 import { Animated } from "react-animated-css";
@@ -7,7 +7,7 @@ const Backdrop = (props) => {
   return (
     <div
       className={`modal-backdrop fade ${props.formIsShown ? "show" : " "}`}
-      style={{ display: `${props.formIsShown ? "blok" : "none"}` }}
+      style={{ display: `${props.formIsShown ? "block" : "none"}` }}
     ></div>
   );
 };
@@ -28,7 +28,7 @@ const ModalOverlay = (props) => {
           className="drawer-content"
           animationIn="slideInLeft"
           animationOut="fadeOut"
-          isVisible={props.formIsShown != "none"}
+          isVisible={props.formIsShown !== "none"}
         >
           <div className="modal-content drawer-content ">
             <div className="modal-header">

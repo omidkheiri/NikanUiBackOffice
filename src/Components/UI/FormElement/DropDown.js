@@ -12,6 +12,7 @@ const DropDown = (props) => {
       setValidation(true);
       props.valueCallback(props.value, props.id, true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
   const [displayValdation, setdisplayValdation] = useState("none");
 
@@ -36,6 +37,9 @@ const DropDown = (props) => {
   const onInputChange = (data) => {
     props.handleInputChange(data);
   };
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valid]);
   return (
     <Fragment>
       <label htmlFor="input" style={props.textAlign}>

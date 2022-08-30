@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AirlineNameService from "../../Hooks/AirlineName/AirlineNameService";
 import DatePicker from "../UI/FormElement/DatePicker";
@@ -31,6 +31,7 @@ const FlightNumberNewForm = (props) => {
     status: false,
     scheduled: false,
     flightType: 0,
+    flightSources: 0,
   });
   const [scheduledChecked, setScheduledChecked] = useState(false);
   const scheduledElement = useRef();
@@ -47,13 +48,17 @@ const FlightNumberNewForm = (props) => {
     updateFormData(formData);
   };
 
-  const [flightTypes, setflightTypes] = useState([
+  const [flightTypes] = useState([
     { value: "0", label: "Arrival" },
     { value: "1", label: "Departure" },
   ]);
+  const [flightSources] = useState([
+    { value: "0", label: "Native" },
+    { value: "1", label: "Foreigner" },
+  ]);
   const [airlineNamesList, setAirlineNamesList] = useState([]);
-  const [formIsValid, setFormIsValid] = useState({});
-  const [t, i18n] = useTranslation("common");
+  const [formIsValid] = useState({});
+  const [t] = useTranslation("common");
   const styles = {
     textAlign: {
       textAlign: t("textAlign"),
@@ -75,11 +80,7 @@ const FlightNumberNewForm = (props) => {
   const GoToFlightList = () => {
     props.UpdateList();
   };
-  const {
-    isLoading,
-    error,
-    sendRequest: postFlightNumber,
-  } = useHttp(
+  const { sendRequest: postFlightNumber } = useHttp(
     {
       url: basicContext.flightAddress + "/FlightNumber",
       method: "POST",
@@ -101,6 +102,8 @@ const FlightNumberNewForm = (props) => {
       if (id === "airlineName") {
         formData[id] = data.label;
       } else if (id === "flightType") {
+        formData[id] = data.value;
+      } else if (id === "flightSource") {
         formData[id] = data.value;
       } else if (id === "flightDate") {
         formData["flightDate"] = Moment(new Date(data)).format("YYYY-MM-DD");
@@ -124,7 +127,7 @@ const FlightNumberNewForm = (props) => {
       );
     });
   };
-
+  const handleInputChange = (data) => {};
   return (
     <Modal cntx={props}>
       <AirlineNameService getStore={getStore} />
@@ -139,9 +142,9 @@ const FlightNumberNewForm = (props) => {
                     title={t("FlightNumber.FormElement.AirlineName")}
                     type="text"
                     id="airlineName"
+                    handleInputChange={handleInputChange}
                     IsRequired={true}
                     MinLength={0}
-                    RegexFormat=""
                     options={airlineNamesList}
                     valueCallback={updateForm}
                     requiredMassage={t(
@@ -234,12 +237,30 @@ const FlightNumberNewForm = (props) => {
                     type="text"
                     id="flightType"
                     IsRequired={true}
+                    handleInputChange={handleInputChange}
                     MinLength={0}
                     RegexFormat=""
                     options={flightTypes}
                     valueCallback={updateForm}
                     requiredMassage={t(
                       "FlightNumber.FormElement.FlightTypeRequiredMessage"
+                    )}
+                  />
+                </div>
+                <div className="form-group col-md-4">
+                  <DropDown
+                    textAlign={styles.textAlign}
+                    title={t("FlightNumber.FormElement.FlightSource")}
+                    type="text"
+                    id="flightSource"
+                    IsRequired={true}
+                    handleInputChange={handleInputChange}
+                    MinLength={0}
+                    RegexFormat=""
+                    options={flightSources}
+                    valueCallback={updateForm}
+                    requiredMassage={t(
+                      "FlightNumber.FormElement.FlightSourceRequiredMessage"
                     )}
                   />
                 </div>

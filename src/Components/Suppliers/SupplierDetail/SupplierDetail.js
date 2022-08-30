@@ -1,11 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { Fragment, useState } from "react";
 import ServiceLocation from "./ServiceLine/ServiceLocation/ServiceLocation";
 import SupplierDetailMenu from "../SupplierDetail/SupplierDetailMenu";
 import SupplierHome from "./SupplierHome";
 import ServiceLine from "./ServiceLine/ServiceLine";
 const SupplierDetail = () => {
-  const params = useParams();
   const [pageTitle, setPageTitle] = useState("home");
 
   const updateCurrntPage = (data) => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import useHttp from "../../../../Hooks/use-http";
@@ -6,7 +6,7 @@ import BasicContext from "../../../../Store/enviroment-context";
 import DropDown from "../../../UI/FormElement/DropDown";
 
 const ServiceLineList = (props) => {
-  const [t, i18n] = useTranslation("common");
+  const [t] = useTranslation("common");
   const basicContext = useContext(BasicContext);
   const [serviceLocationOption, setServiceLocationOption] = useState([]);
   const styles = {
@@ -30,18 +30,19 @@ const ServiceLineList = (props) => {
     } else {
       fetchServiceList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletingId]);
 
   const filterList = (data, Id, valid) => {
     let items = lineFetchList;
-    if (data.value == "all") {
+    if (data.value === "all") {
       setLineDisplayList(items);
       return;
     }
     setLineDisplayList(
       items
         .filter((data1) => {
-          return data1.serviceLocationId == data.value;
+          return data1.serviceLocationId === data.value;
         })
         .sort()
     );
@@ -59,11 +60,7 @@ const ServiceLineList = (props) => {
     fetchServiceList();
   };
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchServiceList,
-  } = useHttp(
+  const { sendRequest: fetchServiceList } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/ServiceLine?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       method: "GET",
@@ -73,11 +70,7 @@ const ServiceLineList = (props) => {
     fillList
   );
 
-  const {
-    isLoadingDelete,
-    errorDelete,
-    sendRequest: deleteLocation,
-  } = useHttp(
+  const { sendRequest: deleteLocation } = useHttp(
     {
       url: `${basicContext.serviceLineAddress}/Account/${params.AccountId}/ServiceLine/${deletingId}`,
       method: "delete",
@@ -96,15 +89,14 @@ const ServiceLineList = (props) => {
   const openUpdateing = (event) => {
     props.openUpdateForm(event.currentTarget.id);
   };
-
+  const handleInputChange = () => {};
   const openPrices = (event) => {
     props.openPricesForm(event.currentTarget.id);
   };
-  const {
-    isLocationLoading,
-    errorLocation,
-    sendRequest: fetchLocation,
-  } = useHttp(
+  const openSchema = (event) => {
+    props.openSchemaForm(event.currentTarget.id);
+  };
+  const { sendRequest: fetchLocation } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/ServiceLocation?AccountId=${params.AccountId}&SearchTerm=&PageNumber=1&PageSize=500&OrderBy=Title`,
       method: "GET",
@@ -128,18 +120,31 @@ const ServiceLineList = (props) => {
               RegexFormat=""
               options={serviceLocationOption}
               valueCallback={filterList}
+              handleInputChange={handleInputChange}
             />
           </th>
         </tr>
         <tr>
-          <th style={{ textAlign: "right" }}>Title</th>
-          <th style={{ textAlign: "right", width: "50px" }}>Type</th>
-          <th style={{ textAlign: "right", width: "50px" }}>Location</th>
-          <th style={{ textAlign: "right", width: "50px" }}>State</th>
+          <th style={{ textAlign: "right" }}>
+            {" "}
+            {t("ServiceLine.FormElement.Title")}
+          </th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Type")}
+          </th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Location")}
+          </th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Status")}
+          </th>
           <th style={{ textAlign: "right", width: "50px" }}>Tax</th>
 
           <th style={{ width: "100px" }}></th>
-          <th style={{ textAlign: "right", width: "50px" }}>price</th>
+          <th style={{ textAlign: "right", width: "50px" }}>
+            {t("ServiceLine.FormElement.Price")}
+          </th>
+          <th style={{ textAlign: "right", width: "50px" }}>Schema</th>
         </tr>
       </thead>
       <tbody>
@@ -271,6 +276,38 @@ const ServiceLineList = (props) => {
                   >
                     <line x1="12" y1="1" x2="12" y2="23"></line>
                     <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                  <span className="icon-name"></span>
+                </div>
+              </td>
+              <td style={{ textAlign: "center" }} className="text-center">
+                <div
+                  onClick={openSchema}
+                  id={data.id}
+                  style={{
+                    float: "right",
+                    padding: "0 5px",
+                    cursor: "pointer",
+                  }}
+                  className="icon-container"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-share-2"
+                  >
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                   </svg>
                   <span className="icon-name"></span>
                 </div>
