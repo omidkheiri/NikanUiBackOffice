@@ -101,10 +101,7 @@ const TransferUpdateForm = (props) => {
   const getReserve = () => {};
   return (
     <Drawer cntx={props}>
-      <PriceListService
-        reserveUpdated={reserveUpdated}
-        ref={pricesServiceRef}
-      />
+      <PriceListService ref={pricesServiceRef} />
       <ReserveService
         reserveUpdated={reserveUpdated}
         getReserve={getReserve}

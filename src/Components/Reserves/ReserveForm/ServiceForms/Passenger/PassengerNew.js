@@ -16,7 +16,7 @@ import ReserveContext from "../../../../../Store/ReserveContext";
 import Moment from "moment";
 import PriceListService from "../../../../../Hooks/Prices/PriceListService";
 const PassengerNew = (props) => {
-  const [reserve, setReserve] = useState({});
+  const [, setReserve] = useState({});
   const getReserve = (reserve) => {
     setReserve(reserve);
   };
@@ -36,7 +36,7 @@ const PassengerNew = (props) => {
   const [MobileNumber, setMobileNumber] = useState("");
   const [BirthDate, setBirthDate] = useState("");
   const [PassportExpireDate, setPassportExpireDate] = useState("");
-  const [unique_id, setID] = useState(uuid());
+  const [unique_id] = useState(uuid());
   const [ValidationMessage, setValidationMessage] = useState([]);
   const [passengerTypes, setpassengerTypes] = useState();
   const [PassengerType, setPassengerType] = useState();
@@ -46,7 +46,7 @@ const PassengerNew = (props) => {
   );
   const reserveUpdated = () => {};
   const reserveServiceRef = useRef(null);
-  const [formData, updateFormData] = useState({
+  const [formData] = useState({
     name: "",
     lastName: "",
     gender: {},
@@ -88,6 +88,7 @@ const PassengerNew = (props) => {
 
       setpassengerTypes(item);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [genderTypes] = useState([
     { value: "0", label: t("ReservePage.Passenger.Genders.Female") },
@@ -139,6 +140,7 @@ const PassengerNew = (props) => {
     setPassportExpireDate(data);
     setValidationMessage([]);
   };
+
   const updateBirthDate = (data) => {
     setBirthDate(data);
     setValidationMessage([]);
@@ -275,7 +277,7 @@ const PassengerNew = (props) => {
         }
       } else {
         reserveStorage.passenger = [];
-        var record = {
+        record = {
           id: unique_id,
           typeId: PassengerType,
           gender: Gender.value,
@@ -310,10 +312,7 @@ const PassengerNew = (props) => {
 
   return (
     <Fragment>
-      <PriceListService
-        reserveUpdated={reserveUpdated}
-        ref={pricesServiceRef}
-      />
+      <PriceListService ref={pricesServiceRef} />
       <ReserveService
         reserveUpdated={reserveUpdated}
         getReserve={getReserve}
@@ -530,12 +529,7 @@ const PassengerNew = (props) => {
                     )}
                     type="text"
                     id="passportExpireDate"
-                    minDate={Date.now()}
-                    IsRequired={true}
-                    MinLength={3}
-                    RegexFormat=""
                     valueCallback={updatePassportExpireDate}
-                    value={formData.passportPassportExpireDate}
                     requiredMassage={t(
                       "FlightNumber.FormElement.PassportExpireDate"
                     )}
@@ -574,12 +568,7 @@ const PassengerNew = (props) => {
                     title={t("ReservePage.Passenger.FormElement.BirthDate")}
                     type="text"
                     id="birthDate"
-                    IsRequired={true}
-                    MinLength={3}
-                    minDate={Date.now()}
-                    RegexFormat=""
                     valueCallback={updateBirthDate}
-                    value={formData.birthDate}
                     requiredMassage={t("FlightNumber.FormElement.birthDate")}
                   />
                 </div>

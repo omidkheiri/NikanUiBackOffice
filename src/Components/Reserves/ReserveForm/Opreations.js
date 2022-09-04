@@ -1,16 +1,71 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import PassengerForm from "./ServiceForms/Passenger/PassengerForm";
 import { group } from "core-js/actual/array/group";
-import { useHistory } from "react-router-dom";
 import TransferNewForm from "./ServiceForms/Transfer/TransferNewForm";
 import AttendeeFrom from "./ServiceForms/Attendee/AttendeeFrom";
 import { useParams } from "react-router-dom";
 import ReserveContext from "../../../Store/ReserveContext";
-const Opreations = (props) => {
+import useHttp from "../../../Hooks/use-http";
+import BasicContext from "../../../Store/enviroment-context";
+import Moment from "moment";
+import PriceListService from "../../../Hooks/Prices/PriceListService";
+const Opreations = () => {
+  const pricesServiceRef = useRef(null);
   const params = useParams();
   const [serviceList, setserviceList] = useState();
+  const [serviceListItem, setserviceListItem] = useState();
   const [shownDrawer, setshownDrawer] = useState("none");
-  const [reserveContext, setReserveContext] = useContext(ReserveContext);
+  const [reserveContext] = useContext(ReserveContext);
+
+  useEffect(() => {
+    console.log("sfsfsdf");
+    console.log(
+      params.LocationId +
+        "#" +
+        Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+          "YYYY-MM-DD"
+        )
+    );
+    var data = pricesServiceRef.current.GetPrices(
+      params.LocationId +
+        "#" +
+        Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+          "YYYY-MM-DD"
+        )
+    );
+    if (data) {
+      setserviceListItem(data);
+      let items = data.group((d) => {
+        return d.serviceTypeName;
+      });
+      setserviceList(Object.keys(items));
+    } else {
+      pricesServiceRef.current.AddPriceRecord(
+        params.LocationId +
+          "#" +
+          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+            "YYYY-MM-DD"
+          ),
+        ""
+      );
+    }
+
+    if (data) {
+      setserviceListItem(data);
+      let items = data.group((d) => {
+        return d.serviceTypeName;
+      });
+      setserviceList(Object.keys(items));
+    } else {
+      console.log("Cant get the prices");
+    }
+  }, [params.locationId, reserveContext.flightinfo.flightDate]);
 
   const cancelModal = () => {
     setshownDrawer(0);
@@ -21,16 +76,7 @@ const Opreations = (props) => {
   const UpdateReserve = () => {
     setshownDrawer("none");
   };
-  useEffect(() => {
-    setserviceList(props.serviceList);
 
-    if (props.serviceList) {
-      let items = props.serviceList.group((data) => {
-        return data.serviceTypeName;
-      });
-      setserviceList(Object.keys(items));
-    }
-  }, [props]);
   const resetReserve = () => {
     localStorage.removeItem(params.LocationId);
     window.location.reload();
@@ -38,6 +84,7 @@ const Opreations = (props) => {
 
   return (
     <Fragment>
+      <PriceListService ref={pricesServiceRef} />
       <div
         id="navSection"
         data-spy="affix"
@@ -57,39 +104,13 @@ const Opreations = (props) => {
                   style={{ borderBottom: "1px solid #edeaea" }}
                 >
                   <div className="row">
-                    <div className="col-md-2">
-                      <span
-                        id={service}
-                        onClick={addService}
-                        style={{
-                          height: "23px",
-                          width: "23px",
-                          display: "block",
-                          float: "right",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          className="feather feather-plus-circle"
-                        >
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <line x1="12" y1="8" x2="12" y2="16"></line>
-                          <line x1="8" y1="12" x2="16" y2="12"></line>
-                        </svg>
-                      </span>
-                    </div>
+                    <div className="col-md-2"></div>
                     <div className="col-md-8">{service}</div>
                     <div className="col-md-12 pr-5 pl-5">
-                      {service == "Passenger" &&
+                      {service === "Passenger" &&
                         reserveContext.passenger.length}
-                      {service == "Transfer" && reserveContext.transfer.length}
-                      {service == "Attendee" && reserveContext.attendee.length}
+                      {service === "Transfer" && reserveContext.transfer.length}
+                      {service === "Attendee" && reserveContext.attendee.length}
                     </div>
                     <hr
                       style={{
@@ -104,7 +125,7 @@ const Opreations = (props) => {
                         UpdateReserve={UpdateReserve}
                         cancelCallBack={cancelModal}
                         formIsShown={shownDrawer}
-                        scheme={props.serviceList.find((s) => {
+                        scheme={serviceListItem.find((s) => {
                           return s.serviceTypeName === "Passenger";
                         })}
                       />

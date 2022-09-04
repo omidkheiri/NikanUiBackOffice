@@ -26,12 +26,12 @@ function App() {
     <BasicContext.Provider
       value={{
         reportAddress:
-          "http://localhost:30007/GW/Report/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562",
+          "http://gaitway.ribbonid.com/GW/Report/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320",
         baseAddress:
-          "http://localhost:30007/GW/Account/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562",
-        serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
-        flightAddress: `http://localhost:30007/GW/FlightNumbers/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
-        serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
+          "http://gaitway.ribbonid.com/GW/Account/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320",
+        serviceLocationAddress: `http://gaitway.ribbonid.com/GW/ServiceLocation/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320`,
+        flightAddress: `http://gaitway.ribbonid.com/GW/FlightNumbers/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320`,
+        serviceLineAddress: `http://gaitway.ribbonid.com/GW/ServiceLine/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320`,
       }}
     >
       {!isLogedIn && <SingleLayout></SingleLayout>}

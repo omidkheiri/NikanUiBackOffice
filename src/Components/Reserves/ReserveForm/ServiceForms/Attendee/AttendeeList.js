@@ -5,33 +5,27 @@ import { useParams } from "react-router-dom";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
 const AttendeeList = () => {
-  const [shownDrawer, setshownDrawer] = useState("none");
-  const cancelModal = () => {
-    setshownDrawer(0);
-  };
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
   const [t] = useTranslation("common");
   const reserveServiceRef = useRef();
   const params = useParams();
-  const [reserve, setReserve] = useState();
+  const [, setReserve] = useState();
   useEffect(() => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    console.log(reserveStorage);
     setReserve(reserveStorage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const reserveUpdated = () => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    console.log(reserveStorage);
     setReserve(reserveStorage);
   };
 
   const getReserve = (reserve) => {
-    console.log(reserve);
     setReserve(reserve);
   };
   const onDeleteItem = (event) => {

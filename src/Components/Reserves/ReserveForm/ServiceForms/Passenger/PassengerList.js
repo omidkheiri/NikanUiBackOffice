@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
+import PassengerInlineForm from "./PassengerInlineForm";
 import PassengerUpdateForm from "./PassengerUpdateForm";
 const PassengerList = () => {
   const [shownDrawer, setshownDrawer] = useState("none");
@@ -16,29 +17,27 @@ const PassengerList = () => {
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
   const [currentscheme, setcurrentscheme] = useState();
   const [currentPassenger, setcurrentPassenger] = useState();
+  const [passengerid, setpassengerid] = useState();
   const [t] = useTranslation("common");
   const reserveServiceRef = useRef();
   const params = useParams();
-  const [reserve, setReserve] = useState();
+  const [, setReserve] = useState();
   useEffect(() => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    console.log(reserveStorage);
     setReserve(reserveStorage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const reserveUpdated = () => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    console.log(reserveStorage);
     setReserve(reserveStorage);
   };
 
   const getReserve = (reserve) => {
-    alert();
-    console.log(reserve);
     setReserve(reserve);
   };
   const onDeleteItem = (event) => {
@@ -54,17 +53,7 @@ const PassengerList = () => {
     setReserveContext(reserveStorage);
   };
   const openUpdateing = (event) => {
-    setcurrentscheme(
-      reserveContext.passenger.find((data) => {
-        return data.id == event.currentTarget.id;
-      }).scheme
-    );
-    setcurrentPassenger(
-      reserveContext.passenger.find((data) => {
-        return data.id == event.currentTarget.id;
-      })
-    );
-    setshownDrawer("Passenger");
+    setpassengerid(event.currentTarget.id);
   };
   return (
     <Fragment>
@@ -80,6 +69,16 @@ const PassengerList = () => {
           </div>
         </div>
       </div>
+      <div className="widget-header">
+        <div className="row">
+          <div className="col-xl-12 col-md-12 col-sm-12 col-12">
+            <PassengerInlineForm
+              passengerid={passengerid}
+            ></PassengerInlineForm>
+          </div>
+        </div>
+      </div>
+
       <div className="widget-content widget-content-area">
         <div className="table-responsive">
           <table className="table table-bordered mb-4">
@@ -120,13 +119,9 @@ const PassengerList = () => {
                       <td className="text-center">
                         {data.name} {data.lastName}
                       </td>
+                      <td className="text-center">{data.visa ? "✔️" : "X"}</td>
                       <td className="text-center">
-                        {data.visa && data.visa === "0" ? "X" : "✔️"}
-                      </td>
-                      <td className="text-center">
-                        {data.wheelchair && data.wheelchair === "0"
-                          ? "X"
-                          : "✔️"}
+                        {data.wheelchair ? "✔️" : "X"}
                       </td>
                       <td className="text-center">
                         <div

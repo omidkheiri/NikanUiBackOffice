@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
 import useHttp from "../../../../../Hooks/use-http";
 import BasicContext from "../../../../../Store/enviroment-context";
 import InputText from "../../../../UI/FormElement/InputText";
@@ -18,12 +17,9 @@ const ServiceLocationUpdateForm = (props) => {
       width: "100%",
     },
   };
-  const [formData, setFormData] = useState({});
-  const [loaded, setloaded] = useState(false);
-  const [title, settitle] = useState();
+  const [, setloaded] = useState(false);
   const [formIsValid, setformIsValid] = useState();
   const basicContext = useContext(BasicContext);
-  const params = useParams();
 
   const [requestData, setRequestData] = useState({});
   const fillList = (data) => {
@@ -45,6 +41,7 @@ const ServiceLocationUpdateForm = (props) => {
     if (props.LocationId) {
       getLocation();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.LocationId]);
   const { sendRequest: fetchAccount } = useHttp(
     {

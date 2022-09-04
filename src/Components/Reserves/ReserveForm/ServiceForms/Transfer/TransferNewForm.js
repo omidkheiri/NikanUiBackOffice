@@ -52,6 +52,7 @@ const TransferNewForm = (props) => {
 
       setTransferTypes(item);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateTransferType = (data) => {
@@ -101,10 +102,7 @@ const TransferNewForm = (props) => {
   const getReserve = () => {};
   return (
     <Drawer cntx={props}>
-      <PriceListService
-        reserveUpdated={reserveUpdated}
-        ref={pricesServiceRef}
-      />
+      <PriceListService ref={pricesServiceRef} />
       <ReserveService
         reserveUpdated={reserveUpdated}
         getReserve={getReserve}

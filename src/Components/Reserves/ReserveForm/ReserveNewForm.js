@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import useHttp from "../../../Hooks/use-http";
 import BasicContext from "../../../Store/enviroment-context";
@@ -37,13 +31,18 @@ const ReserveNewForm = () => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    if (!reserveStorage) {
+    if (
+      reserveStorage &&
+      reserveStorage.locationId &&
+      reserveStorage.locationId.id
+    ) {
+      setlocation(reserveStorage.locationId);
+    } else {
       reserveServiceRef.current.AddReserveTemp(params.LocationId);
       fetchLocation();
-    } else {
-      setlocation(reserveStorage.locationId);
     }
     setReserve(reserveStorage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const GetData = (data) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
@@ -54,9 +53,6 @@ const ReserveNewForm = () => {
     setReserve(reserveStorage);
     setlocation(reserveStorage.locationId);
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
-  };
-  const GetServiceListData = (data) => {
-    setserviceList(data);
   };
 
   const setFlightNumber = (show, value) => {
@@ -76,24 +72,6 @@ const ReserveNewForm = () => {
     },
     GetData
   );
-  const { sendRequest: fetchLocationServiceWithPrice } = useHttp(
-    {
-      url:
-        basicContext.serviceLineAddress +
-        "/ServiceLine/Location/" +
-        params.LocationId +
-        "?DateTime=" +
-        Moment(new Date(flightDate)).format("YYYY-MM-DD"),
-      method: "Get",
-      headers: { "Content-Type": "application/json" },
-      body: null,
-    },
-    GetServiceListData
-  );
-
-  useEffect(() => {
-    fetchLocationServiceWithPrice();
-  }, [showServiceList]);
 
   const reserveUpdated = () => {
     let reserveStorage = reserveServiceRef.current.GetReserve(

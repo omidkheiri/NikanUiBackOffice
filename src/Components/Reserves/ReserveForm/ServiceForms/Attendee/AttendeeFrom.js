@@ -8,9 +8,6 @@ import Drawer from "../../../../UI/Drawer";
 import InputText from "../../../../UI/FormElement/InputText";
 
 const AttendeeFrom = (props) => {
-  const UpdateReserve = () => {
-    props.UpdateReserve();
-  };
   const reserveServiceRef = useRef();
   const params = useParams();
   const [t] = useTranslation("common");

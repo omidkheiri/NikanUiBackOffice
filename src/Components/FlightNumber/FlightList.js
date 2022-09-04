@@ -51,6 +51,7 @@ const FlightList = () => {
   const AddFlightName = () => {
     setformIsShown("new");
   };
+
   const store = new CustomStore({
     key: "id",
     load(loadOptions) {
@@ -71,6 +72,7 @@ const FlightList = () => {
         }
       });
       params = params.slice(0, -1);
+
       return fetch(`${basicContext.flightAddress}/FlightNumber${params}`)
         .then((response) => response.json())
         .then((data) => ({
@@ -84,6 +86,7 @@ const FlightList = () => {
         });
     },
   });
+
   const checkBoxCell = (data) => {
     return (
       <div>
@@ -91,9 +94,7 @@ const FlightList = () => {
       </div>
     );
   };
-  const timeCell = (data) => {
-    return `${data.value.hour}:${data.value.minute}`;
-  };
+
   const gotoFlight = (data) => {
     return (
       <div
@@ -163,8 +164,8 @@ const FlightList = () => {
                 )}
 
                 <DataGrid
-                  hoverStateEnabled={true}
                   dataSource={store}
+                  hoverStateEnabled={true}
                   showBorders={true}
                   remoteOperations={true}
                   showColumnLines={true}

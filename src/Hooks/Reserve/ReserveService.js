@@ -1,12 +1,7 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 
 const ReserveService = forwardRef((props, ref) => {
-  const [reserve, setReserve] = useState({
+  const [reserve] = useState({
     locationId: {},
     customerId: "",
     flightinfo: {

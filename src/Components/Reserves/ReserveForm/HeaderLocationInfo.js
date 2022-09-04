@@ -1,10 +1,6 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
-import useHttp from "../../../Hooks/use-http";
 
-import BasicContext from "../../../Store/enviroment-context";
 const HeaderLocationInfo = (props) => {
   const [t] = useTranslation("common");
 

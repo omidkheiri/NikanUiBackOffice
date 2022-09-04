@@ -3,6 +3,7 @@
     "direction": "rtl",
     "HeaderMenus": {
         "Accounts": "سازمانها",
+        "Contact": "اشخاص",
         "Reserves": "رزروها",
         "NewReserve": "رزرو جدید",
         "NewAccount": "سازمان جدید",
@@ -195,6 +196,15 @@
         }
     },
     "ReservePage": {
+        "List": {
+            "ReserveNumber": "شناسه رزرو",
+            "FlightNumber": "شماره پرواز",
+            "FlightDate": "تاریخ پرواز",
+            "Approved": "تائید شده",
+            "Payment": "پرداخت شده",
+            "CustomerName": "نام مشتری",
+            "CustomerId": "شناسه مشتری"
+        },
         "LocationHeaderTitle": "محل ارائه سرویس",
         "FlightInfoForm": {
             "DepartureInfo": "اطلاعات حرکت",

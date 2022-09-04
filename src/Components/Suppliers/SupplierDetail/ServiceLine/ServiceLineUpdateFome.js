@@ -123,7 +123,9 @@ const ServiceLineUpdateFome = (props) => {
     }
     setFormISSubmitted(true);
   };
-
+  const handleInputChange = () => {
+    return;
+  };
   useEffect(() => {
     fetchServiceLine();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -214,6 +216,7 @@ const ServiceLineUpdateFome = (props) => {
               RegexFormat=""
               value={selectedServiceType}
               valueCallback={updateForm}
+              handleInputChange={handleInputChange}
               requiredMassage={t(
                 "ServiceLine.FormElement.ServiceTypeIdRequiredMessage"
               )}

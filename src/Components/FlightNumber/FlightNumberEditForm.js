@@ -122,7 +122,7 @@ const FlightNumberEditForm = (props) => {
     setScheduledChecked(formData.scheduled);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData, scheduledChecked, statusChecked]);
+  }, []);
   const { sendRequest: postFlightNumber } = useHttp(
     {
       url: `${basicContext.flightAddress}/FlightNumber/${props.FlightId}`,

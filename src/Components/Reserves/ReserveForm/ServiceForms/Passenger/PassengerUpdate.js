@@ -16,9 +16,7 @@ import Moment from "moment";
 import ReserveContext from "../../../../../Store/ReserveContext";
 import PriceListService from "../../../../../Hooks/Prices/PriceListService";
 const PassengerUpdate = (props) => {
-  console.log(props);
   const [t] = useTranslation("common");
-  console.log();
   const [genderTypes] = useState([
     { value: "0", label: t("ReservePage.Passenger.Genders.Female") },
     { value: "1", label: t("ReservePage.Passenger.Genders.Male") },
@@ -120,6 +118,7 @@ const PassengerUpdate = (props) => {
 
       setpassengerTypes(item);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateGender = (data) => {
@@ -289,10 +288,7 @@ const PassengerUpdate = (props) => {
   const getReserve = () => {};
   return (
     <Fragment>
-      <PriceListService
-        reserveUpdated={reserveUpdated}
-        ref={pricesServiceRef}
-      />
+      <PriceListService ref={pricesServiceRef} />
       <ReserveService
         reserveUpdated={reserveUpdated}
         getReserve={getReserve}
@@ -531,7 +527,7 @@ const PassengerUpdate = (props) => {
                     <label>&nbsp;</label>
                     <div className="">
                       <input
-                        style={{ height: "35px", width: "35px" }}
+                        style={{ height: "25px", width: "25px" }}
                         type="checkbox"
                         className=""
                         id="age"
@@ -577,7 +573,7 @@ const PassengerUpdate = (props) => {
                     <label>&nbsp;</label>
                     <div className="">
                       <input
-                        style={{ height: "35px", width: "35px" }}
+                        style={{ height: "25px", width: "25px" }}
                         type="checkbox"
                         className=""
                         id="wheelchair"
@@ -600,7 +596,7 @@ const PassengerUpdate = (props) => {
                     <label>&nbsp;</label>
                     <div className="">
                       <input
-                        style={{ height: "35px", width: "35px" }}
+                        style={{ height: "25px", width: "25px" }}
                         type="checkbox"
                         className=""
                         id="visa"
@@ -622,7 +618,7 @@ const PassengerUpdate = (props) => {
                   <label>&nbsp;</label>
                   <div className="">
                     <input
-                      style={{ height: "35px", width: "35px" }}
+                      style={{ height: "25px", width: "25px" }}
                       type="checkbox"
                       className=""
                       id="saveThis"
