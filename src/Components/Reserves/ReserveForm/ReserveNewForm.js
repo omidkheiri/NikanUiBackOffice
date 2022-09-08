@@ -5,7 +5,6 @@ import BasicContext from "../../../Store/enviroment-context";
 import FlightInfoForm from "./FlightInfoForm";
 import HeaderLocationInfo from "./HeaderLocationInfo";
 import "./ReserveNewForm.css";
-import Moment from "moment";
 import Opreations from "./Opreations";
 
 import PassengerList from "./ServiceForms/Passenger/PassengerList";
@@ -23,8 +22,8 @@ const ReserveNewForm = () => {
   const basicContext = useContext(BasicContext);
   const params = useParams();
   const [location, setlocation] = useState();
-  const [flightDate, setflightDate] = useState();
-  const [serviceList, setserviceList] = useState();
+  const [, setflightDate] = useState();
+  const [serviceList] = useState();
   const [showServiceList, setShowServiceList] = useState();
   const getReserve = (reserve) => {
     setReserve(reserve);

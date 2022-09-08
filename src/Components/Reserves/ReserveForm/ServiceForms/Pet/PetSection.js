@@ -21,6 +21,7 @@ const PetSection = () => {
     if (reserveContext) {
       setCounter(reserveContext.pet);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reserveContext]);
 
   const params = useParams();
@@ -51,6 +52,7 @@ const PetSection = () => {
       );
       setReserveContext(reserveStorage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Counter]);
   const reserveUpdated = () => {};
   const updatePetCounter = (event) => {
@@ -69,7 +71,7 @@ const PetSection = () => {
       />
       <div className="row">
         <div className="col-md-2 align-self-center">
-          <p>خدمات حیوان زنده</p>
+          <p>{t("ReservePage.Pet")}</p>
         </div>
         <div className="col-md-4">
           <div className="row">

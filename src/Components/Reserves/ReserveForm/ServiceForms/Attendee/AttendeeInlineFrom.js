@@ -45,6 +45,7 @@ const AttendeeInlineFrom = (props) => {
       fillForm(props.attendeeId);
       setunique_id(props.attendeeId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.passengerid]);
   const styles = {
     textAlign: {
@@ -146,7 +147,7 @@ const AttendeeInlineFrom = (props) => {
     );
     if (priceData) {
       var item = priceData.find((data) => {
-        return data.serviceTypeId == 2;
+        return data.serviceTypeId === 2;
       });
 
       if (item) {
@@ -155,6 +156,7 @@ const AttendeeInlineFrom = (props) => {
         setformSchema(scheme);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pricesServiceRef]);
 
   const reserveUpdated = () => {};

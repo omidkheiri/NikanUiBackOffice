@@ -38,6 +38,7 @@
             "EmailAddress": "آدرس ایمیل",
             "BirthDate": "تاریخ تولد",
             "NameRequiredMessage": " نام لازم است",
+            "NameFromatErrorMessage": "با حروف انگلیسی وارد شود",
             "LastNameRequiredMessage": " نام خانوادگی لازم است",
             "PhoneRequiredMessage": "شماره تلفن لازم است",
             "PhoneFormatMessage": "شماره تلفن معتبر نیست",
@@ -280,6 +281,7 @@
                 "NationalCodeRequired": "کدملی لازم است"
             }
         },
+        "Pet": "خدمات حیوان زنده",
         "Attendee": {
             "Genders": {
                 "Male": "آقا",

@@ -44,6 +44,7 @@ const PassengerInlineForm = (props) => {
       fillForm(props.passengerid);
       setunique_id(props.passengerid);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.passengerid]);
 
   const [passengerTypes, setpassengerTypes] = useState();
@@ -98,7 +99,7 @@ const PassengerInlineForm = (props) => {
       );
 
       var item = priceData.find((data) => {
-        return data.id == PassengerType.value;
+        return data.id === PassengerType.value;
       });
 
       if (item) {
@@ -108,6 +109,7 @@ const PassengerInlineForm = (props) => {
         setNationality(scheme.nationality.value);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [PassengerType]);
 
   const [genderTypes] = useState([
@@ -274,7 +276,6 @@ const PassengerInlineForm = (props) => {
       return data.id === passengerid;
     });
     if (passenger) {
-      console.log(passenger);
       setPassengerType(passenger.typeId);
       setName(passenger.name);
 
@@ -360,10 +361,13 @@ const PassengerInlineForm = (props) => {
                       title={t("ReservePage.Passenger.FormElement.Name")}
                       type="text"
                       id="name"
+                      RegexFormat={"^a-zA-Z $"}
+                      formatMassage={
+                        "ReservePage.Passenger.FormElement.NameFromatErrorMessage"
+                      }
                       value={Name}
                       IsRequired={true}
                       MinLength={3}
-                      RegexFormat=""
                       valueCallback={updateName}
                       requiredMassage={t(
                         "ReservePage.Passenger.FormElement.NameRequired"

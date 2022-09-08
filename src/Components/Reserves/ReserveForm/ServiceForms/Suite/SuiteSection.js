@@ -5,7 +5,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import PriceListService from "../../../../../Hooks/Prices/PriceListService";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
@@ -18,10 +17,9 @@ const SuiteSection = (props) => {
   const pricesServiceRef = useRef();
   const [Counter, setCounter] = useState(0);
   const params = useParams();
-  const [t] = useTranslation("common");
   const [, setReserve] = useState({});
   useEffect(() => {
-    if (reserveContext) {
+    if (reserveContext && reserveContext.suite) {
       var item = reserveContext.suite.find((d) => {
         return d.id === props.priceType.id;
       });
@@ -33,6 +31,7 @@ const SuiteSection = (props) => {
         setCounter(item.qty);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reserveContext]);
   const Add = () => {
     setCounter(Counter + 1);
@@ -76,6 +75,7 @@ const SuiteSection = (props) => {
       );
       setReserveContext(reserveStorage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Counter]);
   const updateSuiteCounter = (event) => {
     if (event.currentTarget.value < 0) {

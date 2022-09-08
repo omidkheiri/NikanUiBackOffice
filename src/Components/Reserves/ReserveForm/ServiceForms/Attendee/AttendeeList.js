@@ -6,7 +6,7 @@ import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
 import AttendeeInlineFrom from "./AttendeeInlineFrom";
 const AttendeeList = () => {
-  const [attendeeId, setattendeeId] = useState(null);
+  const [attendeeId] = useState(null);
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
   const [t] = useTranslation("common");
   const reserveServiceRef = useRef();

@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const HeaderLocationInfo = (props) => {
   const [t] = useTranslation("common");
@@ -11,7 +12,7 @@ const HeaderLocationInfo = (props) => {
       </div>
       <ol className="breadcrumb">
         <li className="breadcrumb-item">
-          <a href="">{props.location.title}</a>
+          <Link to={``}>{props.location.title}</Link>
         </li>
       </ol>
     </nav>

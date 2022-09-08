@@ -37,6 +37,7 @@ const FlightInfoForm = (props) => {
     if (flightId) {
       fetchFlightNumber();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flightId]);
   const getReserve = (reserve) => {
     setReserveContext(reserve);
@@ -65,13 +66,13 @@ const FlightInfoForm = (props) => {
     setReserveContext(reserveStorage);
   };
   useEffect(() => {
-    console.log("selectedDate");
     if (selectedDate) {
       fetchLocationServiceWithPrice();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
-  const updateFlightTimeForm = (data) => {};
+  const updateFlightTimeForm = () => {};
   const updateFlightType = useCallback((data) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId

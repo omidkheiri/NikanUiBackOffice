@@ -16,7 +16,6 @@ import Moment from "moment";
 import PriceListService from "../../../../../Hooks/Prices/PriceListService";
 import DropDown from "../../../../UI/FormElement/DropDown";
 import InputText from "../../../../UI/FormElement/InputText";
-import DatePicker from "../../../../UI/FormElement/DatePicker";
 const TransferInlineForm = (props) => {
   const [, setReserve] = useState({});
   const getReserve = (reserve) => {
@@ -38,6 +37,7 @@ const TransferInlineForm = (props) => {
       fillForm(props.transferId);
       setunique_id(props.transferId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.transferId]);
 
   const [transferTypes, settransferTypes] = useState();
@@ -92,7 +92,7 @@ const TransferInlineForm = (props) => {
       );
 
       var item = priceData.find((data) => {
-        return data.id == transferType.value;
+        return data.id === transferType.value;
       });
 
       if (item) {
@@ -101,6 +101,7 @@ const TransferInlineForm = (props) => {
         setformSchema(scheme);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transferType]);
 
   const updateMobileNumber = (data) => {
@@ -223,7 +224,6 @@ const TransferInlineForm = (props) => {
       return data.id === transferId;
     });
     if (transfer) {
-      console.log(transfer);
       SetTransfer(transfer);
       settransferType(transfer.typeId);
 

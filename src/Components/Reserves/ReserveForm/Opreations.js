@@ -14,12 +14,10 @@ const Opreations = () => {
   const pricesServiceRef = useRef(null);
   const params = useParams();
   const [serviceList, setserviceList] = useState();
-  const [serviceListItem, setserviceListItem] = useState();
-  const [shownDrawer, setshownDrawer] = useState("none");
+  const [, setserviceListItem] = useState();
   const [reserveContext] = useContext(ReserveContext);
 
   useEffect(() => {
-    console.log("sfsfsdf");
     console.log(
       params.LocationId +
         "#" +
@@ -60,17 +58,8 @@ const Opreations = () => {
     } else {
       console.log("Cant get the prices");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.locationId, reserveContext.flightinfo.flightDate]);
-
-  const cancelModal = () => {
-    setshownDrawer(0);
-  };
-  const addService = (event) => {
-    setshownDrawer(event.currentTarget.id);
-  };
-  const UpdateReserve = () => {
-    setshownDrawer("none");
-  };
 
   const resetReserve = () => {
     localStorage.removeItem(params.LocationId);
@@ -132,14 +121,17 @@ const Opreations = () => {
                       {service === "Pet" && reserveContext.pet}
 
                       {service === "Visa" &&
+                        reserveContext.passenger &&
                         reserveContext.passenger.length > 0 && (
                           <span> {getVisaqty()}</span>
                         )}
                       {service === "Wheelchair" &&
+                        reserveContext.passenger &&
                         reserveContext.passenger.length > 0 && (
                           <span> {getWheelchairqty()}</span>
                         )}
                       {service === "Suite" &&
+                        reserveContext.suite &&
                         reserveContext.suite.length > 0 && (
                           <span> {getSuiteqty()}</span>
                         )}

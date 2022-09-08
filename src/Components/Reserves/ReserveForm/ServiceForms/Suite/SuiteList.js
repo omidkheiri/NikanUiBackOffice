@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useContext } from "react";
-import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import PriceListService from "../../../../../Hooks/Prices/PriceListService";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
@@ -10,13 +9,12 @@ import Moment from "moment";
 import SuiteSection from "./SuiteSection";
 const SuiteList = () => {
   const params = useParams();
-  const [t] = useTranslation("common");
-  const [reserveContext, setReserveContext] = useContext(ReserveContext);
+  const [reserveContext] = useContext(ReserveContext);
   const reserveServiceRef = useRef(null);
   const pricesServiceRef = useRef();
   const [Prices, setPrices] = useState();
   useEffect(() => {
-    if (params.LocationId && JSON.stringify(reserveContext) != "{}") {
+    if (params.LocationId && JSON.stringify(reserveContext) !== "{}") {
       let prices = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
@@ -38,7 +36,13 @@ const SuiteList = () => {
     <Fragment>
       <PriceListService ref={pricesServiceRef} />
       <ReserveService ref={reserveServiceRef} />
-
+      <div className="widget-header">
+        <div className="row">
+          <div className="col-xl-12 col-md-12 col-sm-12 col-12">
+            <h4>Suite Service</h4>
+          </div>
+        </div>
+      </div>
       {Prices &&
         Prices.map((data) => {
           return (
