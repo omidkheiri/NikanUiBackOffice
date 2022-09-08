@@ -10,6 +10,7 @@ import Modal from "../../../UI/Modal";
 const ServiceLineNewFome = (props) => {
   const taxElement = useRef();
   const statusElement = useRef();
+  const noneNativeElement = useRef();
   const [formData, setFormData] = useState({});
   const [formIsValid, setformIsValid] = useState();
   const basicContext = useContext(BasicContext);
@@ -31,6 +32,7 @@ const ServiceLineNewFome = (props) => {
     ServiceTypeId: {},
     FinancialCode: "",
     FinancialTitle: "",
+    NoneNative: false,
   });
 
   const UpdateList = () => {
@@ -112,6 +114,7 @@ const ServiceLineNewFome = (props) => {
         Title: formData.Title.data,
         Status: true,
         TaxInclude: true,
+        NoneNative: false,
         ServiceLocationId: formData.ServiceLocationId.data.value,
         ServiceTypeId: formData.ServiceTypeId.data.value,
         FinancialCode: formData.FinancialCode.data,
@@ -136,6 +139,7 @@ const ServiceLineNewFome = (props) => {
       setRequestData({
         Title: formData.Title.data,
         Status: taxElement.current.checked ? 1 : 0,
+        NoneNative: noneNativeElement.current.checked ? 1 : 0,
         TaxInclude: statusElement.current.checked ? 1 : 0,
         ServiceLocationId: formData.ServiceLocationId.data.value,
         ServiceTypeId: formData.ServiceTypeId.data.value,
@@ -233,7 +237,7 @@ const ServiceLineNewFome = (props) => {
             </div>
           </div>
           <div className="form-row  mb-4">
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-4">
               <div className="custom-control custom-checkbox">
                 <input
                   type="checkbox"
@@ -247,7 +251,7 @@ const ServiceLineNewFome = (props) => {
                 </label>
               </div>
             </div>
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-4">
               <div className="custom-control custom-checkbox">
                 <input
                   ref={taxElement}
@@ -258,6 +262,19 @@ const ServiceLineNewFome = (props) => {
                 />
                 <label className="custom-control-label" htmlFor="TaxInclude">
                   {t("ServiceLine.FormElement.TaxInclude")}
+                </label>
+              </div>
+            </div>
+            <div className="form-group col-md-4">
+              <div className="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  ref={noneNativeElement}
+                  className="custom-control-input"
+                  id="noneNative"
+                />
+                <label className="custom-control-label" htmlFor="noneNative">
+                  {t("ServiceLine.FormElement.NoneNative")}
                 </label>
               </div>
             </div>

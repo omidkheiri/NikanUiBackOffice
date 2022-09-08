@@ -12,11 +12,13 @@ import GetServieLine from "../../../../Hooks/ServiceLocation/GetServieLine";
 const ServiceLineUpdateFome = (props) => {
   const taxElement = useRef();
   const statusElement = useRef();
+  const noneNaitiveElement = useRef();
 
   const [formData, setFormData] = useState({});
   const [formISSubmitted, setFormISSubmitted] = useState({});
   const [formIsValid, setformIsValid] = useState();
   const basicContext = useContext(BasicContext);
+
   const params = useParams();
   const [serviceLocationOption, setServiceLocationOption] = useState([]);
   const [serviceTypeOption, setServiceTypeOption] = useState([]);
@@ -114,7 +116,8 @@ const ServiceLineUpdateFome = (props) => {
       setRequestData({
         Title: formData.Title.data,
         ServiceLineStatus: statusElement.current.checked ? 1 : 0,
-        TaxInclude: taxElement.current.checked ? 1 : 0,
+        TaxInclude: taxElement.current.checked ? true : false,
+        NoneNative: noneNaitiveElement.current.checked ? 1 : 0,
         ServiceLocationId: formData.ServiceLocationId.data.value,
         ServiceTypeId: formData.ServiceTypeId.data.value,
         FinancialCode: formData.FinancialCode.data,
@@ -136,6 +139,7 @@ const ServiceLineUpdateFome = (props) => {
       Title: data.title,
       ServiceLineStatus: data.serviceLineStatus,
       TaxInclude: data.taxInclude,
+      NoneNative: data.noneNative,
       ServiceLocationId: data.serviceLocationId,
       ServiceTypeId: data.serviceTypeId,
       FinancialCode: data.financialCode,
@@ -143,6 +147,7 @@ const ServiceLineUpdateFome = (props) => {
     });
     statusElement.current.checked = data.serviceLineStatus;
     taxElement.current.checked = data.taxInclude;
+    noneNaitiveElement.current.checked = data.noneNative;
     setselectedServiceLocation({
       value: data.serviceLocation.id,
       label: data.serviceLocation.title,
@@ -172,6 +177,13 @@ const ServiceLineUpdateFome = (props) => {
     }
   };
 
+  const updateNoneNaitive = (event) => {
+    if (!event.currentTarget.checked) {
+      noneNaitiveElement.checked = false;
+    } else {
+      noneNaitiveElement.checked = true;
+    }
+  };
   return (
     <Modal cntx={props}>
       <GetServieLine
@@ -274,9 +286,8 @@ const ServiceLineUpdateFome = (props) => {
             </div>
           </div>
           <div className="form-row  mb-4">
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-4">
               <div className="custom-control custom-checkbox">
-                {requestData.ServiceLineStatus}
                 <input
                   onChange={updateServiceLineStatus}
                   type="checkbox"
@@ -293,7 +304,7 @@ const ServiceLineUpdateFome = (props) => {
                 </label>
               </div>
             </div>
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-4">
               <div className="custom-control custom-checkbox">
                 <input
                   onChange={updateTaxInclude}
@@ -304,6 +315,20 @@ const ServiceLineUpdateFome = (props) => {
                 />
                 <label className="custom-control-label" htmlFor="TaxInclude">
                   {t("ServiceLine.FormElement.TaxInclude")}
+                </label>
+              </div>
+            </div>
+            <div className="form-group col-md-4">
+              <div className="custom-control custom-checkbox">
+                <input
+                  onChange={updateNoneNaitive}
+                  type="checkbox"
+                  className="custom-control-input"
+                  id="NoneNaitive"
+                  ref={noneNaitiveElement}
+                />
+                <label className="custom-control-label" htmlFor="NoneNaitive">
+                  {t("ServiceLine.FormElement.NoneNative")}
                 </label>
               </div>
             </div>

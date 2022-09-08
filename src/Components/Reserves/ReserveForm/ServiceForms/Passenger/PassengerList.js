@@ -76,6 +76,9 @@ const PassengerList = () => {
             <thead>
               <tr>
                 <th className="text-center">
+                  {t("ReservePage.Passenger.List.Type")}
+                </th>
+                <th className="text-center">
                   {t("ReservePage.Passenger.List.Gender")}
                 </th>
 
@@ -102,6 +105,9 @@ const PassengerList = () => {
                 reserveContext.passenger.map((data) => {
                   return (
                     <tr key={data.id}>
+                      <td style={{ textAlign: "center" }}>
+                        {data.typeId && data.typeId.label}
+                      </td>
                       <td>
                         {data.gender && data.gender === "0"
                           ? t("ReservePage.Passenger.List.GenderType.Female")
@@ -114,7 +120,12 @@ const PassengerList = () => {
                       <td className="text-center">
                         {data.wheelchair ? "✔️" : "X"}
                       </td>
-                      <td className="text-center">
+                      <td
+                        className="text-center"
+                        style={{
+                          width: "150px",
+                        }}
+                      >
                         <div
                           onClick={openUpdateing}
                           id={data.id}

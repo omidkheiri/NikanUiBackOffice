@@ -69,7 +69,7 @@ const AttendeeList = () => {
           <table className="table table-bordered mb-4">
             <thead>
               <tr>
-                <th className="text-center">
+                <th className="text-center" style={{ width: "fit-content" }}>
                   {t("ReservePage.Attendee.List.Gender")}
                 </th>
                 <th className="text-center">
@@ -92,7 +92,11 @@ const AttendeeList = () => {
                 reserveContext.attendee.map((data) => {
                   return (
                     <tr key={data.id}>
-                      <td>
+                      <td
+                        style={{
+                          width: "150px",
+                        }}
+                      >
                         {data.gender && data.gender === "0"
                           ? t("ReservePage.Attendee.List.GenderType.Female")
                           : t("ReservePage.Attendee.List.GenderType.Male")}
@@ -100,7 +104,12 @@ const AttendeeList = () => {
                       <td className="text-center">{data.name}</td>
                       <td className="text-center">{data.lastName}</td>
 
-                      <td className="text-center">
+                      <td
+                        className="text-center"
+                        style={{
+                          width: "150px",
+                        }}
+                      >
                         <div
                           style={{ float: "right", padding: "0 5px" }}
                           onClick={onDeleteItem}

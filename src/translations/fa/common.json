@@ -38,7 +38,6 @@
             "EmailAddress": "آدرس ایمیل",
             "BirthDate": "تاریخ تولد",
             "NameRequiredMessage": " نام لازم است",
-            "NameFromatErrorMessage": "با حروف انگلیسی وارد شود",
             "LastNameRequiredMessage": " نام خانوادگی لازم است",
             "PhoneRequiredMessage": "شماره تلفن لازم است",
             "PhoneFormatMessage": "شماره تلفن معتبر نیست",
@@ -163,6 +162,7 @@
             "Status": "سرویس فعال است",
             "TaxInclude": "شامل مالیات",
             "ServiceLocationId": "محل ارائه سرویس",
+            "NoneNative": "غیر ایرانی",
             "ServiceTypeId": "نوع سرویس",
             "FinancialCode": "کد مالی",
             "FinancialTitle": "عنوان مالی",
@@ -251,6 +251,7 @@
                     "Male": "آقای",
                     "Female": "خانم"
                 },
+                "Type": "نوع مسافر",
                 "Gender": "جنسیت",
                 "Visa": "خدمات ویزا",
                 "Wheelchair": "خدمات ویلچر"
@@ -272,6 +273,7 @@
                 "NameRequired": "نام لازم است",
                 "LastNameRequired": "نام  خانوادگی لازم است",
                 "NationalityRequired": "تعیین ملیت اجبرای است",
+                "NameFromatErrorMessage": "با حروف انگلیسی وارد شود",
                 "Visa": "خدمات ویزا",
                 "Wheelchair": "خدمات ویلچر",
                 "SaveThis": "این رکورد رو دخیره کن",

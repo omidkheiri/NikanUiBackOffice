@@ -91,7 +91,7 @@ const SuiteSection = (props) => {
         getReserve={getReserve}
         ref={reserveServiceRef}
       />
-      <div className="row row-background">
+      <div className="row row-background" style={{ padding: "3px" }}>
         <div className="col-md-4 align-self-center">
           <p style={{ textAlign: "right" }}>{props.priceType.title}</p>
         </div>

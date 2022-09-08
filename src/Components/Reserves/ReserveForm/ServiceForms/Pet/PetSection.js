@@ -11,22 +11,38 @@ import PriceListService from "../../../../../Hooks/Prices/PriceListService";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
 import "./PetSection.css";
+import Moment from "moment";
 const PetSection = () => {
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
 
   const reserveServiceRef = useRef(null);
   const pricesServiceRef = useRef();
   const [Counter, setCounter] = useState(0);
+  const params = useParams();
+  const [t] = useTranslation("common");
+  const [, setReserve] = useState({});
+
   useEffect(() => {
-    if (reserveContext) {
-      setCounter(reserveContext.pet);
+    if (reserveContext && reserveContext.pet) {
+      var type = typeof reserveContext.pet;
+      if (type === "number") {
+        reserveContext.pet = [{ priceId: "priceId", qty: 0 }];
+      }
+      var priceData = pricesServiceRef.current.GetPrices(
+        params.LocationId +
+          "#" +
+          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+            "YYYY-MM-DD"
+          )
+      );
+      var pricedata = priceData.find((d) => {
+        return d.serviceTypeId === 4;
+      });
+      setCounter(reserveContext.pet[0].qty);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reserveContext]);
 
-  const params = useParams();
-  const [t] = useTranslation("common");
-  const [, setReserve] = useState({});
   const Add = () => {
     setCounter(Counter + 1);
   };
@@ -44,7 +60,6 @@ const PetSection = () => {
       let reserveStorage = reserveServiceRef.current.GetReserve(
         params.LocationId
       );
-      reserveStorage.pet = Counter;
 
       reserveServiceRef.current.UpdateReserve(
         params.LocationId,
@@ -54,6 +69,48 @@ const PetSection = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Counter]);
+
+  useEffect(() => {
+    if (Counter && Counter >= 0) {
+      let reserveStorage = reserveServiceRef.current.GetReserve(
+        params.LocationId
+      );
+
+      if (reserveStorage.pet !== []) {
+        reserveStorage["pet"] = [];
+      }
+
+      var priceData = pricesServiceRef.current.GetPrices(
+        params.LocationId +
+          "#" +
+          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+            "YYYY-MM-DD"
+          )
+      );
+      var pricedata = priceData.find((d) => {
+        return d.serviceTypeId === 4;
+      });
+      var item = reserveStorage.pet[0];
+
+      if (item) {
+        item.qty = Counter;
+      } else {
+        reserveStorage["pet"].push({
+          priceId: pricedata.id,
+
+          qty: Counter,
+        });
+      }
+
+      reserveServiceRef.current.UpdateReserve(
+        params.LocationId,
+        reserveStorage
+      );
+      setReserveContext(reserveStorage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Counter]);
+
   const reserveUpdated = () => {};
   const updatePetCounter = (event) => {
     if (event.currentTarget.value < 0) {

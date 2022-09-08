@@ -89,7 +89,12 @@ const PassengerInlineForm = (props) => {
   }, [reserveContext]);
 
   useEffect(() => {
-    if (PassengerType) {
+    if (
+      PassengerType &&
+      reserveContext &&
+      reserveContext.flightinfo &&
+      reserveContext.flightinfo.flightDate
+    ) {
       var priceData = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
@@ -361,7 +366,7 @@ const PassengerInlineForm = (props) => {
                       title={t("ReservePage.Passenger.FormElement.Name")}
                       type="text"
                       id="name"
-                      RegexFormat={"^a-zA-Z $"}
+                      RegexFormat={"^[a-zA-Z ]{0,255}$"}
                       formatMassage={
                         "ReservePage.Passenger.FormElement.NameFromatErrorMessage"
                       }
@@ -381,10 +386,13 @@ const PassengerInlineForm = (props) => {
                       title={t("ReservePage.Passenger.FormElement.LastName")}
                       type="text"
                       id="lastName"
+                      RegexFormat={"^[a-zA-Z ]{0,255}$"}
+                      formatMassage={
+                        "ReservePage.Passenger.FormElement.NameFromatErrorMessage"
+                      }
                       IsRequired={true}
                       MinLength={3}
                       value={LastName}
-                      RegexFormat=""
                       valueCallback={updateLastName}
                       requiredMassage={t(
                         "ReservePage.Passenger.FormElement.LastNameRequired"

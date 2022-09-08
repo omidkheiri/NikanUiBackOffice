@@ -92,7 +92,12 @@ const TransferList = () => {
 
                       <td className="text-center">{data.address}</td>
 
-                      <td className="text-center">
+                      <td
+                        className="text-center"
+                        style={{
+                          width: "150px",
+                        }}
+                      >
                         <div
                           onClick={openUpdateing}
                           id={data.id}

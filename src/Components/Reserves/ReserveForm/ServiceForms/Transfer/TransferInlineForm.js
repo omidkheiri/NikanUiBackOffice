@@ -310,13 +310,12 @@ const TransferInlineForm = (props) => {
                     </label>
 
                     <Flatpickr
-                      noCalendar={true}
                       type="time"
                       value={transfer ? transfer.time : null}
                       options={{
                         time_24hr: true,
                         minDate: props.minDate,
-                        noCalendar: true,
+                        nocalendar: true,
                         enableTime: true,
                         dateFormat: "h:i K",
                       }}
