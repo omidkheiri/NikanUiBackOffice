@@ -221,15 +221,16 @@
         "Transfer": {
             "List": {
                 "Type": "نوع ترنسفر",
-                "FromAddress": "مبدا سفر",
-                "ToAddress": "مقصد سفر"
+                "Address": "آدرس",
+                "Time": "مبدا سفر",
+                "Description": "مبدا سفر"
             },
             "FormElement": {
                 "TransferType": "نوع ترنسفر",
-                "FromAddress": "مبدا سفر",
-                "ToAddress": "مقصد سفر",
+                "Address": "آدرس",
+                "Time": "زمان مراجعه",
                 "Description": "توضیحات",
-                "Mobile": "شماره تماس",
+                "MobileNumber": "شماره تماس",
                 "FromAddressRequired": "آدرس مبدا اجباری است",
                 "ToAddressRequired": "آدرس مقصد اجباری است"
             }
@@ -279,10 +280,27 @@
                 "NationalCodeRequired": "کدملی لازم است"
             }
         },
-        "Attendance": {
+        "Attendee": {
+            "Genders": {
+                "Male": "آقا",
+                "Female": "خانم"
+            },
+            "List": {
+                "Gender": "جنسیت",
+                "Name": "نام ",
+                "LastName": "نام خانوادگی",
+                "GenderType": {
+                    "Male": "آقای",
+                    "Female": "خانم"
+                }
+            },
             "FormElement": {
-                "FullName": "نام کامل",
-                "FullNameRequired": "نام کامل"
+                "Gender": "جنسیت",
+                "GenderRequired": "جنسیت لازم است",
+                "Name": "نام ",
+                "NameRequired": "نام لازم است",
+                "LastName": "نام خانوادگی",
+                "LastNameRequired": "نام  خانوادگی لازم است"
             }
         }
     },

@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
+import AttendeeInlineFrom from "./AttendeeInlineFrom";
 const AttendeeList = () => {
+  const [attendeeId, setattendeeId] = useState(null);
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
   const [t] = useTranslation("common");
   const reserveServiceRef = useRef();
@@ -34,7 +36,7 @@ const AttendeeList = () => {
     );
 
     reserveStorage.attendee = reserveStorage.attendee.filter((data) => {
-      return data.fullname !== event.currentTarget.id;
+      return data.id !== event.currentTarget.id;
     });
 
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
@@ -55,13 +57,26 @@ const AttendeeList = () => {
           </div>
         </div>
       </div>
+      <div className="widget-header">
+        <div className="row">
+          <div className="col-xl-12 col-md-12 col-sm-12 col-12">
+            <AttendeeInlineFrom attendeeId={attendeeId}></AttendeeInlineFrom>
+          </div>
+        </div>
+      </div>
       <div className="widget-content widget-content-area">
         <div className="table-responsive">
           <table className="table table-bordered mb-4">
             <thead>
               <tr>
                 <th className="text-center">
-                  {t("ReservePage.Passenger.List.FullName")}
+                  {t("ReservePage.Attendee.List.Gender")}
+                </th>
+                <th className="text-center">
+                  {t("ReservePage.Attendee.List.Name")}
+                </th>
+                <th className="text-center">
+                  {t("ReservePage.Attendee.List.LastName")}
                 </th>
 
                 <th
@@ -76,14 +91,20 @@ const AttendeeList = () => {
               {reserveContext &&
                 reserveContext.attendee.map((data) => {
                   return (
-                    <tr key={data.fullname}>
-                      <td className="text-center">{data.fullname}</td>
+                    <tr key={data.id}>
+                      <td>
+                        {data.gender && data.gender === "0"
+                          ? t("ReservePage.Attendee.List.GenderType.Female")
+                          : t("ReservePage.Attendee.List.GenderType.Male")}
+                      </td>
+                      <td className="text-center">{data.name}</td>
+                      <td className="text-center">{data.lastName}</td>
 
                       <td className="text-center">
                         <div
                           style={{ float: "right", padding: "0 5px" }}
                           onClick={onDeleteItem}
-                          id={data.fullname}
+                          id={data.id}
                           className="icon-container"
                         >
                           <svg

@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
+import TransferInlineForm from "./TransferInlineForm";
 const TransferList = () => {
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
 
+  const [transferId, settransferId] = useState(null);
   const [t] = useTranslation("common");
   const reserveServiceRef = useRef();
   const params = useParams();
@@ -41,7 +43,9 @@ const TransferList = () => {
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setReserveContext(reserveStorage);
   };
-
+  const openUpdateing = (event) => {
+    settransferId(event.currentTarget.id);
+  };
   return (
     <Fragment>
       <ReserveService
@@ -56,16 +60,21 @@ const TransferList = () => {
           </div>
         </div>
       </div>
+      <div className="widget-header">
+        <div className="row">
+          <div className="col-xl-12 col-md-12 col-sm-12 col-12">
+            <TransferInlineForm transferId={transferId}></TransferInlineForm>
+          </div>
+        </div>
+      </div>
       <div className="widget-content widget-content-area">
         <div className="table-responsive">
           <table className="table table-bordered mb-4">
             <thead>
               <tr>
                 <th>{t("ReservePage.Transfer.List.Type")}</th>
-                <th className="text-center">
-                  {t("ReservePage.Transfer.List.FromAddress")}
-                </th>
-                <th> {t("ReservePage.Transfer.List.ToAddress")}</th>
+
+                <th> {t("ReservePage.Transfer.List.Address")}</th>
                 <th
                   style={{
                     maxWidth: "150px!important",
@@ -79,11 +88,38 @@ const TransferList = () => {
                 reserveContext.transfer.map((data) => {
                   return (
                     <tr key={data.id}>
-                      <td className="text-center">{data.transferType.label}</td>
-                      <td className="text-center">{data.fromAddress}</td>
-                      <td className="text-center">{data.toAddress}</td>
+                      <td className="text-center">{data.typeId.label}</td>
+
+                      <td className="text-center">{data.address}</td>
 
                       <td className="text-center">
+                        <div
+                          onClick={openUpdateing}
+                          id={data.id}
+                          style={{
+                            float: "right",
+                            padding: "0 5px",
+                            cursor: "pointer",
+                          }}
+                          className="icon-container"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="feather feather-edit"
+                          >
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                          </svg>
+                          <span className="icon-name"></span>
+                        </div>
                         <div
                           style={{ float: "right", padding: "0 5px" }}
                           onClick={onDeleteItem}

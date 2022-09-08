@@ -13,6 +13,8 @@ import ReserveService from "../../../Hooks/Reserve/ReserveService";
 import AttendeeList from "./ServiceForms/Attendee/AttendeeList";
 import TransferList from "./ServiceForms/Transfer/TransferList";
 import ReserveContext from "../../../Store/ReserveContext";
+import PetSection from "./ServiceForms/Pet/PetSection";
+import SuiteList from "./ServiceForms/Suite/SuiteList";
 
 const ReserveNewForm = () => {
   const reserveServiceRef = useRef(null);
@@ -121,6 +123,20 @@ const ReserveNewForm = () => {
               <div className="statbox widget box mt-3">
                 <div className="widget-content widget-content-area">
                   <TransferList></TransferList>
+                </div>
+              </div>
+            )}
+            {reserve && (
+              <div className="statbox widget box mt-3">
+                <div className="widget-content widget-content-area">
+                  <PetSection></PetSection>
+                </div>
+              </div>
+            )}
+            {reserve && (
+              <div className="statbox widget box mt-3">
+                <div className="widget-content widget-content-area">
+                  <SuiteList></SuiteList>
                 </div>
               </div>
             )}

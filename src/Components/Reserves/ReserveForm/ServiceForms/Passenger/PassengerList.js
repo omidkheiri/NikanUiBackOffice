@@ -5,18 +5,9 @@ import { useParams } from "react-router-dom";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
 import PassengerInlineForm from "./PassengerInlineForm";
-import PassengerUpdateForm from "./PassengerUpdateForm";
+
 const PassengerList = () => {
-  const [shownDrawer, setshownDrawer] = useState("none");
-  const cancelModal = () => {
-    setshownDrawer(0);
-  };
-  const UpdateReserve = () => {
-    setshownDrawer(0);
-  };
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
-  const [currentscheme, setcurrentscheme] = useState();
-  const [currentPassenger, setcurrentPassenger] = useState();
   const [passengerid, setpassengerid] = useState();
   const [t] = useTranslation("common");
   const reserveServiceRef = useRef();
@@ -181,15 +172,6 @@ const PassengerList = () => {
                 })}
             </tbody>
           </table>
-          {shownDrawer === "Passenger" && (
-            <PassengerUpdateForm
-              cancelCallBack={cancelModal}
-              formIsShown={shownDrawer}
-              passenger={currentPassenger}
-              scheme={currentscheme}
-              UpdateReserve={UpdateReserve}
-            />
-          )}
         </div>
       </div>
     </Fragment>

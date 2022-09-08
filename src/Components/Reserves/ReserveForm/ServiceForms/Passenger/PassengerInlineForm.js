@@ -18,17 +18,10 @@ import DropDown from "../../../../UI/FormElement/DropDown";
 import InputText from "../../../../UI/FormElement/InputText";
 import DatePicker from "../../../../UI/FormElement/DatePicker";
 const PassengerInlineForm = (props) => {
-  console.log(props);
   const [, setReserve] = useState({});
   const getReserve = (reserve) => {
     setReserve(reserve);
   };
-
-  useEffect(() => {
-    if (props.passengerid) {
-      fillForm(props.passengerid);
-    }
-  }, [props.passengerid]);
 
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
   const params = useParams();
@@ -46,6 +39,12 @@ const PassengerInlineForm = (props) => {
   const [BirthDate, setBirthDate] = useState("");
 
   const [unique_id, setunique_id] = useState(uuid());
+  useEffect(() => {
+    if (props.passengerid) {
+      fillForm(props.passengerid);
+      setunique_id(props.passengerid);
+    }
+  }, [props.passengerid]);
 
   const [passengerTypes, setpassengerTypes] = useState();
   const [PassengerType, setPassengerType] = useState();
@@ -87,10 +86,8 @@ const PassengerInlineForm = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reserveContext]);
-  console.log(reserveContext);
+
   useEffect(() => {
-    console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFff");
-    console.log(PassengerType);
     if (PassengerType) {
       var priceData = pricesServiceRef.current.GetPrices(
         params.LocationId +
@@ -106,7 +103,6 @@ const PassengerInlineForm = (props) => {
 
       if (item) {
         var scheme = JSON.parse(item.serviceLineScheme);
-        console.log(scheme);
 
         setformSchema(scheme);
         setNationality(scheme.nationality.value);
@@ -260,7 +256,6 @@ const PassengerInlineForm = (props) => {
         reserveStorage
       );
       setReserveContext(reserveStorage);
-      props.UpdateReserve();
     }
   };
   const resetForm = () => {

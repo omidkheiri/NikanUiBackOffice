@@ -5,14 +5,9 @@ import React, {
   useRef,
   useState,
 } from "react";
-import PassengerForm from "./ServiceForms/Passenger/PassengerForm";
 import { group } from "core-js/actual/array/group";
-import TransferNewForm from "./ServiceForms/Transfer/TransferNewForm";
-import AttendeeFrom from "./ServiceForms/Attendee/AttendeeFrom";
 import { useParams } from "react-router-dom";
 import ReserveContext from "../../../Store/ReserveContext";
-import useHttp from "../../../Hooks/use-http";
-import BasicContext from "../../../Store/enviroment-context";
 import Moment from "moment";
 import PriceListService from "../../../Hooks/Prices/PriceListService";
 const Opreations = () => {
@@ -81,7 +76,30 @@ const Opreations = () => {
     localStorage.removeItem(params.LocationId);
     window.location.reload();
   };
+  const getVisaqty = () => {
+    var count = 0;
+    for (var i = 0; i < reserveContext.passenger.length; ++i) {
+      if (reserveContext.passenger[i].visa === true) count++;
+    }
 
+    return count;
+  };
+  const getWheelchairqty = () => {
+    var count = 0;
+    for (var i = 0; i < reserveContext.passenger.length; ++i) {
+      if (reserveContext.passenger[i].wheelchair === true) count++;
+    }
+
+    return count;
+  };
+  const getSuiteqty = () => {
+    var count = 0;
+    for (var i = 0; i < reserveContext.suite.length; ++i) {
+      count = reserveContext.suite[i].qty + count;
+    }
+
+    return count;
+  };
   return (
     <Fragment>
       <PriceListService ref={pricesServiceRef} />
@@ -111,6 +129,20 @@ const Opreations = () => {
                         reserveContext.passenger.length}
                       {service === "Transfer" && reserveContext.transfer.length}
                       {service === "Attendee" && reserveContext.attendee.length}
+                      {service === "Pet" && reserveContext.pet}
+
+                      {service === "Visa" &&
+                        reserveContext.passenger.length > 0 && (
+                          <span> {getVisaqty()}</span>
+                        )}
+                      {service === "Wheelchair" &&
+                        reserveContext.passenger.length > 0 && (
+                          <span> {getWheelchairqty()}</span>
+                        )}
+                      {service === "Suite" &&
+                        reserveContext.suite.length > 0 && (
+                          <span> {getSuiteqty()}</span>
+                        )}
                     </div>
                     <hr
                       style={{
@@ -119,31 +151,6 @@ const Opreations = () => {
                         margin: "5px",
                       }}
                     />
-
-                    {shownDrawer === "Passenger" && (
-                      <PassengerForm
-                        UpdateReserve={UpdateReserve}
-                        cancelCallBack={cancelModal}
-                        formIsShown={shownDrawer}
-                        scheme={serviceListItem.find((s) => {
-                          return s.serviceTypeName === "Passenger";
-                        })}
-                      />
-                    )}
-                    {shownDrawer === "Transfer" && (
-                      <TransferNewForm
-                        UpdateReserve={UpdateReserve}
-                        cancelCallBack={cancelModal}
-                        formIsShown={shownDrawer}
-                      />
-                    )}
-                    {shownDrawer === "Attendee" && (
-                      <AttendeeFrom
-                        UpdateReserve={UpdateReserve}
-                        cancelCallBack={cancelModal}
-                        formIsShown={shownDrawer}
-                      />
-                    )}
                   </div>
                 </div>
               </div>
@@ -153,13 +160,5 @@ const Opreations = () => {
     </Fragment>
   );
 };
-
-// <div className="col-md-10" style={{ direction: "ltr" }}>
-// 0 X
-// {service.serviceLinePrices[0].price.toLocaleString(
-//   undefined,
-//   { maximumFractionDigits: 0 }
-// )}
-// </div>
 
 export default Opreations;
