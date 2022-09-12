@@ -162,7 +162,7 @@ const PetSection = () => {
                 value={Counter}
                 onChange={updatePetCounter}
                 min={0}
-                className="p-0 m-0"
+                className="p-0 m-0 form-control"
                 style={{
                   height: "32px",
                   width: "100%",

@@ -32,6 +32,8 @@ const PassengerInlineForm = (props) => {
   const [Wheelchair, setWheelchair] = useState(false);
 
   const [Name, setName] = useState("");
+  const [NameValue, setNameValue] = useState("");
+  const [LastNameValue, setLAstNameValue] = useState("");
   const [LastName, setLastName] = useState("");
   const [Nationality, setNationality] = useState({});
   const [NationalCode, setNationalCode] = useState("");
@@ -282,6 +284,7 @@ const PassengerInlineForm = (props) => {
     });
     if (passenger) {
       setPassengerType(passenger.typeId);
+      setNameValue(passenger.name);
       setName(passenger.name);
 
       setGender(
@@ -290,6 +293,7 @@ const PassengerInlineForm = (props) => {
         })
       );
       setLastName(passenger.lastName);
+      setLAstNameValue(passenger.lastName);
       setVisa(passenger.visa);
       setWheelchair(passenger.wheelchair);
       setBirthDate(Moment(new Date(passenger.birthDate)).format("YYYY-MM-DD"));
@@ -367,10 +371,10 @@ const PassengerInlineForm = (props) => {
                       type="text"
                       id="name"
                       RegexFormat={"^[a-zA-Z ]{0,255}$"}
-                      formatMassage={
+                      formatMassage={t(
                         "ReservePage.Passenger.FormElement.NameFromatErrorMessage"
-                      }
-                      value={Name}
+                      )}
+                      value={NameValue}
                       IsRequired={true}
                       MinLength={3}
                       valueCallback={updateName}
@@ -387,12 +391,12 @@ const PassengerInlineForm = (props) => {
                       type="text"
                       id="lastName"
                       RegexFormat={"^[a-zA-Z ]{0,255}$"}
-                      formatMassage={
+                      formatMassage={t(
                         "ReservePage.Passenger.FormElement.NameFromatErrorMessage"
-                      }
+                      )}
                       IsRequired={true}
                       MinLength={3}
-                      value={LastName}
+                      value={LastNameValue}
                       valueCallback={updateLastName}
                       requiredMassage={t(
                         "ReservePage.Passenger.FormElement.LastNameRequired"

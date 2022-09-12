@@ -6,6 +6,8 @@ import React, {
   useState,
 } from "react";
 import { group } from "core-js/actual/array/group";
+import { Popup } from "devextreme-react/popup";
+import ScrollView from "devextreme-react/scroll-view";
 import { useParams } from "react-router-dom";
 import ReserveContext from "../../../Store/ReserveContext";
 import Moment from "moment";
@@ -24,7 +26,7 @@ const Opreations = () => {
   const [wheelchairTotal, setwheelchareTotal] = useState(0);
   const [visaTotal, setvisaTotal] = useState(0);
   const [suiteTotal, setsuiteTotal] = useState(0);
-
+  const [popupVisible, setpopupVisible] = useState(false);
   useEffect(() => {
     var data = pricesServiceRef.current.GetPrices(
       params.LocationId +
@@ -77,6 +79,7 @@ const Opreations = () => {
         )
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reserveContext]);
   const resetReserve = () => {
     localStorage.removeItem(params.LocationId);
@@ -108,9 +111,13 @@ const Opreations = () => {
     return count;
   };
   const sendReserve = () => {
-    console.log(reserveContext);
+    console.log(JSON.stringify(reserveContext));
+    setpopupVisible(true);
   };
 
+  const hideInfo = () => {
+    setpopupVisible(false);
+  };
   const getPetQty = () => {
     if (reserveContext.pet[0]) {
       return reserveContext.pet[0].qty;
@@ -128,10 +135,10 @@ const Opreations = () => {
         )
     );
     var sum = 0;
-    var transferSum = reserveContext.pet;
-    if (transferSum) {
-      transferSum.forEach((element) => {
-        console.log(transferSum);
+    var pet = reserveContext.pet;
+    if (pet) {
+      pet.forEach((element) => {
+        console.log(pet);
         var price = priceList.find((d) => {
           return d.id === element.priceId;
         });
@@ -177,9 +184,11 @@ const Opreations = () => {
     );
     var sum = 0;
     var attendeeSum = reserveContext.attendee;
-    console.log("Attendee");
-    console.log(attendeeSum);
+
     attendeeSum.forEach((element) => {
+      if (!priceList) {
+        return;
+      }
       var price = priceList.find((d) => {
         return d.serviceTypeId === 2;
       });
@@ -227,6 +236,9 @@ const Opreations = () => {
     var PassengerSum = reserveContext.passenger;
 
     PassengerSum.forEach((element) => {
+      if (!priceList) {
+        return;
+      }
       var price = priceList.find((d) => {
         return d.id === element.typeId.value;
       });
@@ -234,18 +246,18 @@ const Opreations = () => {
       sum = sum + price.serviceLinePrices[0].price;
 
       if (element.nationality === 1 && element.visa) {
-        var price = priceList.find((d) => {
+        var price1 = priceList.find((d) => {
           return d.serviceTypeId === 5;
         });
 
-        visa = visa + price.serviceLinePrices[0].price;
+        visa = visa + price1.serviceLinePrices[0].price;
       }
       if (element.nationality === 1 && element.wheelchair) {
-        var price = priceList.find((d) => {
+        var price2 = priceList.find((d) => {
           return d.serviceTypeId === 8 && d.noneNative;
         });
 
-        wheelchair = wheelchair + price.serviceLinePrices[0].price;
+        wheelchair = wheelchair + price2.serviceLinePrices[0].price;
       }
     });
     setwheelchareTotal(wheelchair);
@@ -257,6 +269,23 @@ const Opreations = () => {
   return (
     <Fragment>
       <PriceListService ref={pricesServiceRef} />
+
+      <Popup
+        visible={popupVisible}
+        onHiding={hideInfo}
+        dragEnabled={false}
+        hideOnOutsideClick={true}
+        showCloseButton={false}
+        showTitle={true}
+        title="Reserve"
+        container=".dx-viewport"
+        fullScreen={true}
+      >
+        <ScrollView width="100%" height="100%">
+          <div id="textBlock">View Summery & GEt Customer Information</div>
+        </ScrollView>
+      </Popup>
+
       <div
         id="navSection"
         data-spy="affix"
@@ -285,30 +314,33 @@ const Opreations = () => {
                       {service === "Passenger" &&
                         `${
                           reserveContext.passenger.length
-                        } →  ${psassengersTotal.toLocaleString(undefined, {
+                        }  →   ${psassengersTotal.toLocaleString(undefined, {
                           maximumFractionDigits: 0,
                         })}`}
                       {service === "Transfer" &&
                         `${
                           reserveContext.transfer.length
-                        } → ${transferTotal.toLocaleString(undefined, {
+                        }  →   ${transferTotal.toLocaleString(undefined, {
                           maximumFractionDigits: 0,
                         })}`}
                       {service === "Attendee" &&
                         `${
                           reserveContext.attendee.length
-                        } →${attendesssTotal.toLocaleString(undefined, {
+                        }  →   ${attendesssTotal.toLocaleString(undefined, {
                           maximumFractionDigits: 0,
                         })}`}
                       {service === "Pet" &&
-                        `${getPetQty()} → ${petTotal.toLocaleString(undefined, {
-                          maximumFractionDigits: 0,
-                        })}`}
+                        `${getPetQty()}  →   ${petTotal.toLocaleString(
+                          undefined,
+                          {
+                            maximumFractionDigits: 0,
+                          }
+                        )}`}
 
                       {service === "Visa" &&
                         reserveContext.passenger &&
                         reserveContext.passenger.length > 0 &&
-                        `${getVisaqty()} → ${visaTotal.toLocaleString(
+                        `${getVisaqty()}  →   ${visaTotal.toLocaleString(
                           undefined,
                           {
                             maximumFractionDigits: 0,
@@ -317,7 +349,7 @@ const Opreations = () => {
                       {service === "Wheelchair" &&
                         reserveContext.passenger &&
                         reserveContext.passenger.length > 0 &&
-                        `${getWheelchairqty()} → ${wheelchairTotal.toLocaleString(
+                        `${getWheelchairqty()}  →   ${wheelchairTotal.toLocaleString(
                           undefined,
                           {
                             maximumFractionDigits: 0,
@@ -326,7 +358,7 @@ const Opreations = () => {
                       {service === "Suite" &&
                         reserveContext.suite &&
                         reserveContext.suite.length > 0 &&
-                        `${getSuiteqty()} → ${suiteTotal.toLocaleString(
+                        `${getSuiteqty()}  →   ${suiteTotal.toLocaleString(
                           undefined,
                           {
                             maximumFractionDigits: 0,

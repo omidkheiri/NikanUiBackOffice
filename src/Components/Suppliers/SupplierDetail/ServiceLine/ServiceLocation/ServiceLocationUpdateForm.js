@@ -43,7 +43,7 @@ const ServiceLocationUpdateForm = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.LocationId]);
-  const { sendRequest: fetchAccount } = useHttp(
+  const { sendRequest: PostLocation } = useHttp(
     {
       url: `${basicContext.serviceLocationAddress}/ServiceLocation/${props.LocationId}`,
       method: "Put",
@@ -70,7 +70,10 @@ const ServiceLocationUpdateForm = (props) => {
       requestData.address &&
       requestData.title &&
       requestData.location &&
-      requestData.maxAcceptDate
+      requestData.maxAcceptDate &&
+      requestData.arrivalBufferTime &&
+      requestData.departureBufferTime &&
+      requestData.transferBufferTime
     ) {
       setformIsValid(true);
     } else {
@@ -83,7 +86,7 @@ const ServiceLocationUpdateForm = (props) => {
     requestData.maxAcceptDate = Moment(
       new Date(requestData.maxAcceptDate)
     ).format("YYYY-MM-DD");
-    fetchAccount();
+    PostLocation();
   };
   return (
     <Modal cntx={props}>
@@ -138,7 +141,6 @@ const ServiceLocationUpdateForm = (props) => {
                 )}
               />
             </div>
-
             <div className="form-group mb-4">
               <label htmlFor="from">
                 {t("ServiceLocation.FormElement.MaxAllowtedDate")}
@@ -158,6 +160,60 @@ const ServiceLocationUpdateForm = (props) => {
                 }
                 valueCallback={updateMAxDateForm}
               />
+            </div>
+
+            <div className="row">
+              <div className="form-group col-md-4 mb-4">
+                <label htmlFor="from">
+                  {t("ServiceLocation.FormElement.ArrivalBufferTime")}
+                </label>
+                <InputText
+                  id="arrivalBufferTime"
+                  type="number"
+                  placeholder="Select Date.."
+                  IsRequired={true}
+                  value={
+                    requestData.arrivalBufferTime
+                      ? requestData.arrivalBufferTime
+                      : ""
+                  }
+                  valueCallback={updateForm}
+                />
+              </div>
+              <div className="form-group col-md-4 mb-4">
+                <label htmlFor="from">
+                  {t("ServiceLocation.FormElement.DepartureBufferTime")}
+                </label>
+                <InputText
+                  id="departureBufferTime"
+                  type="number"
+                  placeholder="Select Date.."
+                  IsRequired={true}
+                  value={
+                    requestData.departureBufferTime
+                      ? requestData.departureBufferTime
+                      : ""
+                  }
+                  valueCallback={updateForm}
+                />
+              </div>
+              <div className="form-group col-md-4 mb-4">
+                <label htmlFor="from">
+                  {t("ServiceLocation.FormElement.TransferBufferTime")}
+                </label>
+                <InputText
+                  id="transferBufferTime"
+                  type="number"
+                  placeholder="Select Date.."
+                  IsRequired={true}
+                  value={
+                    requestData.transferBufferTime
+                      ? requestData.transferBufferTime
+                      : ""
+                  }
+                  valueCallback={updateForm}
+                />
+              </div>
             </div>
 
             <button
