@@ -4,16 +4,13 @@ const ReserveService = forwardRef((props, ref) => {
   const [reserve] = useState({
     locationId: {},
     customerId: "",
-    flightinfo: {
+    flightInfo: {
       flightDate: [],
       flightNumber: "",
       flightTime: "",
       flightType: "",
     },
-    passenger: [],
-    transfer: [],
-    attendee: [],
-    pet: 0,
+    reserveItem: [],
   });
 
   useImperativeHandle(ref, () => ({

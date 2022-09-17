@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, {
   Fragment,
   useContext,
@@ -9,6 +10,7 @@ import { useParams } from "react-router-dom";
 import PriceListService from "../../../../../Hooks/Prices/PriceListService";
 import ReserveService from "../../../../../Hooks/Reserve/ReserveService";
 import ReserveContext from "../../../../../Store/ReserveContext";
+import Moment from "moment";
 import "./SuiteSection.css";
 const SuiteSection = (props) => {
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
@@ -19,16 +21,22 @@ const SuiteSection = (props) => {
   const params = useParams();
   const [, setReserve] = useState({});
   useEffect(() => {
-    if (reserveContext && reserveContext.suite) {
-      var item = reserveContext.suite.find((d) => {
-        return d.id === props.priceType.id;
+    if (
+      reserveContext &&
+      reserveContext.reserveItem &&
+      reserveContext.reserveItem.find((data) => {
+        return data.serviceLineId === props.priceType.id;
+      })
+    ) {
+      var item = reserveContext.reserveItem.find((data) => {
+        return data.serviceLineId === props.priceType.id;
       });
       if (!item) {
         return;
       }
-      if (item.qty === Counter) {
+      if (item.serviceQty === Counter) {
       } else {
-        setCounter(item.qty);
+        setCounter(item.serviceQty);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,26 +54,55 @@ const SuiteSection = (props) => {
   };
 
   useEffect(() => {
-    if (Counter && Counter >= 0) {
+    if (Counter || Counter === 0) {
       let reserveStorage = reserveServiceRef.current.GetReserve(
         params.LocationId
       );
 
-      if (!reserveStorage.suite) {
-        reserveStorage["suite"] = [];
-      }
-
-      var item = reserveStorage.suite.find((d) => {
+      var priceData = pricesServiceRef.current.GetPrices(
+        params.LocationId +
+          "#" +
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
+            "YYYY-MM-DD"
+          )
+      );
+      var pricedata = priceData.find((d) => {
         return d.id === props.priceType.id;
       });
 
+      var item = reserveStorage.reserveItem.filter((data) => {
+        return data.serviceLineId == props.priceType.id;
+      });
+
       if (item) {
-        item.qty = Counter;
+        if (item.length < 1) {
+          item = {
+            serviceLineId: pricedata.id,
+            serviceLineTitle: pricedata.title,
+            serviceTypeId: 6,
+            unitPrice: pricedata.serviceLinePrices[0].price,
+            serviceQty: Counter,
+          };
+
+          reserveStorage["reserveItem"].push(item);
+        } else {
+          reserveStorage["reserveItem"].forEach((data) => {
+            if (data.serviceLineId === props.priceType.id) {
+              data.serviceTypeId = 6;
+              data.serviceQty = Counter;
+            }
+          });
+        }
       } else {
-        reserveStorage["suite"].push({
-          id: props.priceType.id,
-          title: props.priceType.title,
-          qty: Counter,
+        if (!reserveStorage["reserveItem"]) {
+          reserveStorage["reserveItem"] = [];
+        }
+        reserveStorage["reserveItem"].push({
+          serviceLineId: pricedata.id,
+          serviceLineTitle: pricedata.title,
+          serviceTypeId: 6,
+          unitPrice: pricedata.serviceLinePrices[0].price,
+          serviceQty: Counter,
         });
       }
 
@@ -77,6 +114,7 @@ const SuiteSection = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Counter]);
+
   const updateSuiteCounter = (event) => {
     if (event.currentTarget.value < 0) {
       setCounter(event.currentTarget.value);

@@ -319,5 +319,13 @@
             "Services": "سرویسها",
             "ServiceLocations": "محل ارائه سرویس"
         }
+    },
+    "SummeryPage": {
+        "List": {
+            "Type": "نوع سرویس",
+            "UnitPrice": "قیمت",
+            "QTY": "تعداد",
+            "Description": "توضیحات"
+        }
     }
 }

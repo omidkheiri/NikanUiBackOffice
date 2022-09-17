@@ -21,12 +21,12 @@ const AttendeeInlineFrom = (props) => {
   const [Gender, setGender] = useState({});
   const reserveServiceRef = useRef();
   const params = useParams();
-
+  const [AttendeePrice, setAttendeePrice] = useState();
   const [Name, setName] = useState();
   const [LastName, setLastName] = useState();
   const [unique_id, setunique_id] = useState(uuid());
   const fillForm = (attendeeId) => {
-    var attnedee = ReserveContext.attendee.find((data) => {
+    var attnedee = ReserveContext.reserveItem.attendee.find((data) => {
       return data.id === attendeeId;
     });
     if (attnedee) {
@@ -92,13 +92,18 @@ const AttendeeInlineFrom = (props) => {
       let reserveStorage = reserveServiceRef.current.GetReserve(
         params.LocationId
       );
-
-      if (reserveStorage.attendee.length > 0 && reserveStorage.attendee[0]) {
-        var item = reserveStorage.attendee.find((data) => {
+      var price = getPrice();
+      if (
+        reserveStorage.reserveItem &&
+        reserveStorage.reserveItem.attendee &&
+        reserveStorage.reserveItem.attendee.length > 0 &&
+        reserveStorage.reserveItem.attendee[0]
+      ) {
+        var item = reserveStorage.reserveItem.attendee.find((data) => {
           return data.id === unique_id;
         });
         if (item) {
-          reserveStorage.attendee.forEach((element) => {
+          reserveStorage.reserveItem.attendee.forEach((element) => {
             if (element.id === unique_id) {
               element.gender = Gender.value;
               element.name = Name;
@@ -107,27 +112,42 @@ const AttendeeInlineFrom = (props) => {
           });
         } else {
           var record = {
+            serviceLineId: price.id,
+            serviceLineTitle: price.title,
+            serviceTypeId: 2,
+            unitPrice: price.serviceLinePrices[0].price,
+            serviceQty: 1,
+            attendee: {
+              id: unique_id,
+              gender: Gender.value,
+              name: Name,
+              lastName: LastName,
+            },
+          };
+          if (!reserveStorage["reserveItem"]) {
+            reserveStorage["reserveItem"] = [];
+          }
+          reserveStorage["reserveItem"].push(record);
+        }
+      } else {
+        record = {
+          serviceLineId: price.id,
+          serviceLineTitle: price.title,
+          serviceTypeId: 2,
+          unitPrice: price.serviceLinePrices[0].price,
+          serviceQty: 1,
+          attendee: {
             id: unique_id,
             gender: Gender.value,
             name: Name,
             lastName: LastName,
-          };
-
-          reserveStorage.attendee.push(record);
-        }
-      } else {
-        reserveStorage.attendee = [];
-        record = {
-          id: unique_id,
-
-          gender: Gender.value,
-          name: Name,
-          lastName: LastName,
-
-          scheme: formSchema,
+            scheme: formSchema,
+          },
         };
-
-        reserveStorage.attendee.push(record);
+        if (!reserveStorage["reserveItem"]) {
+          reserveStorage["reserveItem"] = [];
+        }
+        reserveStorage["reserveItem"].push(record);
       }
       resetForm();
       reserveServiceRef.current.UpdateReserve(
@@ -138,10 +158,14 @@ const AttendeeInlineFrom = (props) => {
     }
   };
   useEffect(() => {
+    getPrice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pricesServiceRef]);
+  const getPrice = () => {
     var priceData = pricesServiceRef.current.GetPrices(
       params.LocationId +
         "#" +
-        Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
           "YYYY-MM-DD"
         )
     );
@@ -154,11 +178,10 @@ const AttendeeInlineFrom = (props) => {
         var scheme = JSON.parse(item.serviceLineScheme);
 
         setformSchema(scheme);
+        return item;
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pricesServiceRef]);
-
+  };
   const reserveUpdated = () => {};
   const getReserve = () => {};
   const resetForm = () => {

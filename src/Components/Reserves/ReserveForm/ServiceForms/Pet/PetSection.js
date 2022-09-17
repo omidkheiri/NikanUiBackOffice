@@ -21,24 +21,31 @@ const PetSection = () => {
   const params = useParams();
   const [t] = useTranslation("common");
   const [, setReserve] = useState({});
-
+  const [Countervalue, setCountervalue] = useState(0);
   useEffect(() => {
-    if (reserveContext && reserveContext.pet) {
-      var type = typeof reserveContext.pet;
-      if (type === "number") {
-        reserveContext.pet = [{ priceId: "priceId", qty: 0 }];
-      }
-      var priceData = pricesServiceRef.current.GetPrices(
+    if (
+      reserveContext &&
+      reserveContext.reserveItem &&
+      reserveContext.reserveItem.find((data) => {
+        return data.serviceTypeId === 4;
+      })
+    ) {
+      var priceDatas = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
-          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
             "YYYY-MM-DD"
           )
       );
-      var pricedata = priceData.find((d) => {
+      var pricedata = priceDatas.find((d) => {
         return d.serviceTypeId === 4;
       });
-      setCounter(reserveContext.pet[0].qty);
+      var item = reserveContext.reserveItem.find((data) => {
+        return data.serviceLineId === pricedata.id;
+      });
+      setCountervalue(item.serviceQty);
+    } else {
+      setCountervalue(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reserveContext]);
@@ -55,50 +62,71 @@ const PetSection = () => {
     setReserve(reserve);
   };
 
+  // useEffect(() => {
+  //   if (Counter || Counter === 0) {
+  //     let reserveStorage = reserveServiceRef.current.GetReserve(
+  //       params.LocationId
+  //     );
+
+  //     reserveServiceRef.current.UpdateReserve(
+  //       params.LocationId,
+  //       reserveStorage
+  //     );
+  //     setReserveContext(reserveStorage);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [Counter]);
+
   useEffect(() => {
-    if (Counter && Counter >= 0) {
+    if (Counter || Counter === 0) {
       let reserveStorage = reserveServiceRef.current.GetReserve(
         params.LocationId
-      );
-
-      reserveServiceRef.current.UpdateReserve(
-        params.LocationId,
-        reserveStorage
       );
       setReserveContext(reserveStorage);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Counter]);
-
-  useEffect(() => {
-    if (Counter && Counter >= 0) {
-      let reserveStorage = reserveServiceRef.current.GetReserve(
-        params.LocationId
-      );
-
-      if (reserveStorage.pet !== []) {
-        reserveStorage["pet"] = [];
+      var context = reserveStorage;
+      if (!context || !context.flightInfo || !context.flightInfo.flightName) {
+        return;
       }
-
+      if (!reserveStorage["reserveItem"]) {
+        reserveStorage["reserveItem"] = [];
+      }
       var priceData = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
-          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
-            "YYYY-MM-DD"
-          )
+          Moment(new Date(context.flightInfo.flightDate)).format("YYYY-MM-DD")
       );
       var pricedata = priceData.find((d) => {
         return d.serviceTypeId === 4;
       });
-      var item = reserveStorage.pet[0];
+      var item = reserveStorage.reserveItem.filter((data) => {
+        return data.serviceLineId === pricedata.id;
+      });
 
       if (item) {
-        item.qty = Counter;
-      } else {
-        reserveStorage["pet"].push({
-          priceId: pricedata.id,
+        if (item.length < 1) {
+          item = {
+            serviceLineId: pricedata.id,
+            serviceLineTitle: pricedata.title,
+            serviceTypeId: 4,
+            unitPrice: pricedata.serviceLinePrices[0].price,
+            serviceQty: Counter,
+          };
 
-          qty: Counter,
+          reserveStorage["reserveItem"].push(item);
+        } else {
+          reserveStorage["reserveItem"].forEach((data) => {
+            if (data.serviceLineId === pricedata.id) {
+              data.serviceQty = Counter;
+            }
+          });
+        }
+      } else {
+        reserveStorage["reserveItem"].push({
+          serviceLineId: pricedata.id,
+          serviceLineTitle: pricedata.title,
+          serviceTypeId: 4,
+          unitPrice: pricedata.serviceLinePrices[0].price,
+          serviceQty: Counter,
         });
       }
 
@@ -159,7 +187,7 @@ const PetSection = () => {
             </div>
             <div className="col-md-5" style={{ padding: "0px" }}>
               <input
-                value={Counter}
+                value={Countervalue}
                 onChange={updatePetCounter}
                 min={0}
                 className="p-0 m-0 form-control"

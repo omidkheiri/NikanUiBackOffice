@@ -18,7 +18,7 @@ const SuiteList = () => {
       let prices = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
-          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
             "YYYY-MM-DD"
           )
       );

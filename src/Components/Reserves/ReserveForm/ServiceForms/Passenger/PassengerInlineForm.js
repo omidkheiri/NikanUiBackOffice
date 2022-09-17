@@ -52,7 +52,6 @@ const PassengerInlineForm = (props) => {
   const [passengerTypes, setpassengerTypes] = useState();
   const [PassengerType, setPassengerType] = useState();
   const [formSchema, setformSchema] = useState({});
-
   const reserveServiceRef = useRef(null);
 
   const styles = {
@@ -67,11 +66,11 @@ const PassengerInlineForm = (props) => {
     },
   };
   useEffect(() => {
-    if (params.LocationId && reserveContext) {
+    if (params.LocationId && reserveContext.flightInfo) {
       let prices = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
-          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
             "YYYY-MM-DD"
           )
       );
@@ -94,13 +93,13 @@ const PassengerInlineForm = (props) => {
     if (
       PassengerType &&
       reserveContext &&
-      reserveContext.flightinfo &&
-      reserveContext.flightinfo.flightDate
+      reserveContext.flightInfo &&
+      reserveContext.flightInfo.flightDate
     ) {
       var priceData = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
-          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
             "YYYY-MM-DD"
           )
       );
@@ -191,82 +190,235 @@ const PassengerInlineForm = (props) => {
 
   const submitForm = (event) => {
     event.preventDefault();
-
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+    if (!reserveStorage["reserveItem"]) {
+      reserveStorage["reserveItem"] = [];
+    }
+    var priceDatas = pricesServiceRef.current.GetPrices(
+      params.LocationId +
+        "#" +
+        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
+          "YYYY-MM-DD"
+        )
+    );
+    var pricedata = priceDatas.find((d) => {
+      return d.id === PassengerType.value;
+    });
     if (checkForm()) {
       let reserveStorage = reserveServiceRef.current.GetReserve(
         params.LocationId
       );
 
-      if (reserveStorage.passenger.length > 0 && reserveStorage.passenger[0]) {
-        var item = reserveStorage.passenger.find((data) => {
-          return data.id === unique_id;
+      if (
+        reserveStorage.reserveItem &&
+        reserveStorage.reserveItem.length > 0 &&
+        reserveStorage.reserveItem[0]
+      ) {
+        var item = reserveStorage.reserveItem.find((data) => {
+          return data.passenger && data.passenger.id === unique_id;
         });
         if (item) {
-          reserveStorage.passenger.forEach((element) => {
-            if (element.id === unique_id) {
-              element.typeId = PassengerType;
-              element.gender = Gender.value;
-              element.name = Name;
-              element.lastName = LastName;
-              element.nationality = formSchema.nationality.value;
-
-              element.birthDate = BirthDate;
-
-              element.scheme = formSchema;
-
-              element.visa = Visa;
-              element.wheelchair = Wheelchair;
+          reserveStorage.reserveItem = reserveContext.reserveItem.filter(
+            (data) => {
+              return !data.visa || data.visa.relatedPassenger != unique_id;
+            }
+          );
+          reserveStorage.reserveItem.forEach((element) => {
+            if (element.passenger && element.passenger.id === unique_id) {
+              element.passenger.typeId = PassengerType;
+              element.passenger.gender = Gender.value;
+              element.passenger.name = Name;
+              element.passenger.lastName = LastName;
+              element.passenger.nationality = formSchema.nationality.value;
+              element.passenger.birthDate = BirthDate;
+              element.passenger.scheme = formSchema;
+              element.passenger.visa = Visa;
+              element.passenger.wheelchair = Wheelchair;
             }
           });
         } else {
           var record = {
-            typeId: PassengerType,
+            serviceLineId: PassengerType.value,
+            serviceLineTitle: PassengerType.label,
+            serviceTypeId: 1,
+            unitPrice: pricedata.serviceLinePrices[0].price,
+            serviceQty: 1,
+            passenger: {
+              id: unique_id,
+              typeId: PassengerType,
+              gender: Gender.value,
+              name: Name,
+              lastName: LastName,
+              nationality: Nationality,
+              nationalCode: NationalCode,
+              birthDate: BirthDate,
+              scheme: formSchema,
+              visa: Visa,
+              wheelchair: Wheelchair,
+            },
+          };
+
+          if (!reserveStorage["reserveItem"]) {
+            reserveStorage["reserveItem"] = [];
+          }
+          reserveStorage["reserveItem"].push(record);
+        }
+      } else {
+        record = {
+          serviceLineId: PassengerType.value,
+          serviceLineTitle: PassengerType.label,
+          serviceTypeId: 1,
+          unitPrice: pricedata.serviceLinePrices[0].price,
+          serviceQty: 1,
+          passenger: {
             id: unique_id,
+            typeId: PassengerType,
             gender: Gender.value,
             name: Name,
             lastName: LastName,
             nationality: Nationality,
             nationalCode: NationalCode,
-
             birthDate: BirthDate,
-
             scheme: formSchema,
-
             visa: Visa,
             wheelchair: Wheelchair,
-          };
-
-          reserveStorage.passenger.push(record);
-        }
-      } else {
-        reserveStorage.passenger = [];
-        record = {
-          id: unique_id,
-          typeId: PassengerType,
-          gender: Gender.value,
-          name: Name,
-          lastName: LastName,
-          nationality: Nationality,
-          nationalCode: NationalCode,
-
-          birthDate: BirthDate,
-
-          scheme: formSchema,
-
-          visa: Visa,
-          wheelchair: Wheelchair,
+          },
         };
 
-        reserveStorage.passenger.push(record);
+        if (!reserveStorage["reserveItem"]) {
+          reserveStorage["reserveItem"] = [];
+        }
+        reserveStorage["reserveItem"].push(record);
       }
+
       resetForm();
       reserveServiceRef.current.UpdateReserve(
         params.LocationId,
         reserveStorage
       );
       setReserveContext(reserveStorage);
+      if (Visa) {
+        AddVisa();
+      }
+      if (Wheelchair) {
+        AddWheelchair();
+      }
     }
   };
+
+  const AddVisa = () => {
+    if (Nationality === 1) {
+      let prices = pricesServiceRef.current.GetPrices(
+        params.LocationId +
+          "#" +
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
+            "YYYY-MM-DD"
+          )
+      );
+      if (prices) {
+        let reserveStorage = reserveServiceRef.current.GetReserve(
+          params.LocationId
+        );
+        if (!reserveStorage["reserveItem"]) {
+          reserveStorage["reserveItem"] = [];
+        }
+        var price = prices.filter((data) => {
+          return data.serviceTypeId === 5;
+        });
+        var existingvisa = reserveStorage.reserveItem.find((data) => {
+          return (
+            data.serviceTypeId === 5 &&
+            data.visa &&
+            data.visa.relatedPassenger === unique_id
+          );
+        });
+        if (existingvisa) {
+        } else {
+          var record = {
+            serviceLineId: price[0].id,
+            serviceLineTitle: price[0].serviceTypeName,
+            serviceTypeId: 5,
+            unitPrice: price[0].serviceLinePrices[0].price,
+            serviceQty: 1,
+            visa: {
+              relatedPassenger: unique_id,
+            },
+          };
+
+          reserveStorage["reserveItem"].push(record);
+          reserveServiceRef.current.UpdateReserve(
+            params.LocationId,
+            reserveStorage
+          );
+
+          setReserveContext(reserveStorage);
+        }
+      }
+    }
+  };
+  const AddWheelchair = () => {
+    let prices = pricesServiceRef.current.GetPrices(
+      params.LocationId +
+        "#" +
+        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
+          "YYYY-MM-DD"
+        )
+    );
+    if (prices) {
+      let reserveStorage = reserveServiceRef.current.GetReserve(
+        params.LocationId
+      );
+      if (!reserveStorage["reserveItem"]) {
+        reserveStorage["reserveItem"] = [];
+      }
+
+      var priceNative = prices.filter((data) => {
+        return data.serviceTypeId === 8 && data.noneNative;
+      });
+      var priceNoneNative = prices.filter((data) => {
+        return data.serviceTypeId === 8 && !data.noneNative;
+      });
+
+      var existingWheelchair = reserveStorage.reserveItem.find((data) => {
+        return (
+          data.serviceTypeId === 8 &&
+          data.visa &&
+          data.visa.relatedPassenger === unique_id
+        );
+      });
+      if (existingWheelchair) {
+      } else {
+        var record = {
+          serviceLineId:
+            Nationality === 1 ? priceNoneNative[0].id : priceNative[0].id,
+          serviceLineTitle:
+            Nationality === 1
+              ? priceNoneNative[0].serviceTypeName
+              : priceNative[0].serviceTypeName,
+          serviceTypeId: 5,
+          unitPrice:
+            Nationality === 1
+              ? priceNoneNative[0].serviceLinePrices[0].price
+              : priceNative[0].serviceLinePrices[0].price,
+          serviceQty: 1,
+          wheelchair: {
+            relatedPassenger: unique_id,
+          },
+        };
+
+        reserveStorage["reserveItem"].push(record);
+        reserveServiceRef.current.UpdateReserve(
+          params.LocationId,
+          reserveStorage
+        );
+
+        setReserveContext(reserveStorage);
+      }
+    }
+  };
+
   const resetForm = () => {
     setunique_id(uuid());
     setPassengerType({});
@@ -279,24 +431,30 @@ const PassengerInlineForm = (props) => {
     setVisa(false);
   };
   const fillForm = (passengerid) => {
-    var passenger = reserveContext.passenger.find((data) => {
-      return data.id === passengerid;
+    var passenger = reserveContext.reserveItem.find((data) => {
+      return data.passenger && data.passenger.id === passengerid;
     });
+
     if (passenger) {
-      setPassengerType(passenger.typeId);
-      setNameValue(passenger.name);
-      setName(passenger.name);
+      setPassengerType({
+        value: passenger.serviceLineId,
+        label: passenger.serviceLineTitle,
+      });
+      setNameValue(passenger.passenger.name);
+      setName(passenger.passenger.name);
 
       setGender(
         genderTypes.find((d) => {
-          return d.value === passenger.gender;
+          return d.value === passenger.passenger.gender;
         })
       );
-      setLastName(passenger.lastName);
-      setLAstNameValue(passenger.lastName);
-      setVisa(passenger.visa);
-      setWheelchair(passenger.wheelchair);
-      setBirthDate(Moment(new Date(passenger.birthDate)).format("YYYY-MM-DD"));
+      setLastName(passenger.passenger.lastName);
+      setLAstNameValue(passenger.passenger.lastName);
+      setVisa(passenger.passenger.visa);
+      setWheelchair(passenger.passenger.wheelchair);
+      setBirthDate(
+        Moment(new Date(passenger.passenger.birthDate)).format("YYYY-MM-DD")
+      );
     }
   };
   const pricesServiceRef = useRef();
@@ -472,7 +630,7 @@ const PassengerInlineForm = (props) => {
                     formSchema &&
                     formSchema.nationality &&
                     formSchema.nationality.value === 1 &&
-                    reserveContext.flightinfo.flightType === 0 && (
+                    reserveContext.flightInfo.flightType === 0 && (
                       <div className="form-group col-md-3">
                         <label>&nbsp;</label>
                         <div className="">

@@ -35,8 +35,8 @@ const AttendeeList = () => {
       params.LocationId
     );
 
-    reserveStorage.attendee = reserveStorage.attendee.filter((data) => {
-      return data.id !== event.currentTarget.id;
+    reserveStorage.reserveItem = reserveStorage.reserveItem.filter((data) => {
+      return !data.attendee || data.attendee.id !== event.currentTarget.id;
     });
 
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
@@ -60,7 +60,9 @@ const AttendeeList = () => {
       <div className="widget-header">
         <div className="row">
           <div className="col-xl-12 col-md-12 col-sm-12 col-12">
-            <AttendeeInlineFrom attendeeId={attendeeId}></AttendeeInlineFrom>
+            {reserveContext && reserveContext.flightInfo && (
+              <AttendeeInlineFrom attendeeId={attendeeId}></AttendeeInlineFrom>
+            )}
           </div>
         </div>
       </div>
@@ -89,54 +91,59 @@ const AttendeeList = () => {
             </thead>
             <tbody>
               {reserveContext &&
-                reserveContext.attendee.map((data) => {
-                  return (
-                    <tr key={data.id}>
-                      <td
-                        style={{
-                          width: "150px",
-                        }}
-                      >
-                        {data.gender && data.gender === "0"
-                          ? t("ReservePage.Attendee.List.GenderType.Female")
-                          : t("ReservePage.Attendee.List.GenderType.Male")}
-                      </td>
-                      <td className="text-center">{data.name}</td>
-                      <td className="text-center">{data.lastName}</td>
-
-                      <td
-                        className="text-center"
-                        style={{
-                          width: "150px",
-                        }}
-                      >
-                        <div
-                          style={{ float: "right", padding: "0 5px" }}
-                          onClick={onDeleteItem}
-                          id={data.id}
-                          className="icon-container"
+                reserveContext.reserveItem &&
+                reserveContext.reserveItem.map((data) => {
+                  if (data.attendee) {
+                    return (
+                      <tr key={data.attendee.id}>
+                        <td
+                          style={{
+                            width: "150px",
+                          }}
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-trash-2"
+                          {data.attendee.gender && data.attendee.gender === "0"
+                            ? t("ReservePage.Attendee.List.GenderType.Female")
+                            : t("ReservePage.Attendee.List.GenderType.Male")}
+                        </td>
+                        <td className="text-center">{data.attendee.name}</td>
+                        <td className="text-center">
+                          {data.attendee.lastName}
+                        </td>
+
+                        <td
+                          className="text-center"
+                          style={{
+                            width: "150px",
+                          }}
+                        >
+                          <div
+                            style={{ float: "right", padding: "0 5px" }}
+                            onClick={onDeleteItem}
+                            id={data.attendee.id}
+                            className="icon-container"
                           >
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                          </svg>
-                        </div>
-                      </td>
-                    </tr>
-                  );
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="feather feather-trash-2"
+                            >
+                              <polyline points="3 6 5 6 21 6"></polyline>
+                              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                              <line x1="10" y1="11" x2="10" y2="17"></line>
+                              <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  }
                 })}
             </tbody>
           </table>

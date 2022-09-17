@@ -25,7 +25,6 @@ const FlightInfoForm = (props) => {
   const reserveServiceRef = useRef(null);
   const [flightDataSource, setFlightDataSource] = useState();
   const [mindate] = useState(Moment(Date.now()).format("YYYY-MM-DD"));
-  const [flightInfo, setflightInfo] = useState(null);
   const [selectedFlightType, setselectedFlightType] = useState();
   const [selectedFlightNumber, setselectedFlightNumber] = useState();
   const [selectedDate, setselectedDate] = useState();
@@ -54,7 +53,7 @@ const FlightInfoForm = (props) => {
       params.LocationId
     );
 
-    reserveStorage.flightinfo.flightDate = data;
+    reserveStorage.flightInfo.flightDate = data;
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setselectedDate(data);
     if (data) {
@@ -77,7 +76,7 @@ const FlightInfoForm = (props) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    reserveStorage.flightinfo.flightType = data.value;
+    reserveStorage.flightInfo.flightType = data.value;
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setReserveContext(reserveStorage);
 
@@ -90,14 +89,12 @@ const FlightInfoForm = (props) => {
       );
       var str = JSON.stringify(data);
       if (str === "{}") {
-        setflightInfo(null);
-        reserveStorage.flightinfo = {};
+        reserveStorage.flightInfo = {};
       } else if (data === { value: undefined, label: undefined }) {
-        setflightInfo(null);
-        reserveStorage.flightinfo = {};
+        reserveStorage.flightInfo = {};
       } else {
-        reserveStorage.flightinfo.flightName = data.label;
-        reserveStorage.flightinfo.id = data.value;
+        reserveStorage.flightInfo.flightName = data.label;
+        reserveStorage.flightInfo.id = data.value;
 
         setflightId(data.value);
 
@@ -116,7 +113,7 @@ const FlightInfoForm = (props) => {
     localStorage.setItem(
       params.LocationId +
         "#" +
-        Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
           "YYYY-MM-DD"
         ),
       JSON.stringify(data)
@@ -152,12 +149,22 @@ const FlightInfoForm = (props) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    let flightDate = reserveStorage.flightinfo.flightDate;
-    reserveStorage.flightinfo = data;
-    reserveStorage.flightinfo.flightDate = flightDate;
+
+    let flightDate = reserveStorage.flightInfo.flightDate;
+    reserveStorage.flightInfo = data;
+    reserveStorage.flightInfo.flightDate = flightDate;
+
+    reserveStorage.flightInfo["arrivalTime"] = data.flightInfo.arrivalTime;
+    reserveStorage.flightInfo["departureTime"] = data.flightInfo.departureTime;
+    reserveStorage.flightInfo["arrivalCity"] = data.flightInfo.arrivalCity;
+    reserveStorage.flightInfo["departureCity"] = data.flightInfo.departureCity;
+    reserveStorage.flightInfo["departureAirport"] =
+      data.flightInfo.departureAirport;
+    reserveStorage.flightInfo["arrivalAirport"] =
+      data.flightInfo.arrivalAirport;
+
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setReserveContext(reserveStorage);
-    setflightInfo(reserveStorage.flightinfo);
   };
 
   const { sendRequest: fetchFlightNumber } = useHttp(
@@ -216,20 +223,20 @@ const FlightInfoForm = (props) => {
       if (reserveStorage) {
         try {
           var ft = flightTypes.find((d) => {
-            return d.value === `${reserveStorage.flightinfo.flightType}`;
+            return d.value === `${reserveStorage.flightInfo.flightType}`;
           });
           setselectedFlightType(ft);
 
           setselectedFlightNumber({
-            value: reserveStorage.flightinfo.id,
-            label: reserveStorage.flightinfo.flightName,
+            value: reserveStorage.flightInfo.id,
+            label: reserveStorage.flightInfo.flightName,
           });
           setselectedDate(
-            Moment(new Date(reserveStorage.flightinfo.flightDate)).format(
+            Moment(new Date(reserveStorage.flightInfo.flightDate)).format(
               "YYYY-MM-DD"
             )
           );
-          props.flightInfo(true, reserveStorage.flightinfo.flightDate);
+          props.flightInfo(true, reserveStorage.flightInfo.flightDate);
 
           setReserveContext(reserveStorage);
         } catch (e) {
@@ -254,7 +261,7 @@ const FlightInfoForm = (props) => {
         ref={reserveServiceRef}
       />
 
-      <FlightInfo />
+      {selectedFlightNumber && selectedFlightNumber.value && <FlightInfo />}
 
       <div className="row">
         <div className="col">
@@ -304,12 +311,12 @@ const FlightInfoForm = (props) => {
           />
         </div>
 
-        {flightInfo && (
+        {reserveContext && reserveContext.flightInfo && (
           <div className="col">
             <InputText
               textAlign={styles.textAlign}
               title={
-                reserveContext.flightinfo.flightType === 1
+                reserveContext.flightInfo.flightType === 1
                   ? t("ReservePage.FlightInfoForm.DepartureFlightTime")
                   : t("ReservePage.FlightInfoForm.ArrivalFlightTime")
               }
@@ -318,9 +325,9 @@ const FlightInfoForm = (props) => {
               IsRequired={true}
               RegexFormat="^[0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1}$"
               value={
-                reserveContext.flightinfo.flightType === 1
-                  ? reserveContext.flightinfo.flightInfo.departureTime
-                  : reserveContext.flightinfo.flightInfo.arrivalTime
+                reserveContext.flightInfo.flightType === 1
+                  ? reserveContext.flightInfo.departureTime
+                  : reserveContext.flightInfo.arrivalTime
               }
               valueCallback={updateFlightTimeForm}
               requiredMassage={t(

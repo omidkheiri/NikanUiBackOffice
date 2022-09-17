@@ -2,7 +2,7 @@ const reserve = {
   reserve: {
     locationId: "",
     customerId: "",
-    flightinfo: {
+    flightInfo: {
       flightDate: {},
       flightNumber: "",
       flightTime: "",

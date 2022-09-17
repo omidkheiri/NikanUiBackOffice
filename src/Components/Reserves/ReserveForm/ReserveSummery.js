@@ -6,16 +6,17 @@ import React, {
   useState,
 } from "react";
 import { group } from "core-js/actual/array/group";
-import { Popup, ToolbarItem } from "devextreme-react/popup";
-import ScrollView from "devextreme-react/scroll-view";
+
 import { useParams } from "react-router-dom";
 import ReserveContext from "../../../Store/ReserveContext";
 import Moment from "moment";
 import PriceListService from "../../../Hooks/Prices/PriceListService";
-import ReserveSummery from "./ReserveSummery";
-import useHttp from "../../../Hooks/use-http";
-import BasicContext from "../../../Store/enviroment-context";
-const Opreations = () => {
+import { useTranslation } from "react-i18next";
+import SelectContact from "./SelectContact";
+import ReserveService from "../../../Hooks/Reserve/ReserveService";
+
+const ReserveSummery = () => {
+  const [t] = useTranslation("common");
   const pricesServiceRef = useRef(null);
   const params = useParams();
   const [serviceList, setserviceList] = useState();
@@ -29,21 +30,7 @@ const Opreations = () => {
   const [wheelchairTotal, setwheelchareTotal] = useState(0);
   const [visaTotal, setvisaTotal] = useState(0);
   const [suiteTotal, setsuiteTotal] = useState(0);
-  const [popupVisible, setpopupVisible] = useState(false);
-  const basicContext = useContext(BasicContext);
-  const [reserveRecord, setreserveRecord] = useState();
-  const GoToPanel = (data) => {
-    console.log(data);
-  };
-  const { sendRequest: sendreserve } = useHttp(
-    {
-      url: basicContext.ReserveAddress + "/Reserve",
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: reserveRecord,
-    },
-    GoToPanel
-  );
+  const reserveServiceRef = useRef();
   const countOccurrences = (arr, val) =>
     arr.reduce((a, v) => (v.serviceTypeId === val ? a + 1 : a), 0);
 
@@ -174,18 +161,7 @@ const Opreations = () => {
 
     return count;
   };
-  const sendReserve = () => {
-    reserveContext.flightInfo.flightInfo = null;
 
-    delete reserveContext.flightInfo["flightInfo"];
-    console.log(reserveContext);
-
-    setpopupVisible(true);
-  };
-
-  const hideInfo = () => {
-    setpopupVisible(false);
-  };
   const getPetQty = () => {
     var i = reserveContext.reserveItem.find((data) => {
       return data.serviceTypeId === 4;
@@ -315,191 +291,212 @@ const Opreations = () => {
     setpsassengersTotal(sum);
     return sum;
   };
-  const closeButtonOptions = {
-    text: "Close",
-    onClick: hideInfo,
-  };
-  const sendReserveToList = async () => {
-    if (reserveContext.customerId) {
-      console.log(reserveContext);
-      await createReserveRecord();
-      sendreserve();
-    } else {
-      alert("select a contact");
-    }
-  };
+  const selectedIdChanged = (data) => {
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+    if (data === "") {
+      reserveContext["customerId"] = data;
 
-  async function createReserveRecord() {
-    var reserveRecordtemp = reserveContext;
-    reserveRecordtemp.flightInfo.flightDate = Moment(
-      new Date(reserveContext.flightInfo.flightDate)
-    ).format("YYYY-MM-DD");
-    reserveRecordtemp.reserveItem.forEach((data) => {
-      if (data.passenger) {
-        data.passenger.birthDate = Moment(
-          new Date(data.passenger.birthDate)
-        ).format("YYYY-MM-DD");
-      }
-      if (data.transfer) {
-        data.transfer.time = Moment(new Date(data.transfer.time)).format(
-          "HH:mm"
+      reserveStorage["customerId"] = data;
+      reserveServiceRef.current.UpdateReserve(
+        params.LocationId,
+        reserveStorage
+      );
+    } else {
+      if (data[0]) {
+        reserveContext["customerId"] = data[0];
+        setReserveContext(reserveContext);
+        reserveStorage["customerId"] = data[0];
+
+        reserveServiceRef.current.UpdateReserve(
+          params.LocationId,
+          reserveStorage
         );
       }
-    });
-    setreserveRecord(reserveRecordtemp);
-  }
-
-  const sendButtonOptions = {
-    text: "ارسال",
-    onClick: sendReserveToList,
+    }
   };
-
+  const reserveUpdated = () => {};
   return (
     <Fragment>
+      <ReserveService reserveUpdated={reserveUpdated} ref={reserveServiceRef} />
       <PriceListService ref={pricesServiceRef} />
-
-      <Popup
-        visible={popupVisible}
-        onHiding={hideInfo}
-        dragEnabled={false}
-        hideOnOutsideClick={true}
-        showCloseButton={false}
-        showTitle={true}
-        title="Reserve"
-        container=".dx-viewport"
-        fullScreen={true}
-      >
-        <ScrollView width="100%" height="100%">
-          <div id="textBlock">
-            <ReserveSummery></ReserveSummery>
-          </div>
-        </ScrollView>
-
-        <ToolbarItem
-          widget="dxButton"
-          toolbar="bottom"
-          location="after"
-          options={closeButtonOptions}
-        />
-        <ToolbarItem
-          widget="dxButton"
-          toolbar="bottom"
-          location="before"
-          options={sendButtonOptions}
-        />
-      </Popup>
-
-      <div
-        id="navSection"
-        data-spy="affix"
-        className="nav sidenav"
-        style={{ top: "95px", width: "280px", direction: "rtl" }}
-      >
-        <button className="btn btn-danger m-3" onClick={resetReserve}>
-          reset
-        </button>
-        <button className="btn btn-primary m-3" onClick={sendReserve}>
-          Save
-        </button>
-        {reserveContext &&
-          reserveContext.reserveItem &&
-          serviceList &&
-          serviceList.map((service) => {
-            return (
-              <div key={service} className="list-group">
-                <div
-                  className="nav-link active"
-                  style={{ borderBottom: "1px solid #edeaea", padding: "0px" }}
-                >
-                  <div className="row">
-                    <div className="col-md-2"></div>
-                    <div className="col-md-8">{service}</div>
-                    <div className="col-md-2"></div>
-                    <div className="col-md-8 " style={{ direction: "ltr" }}>
-                      {service === "Passenger" &&
-                        `${countOccurrences(
-                          reserveContext.reserveItem,
-                          1
-                        )}  →   ${psassengersTotal.toLocaleString(undefined, {
-                          maximumFractionDigits: 0,
-                        })}`}
-                      {service === "Transfer" &&
-                        `${countOccurrences(
-                          reserveContext.reserveItem,
-                          3
-                        )}  →   ${transferTotal.toLocaleString(undefined, {
-                          maximumFractionDigits: 0,
-                        })}`}
-                      {service === "Attendee" &&
-                        `${countOccurrences(
-                          reserveContext.reserveItem,
-                          2
-                        )}  →   ${attendesssTotal.toLocaleString(undefined, {
-                          maximumFractionDigits: 0,
-                        })}`}
-                      {service === "Pet" &&
-                        `${getPetQty()}  →   ${petTotal.toLocaleString(
-                          undefined,
-                          {
+      <div id="content" className="container" style={{ marginTop: "10px" }}>
+        <div
+          id="navSection"
+          data-spy="affix"
+          className="nav sidenav"
+          style={{ top: "95px", width: "280px", direction: "rtl" }}
+        >
+          {reserveContext &&
+            reserveContext.reserveItem &&
+            serviceList &&
+            serviceList.map((service) => {
+              return (
+                <div key={service} className="list-group">
+                  <div
+                    className="nav-link active"
+                    style={{
+                      borderBottom: "1px solid #edeaea",
+                      padding: "0px",
+                    }}
+                  >
+                    <div className="row">
+                      <div className="col-md-2"></div>
+                      <div className="col-md-8">{service}</div>
+                      <div className="col-md-2"></div>
+                      <div className="col-md-8 " style={{ direction: "ltr" }}>
+                        {service === "Passenger" &&
+                          `${countOccurrences(
+                            reserveContext.reserveItem,
+                            1
+                          )}  →   ${psassengersTotal.toLocaleString(undefined, {
                             maximumFractionDigits: 0,
-                          }
-                        )}`}
+                          })}`}
+                        {service === "Transfer" &&
+                          `${countOccurrences(
+                            reserveContext.reserveItem,
+                            3
+                          )}  →   ${transferTotal.toLocaleString(undefined, {
+                            maximumFractionDigits: 0,
+                          })}`}
+                        {service === "Attendee" &&
+                          `${countOccurrences(
+                            reserveContext.reserveItem,
+                            2
+                          )}  →   ${attendesssTotal.toLocaleString(undefined, {
+                            maximumFractionDigits: 0,
+                          })}`}
+                        {service === "Pet" &&
+                          `${getPetQty()}  →   ${petTotal.toLocaleString(
+                            undefined,
+                            {
+                              maximumFractionDigits: 0,
+                            }
+                          )}`}
 
-                      {service === "Visa" &&
-                        `${getVisaqty()}  →   ${visaTotal.toLocaleString(
-                          undefined,
-                          {
-                            maximumFractionDigits: 0,
-                          }
-                        )}`}
-                      {service === "Wheelchair" &&
-                        `${getWheelchairqty()}  →   ${wheelchairTotal.toLocaleString(
-                          undefined,
-                          {
-                            maximumFractionDigits: 0,
-                          }
-                        )}`}
-                      {service === "Suite" &&
-                        `${getSuiteQty()}  →   ${suiteTotal.toLocaleString(
-                          undefined,
-                          {
-                            maximumFractionDigits: 0,
-                          }
-                        )}`}
+                        {service === "Visa" &&
+                          `${getVisaqty()}  →   ${visaTotal.toLocaleString(
+                            undefined,
+                            {
+                              maximumFractionDigits: 0,
+                            }
+                          )}`}
+                        {service === "Wheelchair" &&
+                          `${getWheelchairqty()}  →   ${wheelchairTotal.toLocaleString(
+                            undefined,
+                            {
+                              maximumFractionDigits: 0,
+                            }
+                          )}`}
+                        {service === "Suite" &&
+                          `${getSuiteQty()}  →   ${suiteTotal.toLocaleString(
+                            undefined,
+                            {
+                              maximumFractionDigits: 0,
+                            }
+                          )}`}
+                      </div>
+                      <hr
+                        style={{
+                          display: "block",
+                          width: "100%",
+                          margin: "1px 5px ",
+                        }}
+                      />
                     </div>
-                    <hr
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        margin: "1px 5px ",
-                      }}
-                    />
                   </div>
                 </div>
+              );
+            })}
+          <div className="list-group">
+            <div
+              className="nav-link active"
+              style={{ borderBottom: "1px solid #edeaea" }}
+            >
+              <div className="row">
+                <div className="col-md-2"></div>
+                <div className="col-md-8">
+                  <small style={{ fontSize: "10px" }}>
+                    جمع کل بدون مالیات و تخفیف
+                  </small>
+                </div>
+                <div
+                  className="col-md-12 pr-5 pl-5"
+                  style={{
+                    textAlign: "center",
+                    fontSize: "24px",
+                    marginTop: "10px",
+                  }}
+                >
+                  {gettotal}
+                </div>
               </div>
-            );
-          })}
-        <div className="list-group">
+            </div>
+          </div>
+        </div>
+        <div
+          className="container"
+          style={{
+            maxWidth: "78.333333% !important",
+            marginRight: "14px",
+            padding: "0 32px !important",
+            minHeight: "400px",
+          }}
+        >
           <div
-            className="nav-link active"
-            style={{ borderBottom: "1px solid #edeaea" }}
+            className="row layout-top-spacing "
+            style={{ direction: "rtl", width: "100%" }}
           >
-            <div className="row">
-              <div className="col-md-2"></div>
-              <div className="col-md-8">
-                <small style={{ fontSize: "10px" }}>
-                  جمع کل بدون مالیات و تخفیف
-                </small>
+            <div className="col-lg-12 col-12 layout-spacing">
+              <div className="form-group col-md-12">
+                <SelectContact selectedIdChanged={selectedIdChanged} />
               </div>
-              <div
-                className="col-md-12 pr-5 pl-5"
-                style={{
-                  textAlign: "center",
-                  fontSize: "24px",
-                  marginTop: "10px",
-                }}
-              >
-                {gettotal}
+            </div>
+
+            <div className="col-lg-12 col-12 layout-spacing">
+              <div className="table-responsive">
+                <table className="table mb-4">
+                  <thead>
+                    <tr>
+                      <th className="text-center">
+                        {t("SummeryPage.List.Type")}
+                      </th>
+                      <th> {t("SummeryPage.List.UnitPrice")}</th>
+                      <th> {t("SummeryPage.List.QTY")}</th>
+                      <th className="">{t("SummeryPage.List.Description")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {reserveContext.reserveItem.map((data) => {
+                      return (
+                        <tr key={data.serviceLineId}>
+                          <td className="text-center">
+                            {data.serviceLineTitle}
+                          </td>
+                          <td className="text-primary">
+                            {data.unitPrice.toLocaleString(undefined, {
+                              maximumFractionDigits: 0,
+                            })}
+                          </td>
+                          <td>{data.serviceQty}</td>
+                          <td className="">
+                            <span className=" shadow-none badge outline-badge-primary">
+                              {data.passenger &&
+                                data.passenger.name +
+                                  " " +
+                                  data.passenger.lastName}
+                              {data.attendee &&
+                                data.attendee.name +
+                                  " " +
+                                  data.attendee.lastName}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -509,4 +506,4 @@ const Opreations = () => {
   );
 };
 
-export default Opreations;
+export default ReserveSummery;

@@ -104,21 +104,21 @@ const ReserveNewForm = () => {
               </div>
             </div>
 
-            {reserve && reserve.passenger && (
+            {reserve && (
               <div className="statbox widget box mt-3">
                 <div className="widget-content widget-content-area">
                   <PassengerList></PassengerList>
                 </div>
               </div>
             )}
-            {reserve && reserve.attendee && (
+            {reserve && (
               <div className="statbox widget box mt-3">
                 <div className="widget-content widget-content-area">
                   <AttendeeList></AttendeeList>
                 </div>
               </div>
             )}
-            {reserve && reserve.transfer && (
+            {reserve && (
               <div className="statbox widget box mt-3">
                 <div className="widget-content widget-content-area">
                   <TransferList></TransferList>

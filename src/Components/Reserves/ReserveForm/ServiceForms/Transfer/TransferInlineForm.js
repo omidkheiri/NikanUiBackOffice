@@ -25,7 +25,7 @@ const TransferInlineForm = (props) => {
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
   const params = useParams();
   const [t] = useTranslation("common");
-
+  const [TransferPrice, settransferPrice] = useState();
   const [Address, setAddress] = useState("");
   const [Time, setTime] = useState("");
   const [Description, setDescription] = useState("");
@@ -62,7 +62,7 @@ const TransferInlineForm = (props) => {
       let prices = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
-          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
             "YYYY-MM-DD"
           )
       );
@@ -82,25 +82,7 @@ const TransferInlineForm = (props) => {
   }, [reserveContext]);
 
   useEffect(() => {
-    if (transferType) {
-      var priceData = pricesServiceRef.current.GetPrices(
-        params.LocationId +
-          "#" +
-          Moment(new Date(reserveContext.flightinfo.flightDate)).format(
-            "YYYY-MM-DD"
-          )
-      );
-
-      var item = priceData.find((data) => {
-        return data.id === transferType.value;
-      });
-
-      if (item) {
-        var scheme = JSON.parse(item.serviceLineScheme);
-
-        setformSchema(scheme);
-      }
-    }
+    getPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transferType]);
 
@@ -143,30 +125,58 @@ const TransferInlineForm = (props) => {
       let reserveStorage = reserveServiceRef.current.GetReserve(
         params.LocationId
       );
-
-      if (reserveStorage.transfer.length > 0 && reserveStorage.transfer[0]) {
-        var item = reserveStorage.transfer.find((data) => {
-          return data.id === unique_id;
+      var price = getPrice();
+      if (
+        reserveStorage.reserveItem.find((data) => {
+          return data.transfer && data.transfer.id === unique_id;
+        })
+      ) {
+        var item = reserveStorage.reserveItem.filter((data) => {
+          return data.transfer && data.transfer.id === unique_id;
         });
         if (item) {
-          reserveStorage.transfer.forEach((element) => {
-            if (element.id === unique_id) {
-              element.typeId = transferType;
-
-              element.address = Address;
-              element.time = Time;
-
-              element.mobileNumber = MobileNumber;
-
-              element.scheme = formSchema;
-
-              element.description = Description;
+          item.forEach((element) => {
+            if (element.transfer.id === unique_id) {
+              element.transfer.typeId = transferType;
+              element.transfer.address = Address;
+              element.transfer.time = Time;
+              element.transfer.mobileNumber = MobileNumber;
+              element.transfer.scheme = formSchema;
+              element.transfer.description = Description;
             }
           });
         } else {
           var record = {
+            serviceLineId: transferType.value,
+            serviceLineTitle: transferType.label,
+            serviceTypeId: 3,
+            unitPrice: price.serviceLinePrices[0].price,
+            serviceQty: 1,
+            transfer: {
+              id: unique_id,
+
+              address: Address,
+              time: Time,
+              mobileNumber: MobileNumber,
+              scheme: formSchema,
+              description: Description,
+            },
+          };
+
+          if (!reserveStorage["reserveItem"]) {
+            reserveStorage["reserveItem"] = [];
+          }
+          reserveStorage["reserveItem"].push(record);
+        }
+      } else {
+        record = {
+          serviceLineId: transferType.value,
+          serviceLineTitle: transferType.label,
+          serviceTypeId: 3,
+          unitPrice: TransferPrice.serviceLinePrices[0].price,
+          serviceQty: 1,
+          transfer: {
             id: unique_id,
-            typeId: transferType,
 
             address: Address,
             time: Time,
@@ -176,27 +186,13 @@ const TransferInlineForm = (props) => {
             scheme: formSchema,
 
             description: Description,
-          };
-
-          reserveStorage.transfer.push(record);
-        }
-      } else {
-        reserveStorage.transfer = [];
-        record = {
-          id: unique_id,
-          typeId: transferType,
-
-          address: Address,
-          time: Time,
-
-          mobileNumber: MobileNumber,
-
-          scheme: formSchema,
-
-          description: Description,
+          },
         };
 
-        reserveStorage.transfer.push(record);
+        if (!reserveStorage["reserveItem"]) {
+          reserveStorage["reserveItem"] = [];
+        }
+        reserveStorage["reserveItem"].push(record);
       }
 
       reserveServiceRef.current.UpdateReserve(
@@ -207,6 +203,30 @@ const TransferInlineForm = (props) => {
       resetForm();
     }
   };
+
+  const getPrice = () => {
+    if (transferType) {
+      var priceData = pricesServiceRef.current.GetPrices(
+        params.LocationId +
+          "#" +
+          Moment(new Date(reserveContext.flightInfo.flightDate)).format(
+            "YYYY-MM-DD"
+          )
+      );
+
+      var item = priceData.find((data) => {
+        return data.id === transferType.value;
+      });
+
+      if (item) {
+        var scheme = JSON.parse(item.serviceLineScheme);
+        settransferPrice(item);
+        setformSchema(scheme);
+        return item;
+      }
+    }
+  };
+
   const resetForm = () => {
     SetTransfer(null);
     setunique_id(uuid());
@@ -220,18 +240,21 @@ const TransferInlineForm = (props) => {
     setTime("");
   };
   const fillForm = (transferId) => {
-    var transfer = reserveContext.transfer.find((data) => {
-      return data.id === transferId;
+    var transfer = reserveContext.reserveItem.find((data) => {
+      return data.transfer && data.transfer.id === transferId;
     });
     if (transfer) {
-      SetTransfer(transfer);
-      settransferType(transfer.typeId);
+      SetTransfer(transfer.transfer);
+      settransferType({
+        value: transfer.serviceLineId,
+        label: transfer.serviceLineTitle,
+      });
 
-      setAddress(transfer.address);
+      setAddress(transfer.transfer.address);
 
-      setDescription(transfer.description);
-      setMobileNumber(transfer.mobileNumber);
-      setTime(transfer.time);
+      setDescription(transfer.transfer.description);
+      setMobileNumber(transfer.transfer.mobileNumber);
+      setTime(transfer.transfer.time);
     }
   };
   const pricesServiceRef = useRef();
@@ -310,14 +333,11 @@ const TransferInlineForm = (props) => {
                     </label>
 
                     <Flatpickr
-                      type="time"
                       value={transfer ? transfer.time : null}
                       options={{
-                        time_24hr: true,
-                        minDate: props.minDate,
-                        nocalendar: true,
                         enableTime: true,
-                        dateFormat: "h:i K",
+                        noCalendar: true,
+                        dateFormat: "H:i",
                       }}
                       className="form-control flatpickr flatpickr-input"
                       onChange={updateTime}
