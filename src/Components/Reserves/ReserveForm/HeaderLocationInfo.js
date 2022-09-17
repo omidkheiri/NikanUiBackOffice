@@ -1,10 +1,7 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
-import useHttp from "../../../Hooks/use-http";
+import { Link } from "react-router-dom";
 
-import BasicContext from "../../../Store/enviroment-context";
 const HeaderLocationInfo = (props) => {
   const [t] = useTranslation("common");
 
@@ -15,7 +12,7 @@ const HeaderLocationInfo = (props) => {
       </div>
       <ol className="breadcrumb">
         <li className="breadcrumb-item">
-          <a href="">{props.location.title}</a>
+          <Link to={``}>{props.location.title}</Link>
         </li>
       </ol>
     </nav>

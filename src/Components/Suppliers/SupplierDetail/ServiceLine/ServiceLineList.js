@@ -132,7 +132,7 @@ const ServiceLineList = (props) => {
           <th style={{ textAlign: "right", width: "50px" }}>
             {t("ServiceLine.FormElement.Type")}
           </th>
-          <th style={{ textAlign: "right", width: "50px" }}>
+          <th style={{ textAlign: "right" }}>
             {t("ServiceLine.FormElement.Location")}
           </th>
           <th style={{ textAlign: "right", width: "50px" }}>

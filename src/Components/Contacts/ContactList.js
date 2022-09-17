@@ -8,7 +8,6 @@ import DataGrid, {
   SearchPanel,
 } from "devextreme-react/data-grid";
 import CustomStore from "devextreme/data/custom_store";
-import "whatwg-fetch";
 import { useTranslation } from "react-i18next";
 import GotoButton from "../UI/ListElement/GotoButton";
 import BasicContext from "../../Store/enviroment-context";
@@ -19,9 +18,8 @@ const ContactList = () => {
   function isNotEmpty(value) {
     return value !== undefined && value !== null && value !== "";
   }
-
   const store = new CustomStore({
-    key: "contactId",
+    key: "id",
     load(loadOptions) {
       let params = "?";
       [

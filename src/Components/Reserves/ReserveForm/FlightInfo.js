@@ -1,22 +1,27 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-const FlightInfo = (props) => {
+
+import ReserveContext from "../../../Store/ReserveContext";
+const FlightInfo = () => {
+  const [reserveContext] = useContext(ReserveContext);
+
   const [t] = useTranslation("common");
+
   return (
     <Fragment>
-      {props.selected && (
+      {reserveContext && reserveContext.flightInfo && (
         <div className="row layout-top-spacing " style={{ direction: "rtl" }}>
           <div className="col-lg-12 col-12 layout-spacing">
             <div className="row">
               <div className="col">
                 <span>
-                  Airline: <b>{props.flightInfo.airlineName}</b>
+                  Airline: <b>{reserveContext.flightInfo.airlineName}</b>
                 </span>
               </div>
               <div className="col">
                 <span>
-                  Flight Name: <b>{props.flightInfo.flightName}</b>
+                  Flight Name: <b>{reserveContext.flightInfo.flightName}</b>
                 </span>
               </div>
 
@@ -24,9 +29,9 @@ const FlightInfo = (props) => {
                 <span>
                   Flight Date:
                   <b>
-                    {moment(new Date(props.flightInfo.flightDate)).format(
-                      "YYYY-MM-DD"
-                    )}
+                    {moment(
+                      new Date(reserveContext.flightInfo.flightDate)
+                    ).format("YYYY-MM-DD")}
                   </b>
                 </span>
               </div>
@@ -41,14 +46,14 @@ const FlightInfo = (props) => {
                     {t("ReservePage.FlightInfoForm.DepartureInfo")}
                   </p>
                   <p className="d-inline">
-                    {props.flightInfo.flightInfo.departureCity}
+                    {reserveContext.flightInfo.departureCity}
                   </p>
                   <small>
-                    {props.flightInfo.flightInfo.departureAirport}
+                    {reserveContext.flightInfo.departureAirport}
                     <span>
                       <code> time </code>
                     </span>
-                    <b>{props.flightInfo.flightInfo.departureTime}</b>
+                    <b>{reserveContext.flightInfo.departureTime}</b>
                   </small>
                 </blockquote>
               </div>
@@ -82,14 +87,14 @@ const FlightInfo = (props) => {
                     {t("ReservePage.FlightInfoForm.َArrivalInfo")}
                   </p>
                   <p className="d-inline">
-                    {props.flightInfo.flightInfo.arrivalCity}
+                    {reserveContext.flightInfo.arrivalCity}
                   </p>
                   <small>
-                    {props.flightInfo.flightInfo.arrivalAirport}
+                    {reserveContext.flightInfo.arrivalAirport}
                     <span>
                       <code> time </code>
                     </span>
-                    <b>{props.flightInfo.flightInfo.arrivalTime}</b>
+                    <b>{reserveContext.flightInfo.arrivalTime}</b>
                   </small>
                 </blockquote>
               </div>

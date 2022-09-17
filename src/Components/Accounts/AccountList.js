@@ -20,9 +20,8 @@ const AccountList = () => {
   function isNotEmpty(value) {
     return value !== undefined && value !== null && value !== "";
   }
-
   const store = new CustomStore({
-    key: "accountId",
+    key: "id",
     load(loadOptions) {
       let params = "?";
       [
@@ -54,6 +53,7 @@ const AccountList = () => {
         });
     },
   });
+
   const checkBoxCell = (data) => {
     return (
       <div>

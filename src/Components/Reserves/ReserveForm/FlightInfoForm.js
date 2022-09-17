@@ -9,12 +9,10 @@ import React, {
 import { useTranslation } from "react-i18next";
 import DatePicker from "../../UI/FormElement/DatePicker";
 import InputText from "../../UI/FormElement/InputText";
-import { SelectBox } from "devextreme-react/select-box";
 import Moment from "moment";
 import DropDown from "../../UI/FormElement/DropDown";
 import FlightInfo from "./FlightInfo";
 import ReserveService from "../../../Hooks/Reserve/ReserveService";
-import { setDefaultNamespace } from "i18next";
 import useHttp from "../../../Hooks/use-http";
 import BasicContext from "../../../Store/enviroment-context";
 import { useParams } from "react-router-dom";
@@ -27,7 +25,6 @@ const FlightInfoForm = (props) => {
   const reserveServiceRef = useRef(null);
   const [flightDataSource, setFlightDataSource] = useState();
   const [mindate] = useState(Moment(Date.now()).format("YYYY-MM-DD"));
-  const [flightInfo, setflightInfo] = useState(null);
   const [selectedFlightType, setselectedFlightType] = useState();
   const [selectedFlightNumber, setselectedFlightNumber] = useState();
   const [selectedDate, setselectedDate] = useState();
@@ -35,7 +32,12 @@ const FlightInfoForm = (props) => {
   const [flightId, setflightId] = useState();
 
   const [reserveContext, setReserveContext] = useContext(ReserveContext);
-  console.log(reserveContext);
+  useEffect(() => {
+    if (flightId) {
+      fetchFlightNumber();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flightId]);
   const getReserve = (reserve) => {
     setReserveContext(reserve);
   };
@@ -46,11 +48,12 @@ const FlightInfoForm = (props) => {
     { value: "1", label: "Departure" },
   ]);
   const updateFlightDateForm = (data) => {
+    setselectedFlightType({});
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
 
-    reserveStorage.flightinfo.flightDate = data;
+    reserveStorage.flightInfo.flightDate = data;
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setselectedDate(data);
     if (data) {
@@ -59,39 +62,78 @@ const FlightInfoForm = (props) => {
       props.flightInfo(false, data);
     }
 
-    pricesServiceRef.current.AddPriceRecord(
-      params.LocationId + "#" + Moment(new Date(data)).format("YYYY-MM-DD"),
-      data
-    );
     setReserveContext(reserveStorage);
   };
+  useEffect(() => {
+    if (selectedDate) {
+      fetchLocationServiceWithPrice();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate]);
 
-  const updateFlightTimeForm = (data) => {};
+  const updateFlightTimeForm = () => {};
   const updateFlightType = useCallback((data) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    reserveStorage.flightinfo.flightType = data.value;
+    reserveStorage.flightInfo.flightType = data.value;
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setReserveContext(reserveStorage);
-  }, []);
-  const updateFlightNumber = useCallback((data) => {
-    let reserveStorage = reserveServiceRef.current.GetReserve(
-      params.LocationId
-    );
-    reserveStorage.flightinfo.flightName = data.label;
-    reserveStorage.flightinfo.id = data.value;
-    setflightId(data.value);
-    reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
-    setReserveContext(reserveStorage);
-    setselectedFlightNumber(data);
-  }, []);
-  useEffect(() => {
-    if (flightId) {
-      fetchFlightNumber();
-    }
-  }, [flightId]);
 
+    setselectedFlightNumber({});
+  });
+  const updateFlightNumber = useCallback(
+    (data) => {
+      let reserveStorage = reserveServiceRef.current.GetReserve(
+        params.LocationId
+      );
+      var str = JSON.stringify(data);
+      if (str === "{}") {
+        reserveStorage.flightInfo = {};
+      } else if (data === { value: undefined, label: undefined }) {
+        reserveStorage.flightInfo = {};
+      } else {
+        reserveStorage.flightInfo.flightName = data.label;
+        reserveStorage.flightInfo.id = data.value;
+
+        setflightId(data.value);
+
+        reserveServiceRef.current.UpdateReserve(
+          params.LocationId,
+          reserveStorage
+        );
+      }
+
+      setReserveContext(reserveStorage);
+      setselectedFlightNumber(data);
+    },
+    [params.LocationId, setReserveContext]
+  );
+  const GetServiceListData = (data) => {
+    localStorage.setItem(
+      params.LocationId +
+        "#" +
+        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
+          "YYYY-MM-DD"
+        ),
+      JSON.stringify(data)
+    );
+  };
+
+  const { sendRequest: fetchLocationServiceWithPrice } = useHttp(
+    {
+      url:
+        basicContext.serviceLineAddress +
+        "/ServiceLine/Location/" +
+        params.LocationId +
+        "?DateTime=" +
+        Moment(new Date(selectedDate)).format("YYYY-MM-DD"),
+      method: "Get",
+      headers: { "Content-Type": "application/json" },
+      body: null,
+    },
+    GetServiceListData
+  );
   const handleInputChange = () => {
     return;
   };
@@ -107,12 +149,22 @@ const FlightInfoForm = (props) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    let flightDate = reserveStorage.flightinfo.flightDate;
-    reserveStorage.flightinfo = data;
-    reserveStorage.flightinfo.flightDate = flightDate;
+
+    let flightDate = reserveStorage.flightInfo.flightDate;
+    reserveStorage.flightInfo = data;
+    reserveStorage.flightInfo.flightDate = flightDate;
+
+    reserveStorage.flightInfo["arrivalTime"] = data.flightInfo.arrivalTime;
+    reserveStorage.flightInfo["departureTime"] = data.flightInfo.departureTime;
+    reserveStorage.flightInfo["arrivalCity"] = data.flightInfo.arrivalCity;
+    reserveStorage.flightInfo["departureCity"] = data.flightInfo.departureCity;
+    reserveStorage.flightInfo["departureAirport"] =
+      data.flightInfo.departureAirport;
+    reserveStorage.flightInfo["arrivalAirport"] =
+      data.flightInfo.arrivalAirport;
+
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setReserveContext(reserveStorage);
-    setflightInfo(reserveStorage.flightinfo);
   };
 
   const { sendRequest: fetchFlightNumber } = useHttp(
@@ -147,10 +199,9 @@ const FlightInfoForm = (props) => {
     setsearchterm(data);
   };
   useEffect(() => {
-    console.log("selectedDate");
-    console.log(selectedDate);
-    fetchFlightNumbers();
-  }, [searchTerm]);
+    if (searchTerm && searchTerm >= 3 && selectedDate) fetchFlightNumbers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, selectedDate]);
 
   const styles = {
     textAlign: {
@@ -172,20 +223,20 @@ const FlightInfoForm = (props) => {
       if (reserveStorage) {
         try {
           var ft = flightTypes.find((d) => {
-            return d.value === `${reserveStorage.flightinfo.flightType}`;
+            return d.value === `${reserveStorage.flightInfo.flightType}`;
           });
           setselectedFlightType(ft);
 
           setselectedFlightNumber({
-            value: reserveStorage.flightinfo.id,
-            label: reserveStorage.flightinfo.flightName,
+            value: reserveStorage.flightInfo.id,
+            label: reserveStorage.flightInfo.flightName,
           });
           setselectedDate(
-            Moment(new Date(reserveStorage.flightinfo.flightDate)).format(
+            Moment(new Date(reserveStorage.flightInfo.flightDate)).format(
               "YYYY-MM-DD"
             )
           );
-          props.flightInfo(true, reserveStorage.flightinfo.flightDate);
+          props.flightInfo(true, reserveStorage.flightInfo.flightDate);
 
           setReserveContext(reserveStorage);
         } catch (e) {
@@ -193,31 +244,25 @@ const FlightInfoForm = (props) => {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const reserveUpdated = () => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
     setReserveContext(reserveStorage);
-
-    console.log(reserveServiceRef.current.GetReserve(params.LocationId));
   };
   return (
     <Fragment>
-      <PriceListService
-        reserveUpdated={reserveUpdated}
-        getReserve={getReserve}
-        ref={pricesServiceRef}
-      />
+      <PriceListService ref={pricesServiceRef} />
       <ReserveService
         reserveUpdated={reserveUpdated}
         getReserve={getReserve}
         ref={reserveServiceRef}
       />
 
-      {flightInfo && (
-        <FlightInfo selected={selectedFlightNumber} flightInfo={flightInfo} />
-      )}
+      {selectedFlightNumber && selectedFlightNumber.value && <FlightInfo />}
+
       <div className="row">
         <div className="col">
           <label>{t("ReservePage.FlightInfoForm.FlightDate")} </label>
@@ -266,12 +311,12 @@ const FlightInfoForm = (props) => {
           />
         </div>
 
-        {flightInfo && (
+        {reserveContext && reserveContext.flightInfo && (
           <div className="col">
             <InputText
               textAlign={styles.textAlign}
               title={
-                reserveContext.flightinfo.flightType === 1
+                reserveContext.flightInfo.flightType === 1
                   ? t("ReservePage.FlightInfoForm.DepartureFlightTime")
                   : t("ReservePage.FlightInfoForm.ArrivalFlightTime")
               }
@@ -280,9 +325,9 @@ const FlightInfoForm = (props) => {
               IsRequired={true}
               RegexFormat="^[0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1}$"
               value={
-                reserveContext.flightinfo.flightType === 1
-                  ? reserveContext.flightinfo.flightInfo.departureTime
-                  : reserveContext.flightinfo.flightInfo.arrivalTime
+                reserveContext.flightInfo.flightType === 1
+                  ? reserveContext.flightInfo.departureTime
+                  : reserveContext.flightInfo.arrivalTime
               }
               valueCallback={updateFlightTimeForm}
               requiredMassage={t(

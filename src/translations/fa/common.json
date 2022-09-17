@@ -3,6 +3,7 @@
     "direction": "rtl",
     "HeaderMenus": {
         "Accounts": "سازمانها",
+        "Contact": "اشخاص",
         "Reserves": "رزروها",
         "NewReserve": "رزرو جدید",
         "NewAccount": "سازمان جدید",
@@ -140,6 +141,9 @@
             "Title": "عنوان",
             "Address": "آدرس",
             "Location": "موقعیت جغرافیایی",
+            "ArrivalBufferTime": "بافر ورودی",
+            "DepartureBufferTime": "بافر خروجی",
+            "TransferBufferTime": "بافر ترنسفر",
             "MaxAllowtedDate": "آخرین زمان مجاز",
             "SaveAccount": "ذخیره",
             "TitleRequiredMessage": "عنوان لازم است",
@@ -161,6 +165,7 @@
             "Status": "سرویس فعال است",
             "TaxInclude": "شامل مالیات",
             "ServiceLocationId": "محل ارائه سرویس",
+            "NoneNative": "غیر ایرانی",
             "ServiceTypeId": "نوع سرویس",
             "FinancialCode": "کد مالی",
             "FinancialTitle": "عنوان مالی",
@@ -195,6 +200,15 @@
         }
     },
     "ReservePage": {
+        "List": {
+            "ReserveNumber": "شناسه رزرو",
+            "FlightNumber": "شماره پرواز",
+            "FlightDate": "تاریخ پرواز",
+            "Approved": "تائید شده",
+            "Payment": "پرداخت شده",
+            "CustomerName": "نام مشتری",
+            "CustomerId": "شناسه مشتری"
+        },
         "LocationHeaderTitle": "محل ارائه سرویس",
         "FlightInfoForm": {
             "DepartureInfo": "اطلاعات حرکت",
@@ -211,15 +225,16 @@
         "Transfer": {
             "List": {
                 "Type": "نوع ترنسفر",
-                "FromAddress": "مبدا سفر",
-                "ToAddress": "مقصد سفر"
+                "Address": "آدرس",
+                "Time": "مبدا سفر",
+                "Description": "مبدا سفر"
             },
             "FormElement": {
                 "TransferType": "نوع ترنسفر",
-                "FromAddress": "مبدا سفر",
-                "ToAddress": "مقصد سفر",
+                "Address": "آدرس",
+                "Time": "زمان مراجعه",
                 "Description": "توضیحات",
-                "Mobile": "شماره تماس",
+                "MobileNumber": "شماره تماس",
                 "FromAddressRequired": "آدرس مبدا اجباری است",
                 "ToAddressRequired": "آدرس مقصد اجباری است"
             }
@@ -239,6 +254,7 @@
                     "Male": "آقای",
                     "Female": "خانم"
                 },
+                "Type": "نوع مسافر",
                 "Gender": "جنسیت",
                 "Visa": "خدمات ویزا",
                 "Wheelchair": "خدمات ویلچر"
@@ -260,6 +276,7 @@
                 "NameRequired": "نام لازم است",
                 "LastNameRequired": "نام  خانوادگی لازم است",
                 "NationalityRequired": "تعیین ملیت اجبرای است",
+                "NameFromatErrorMessage": "با حروف انگلیسی وارد شود",
                 "Visa": "خدمات ویزا",
                 "Wheelchair": "خدمات ویلچر",
                 "SaveThis": "این رکورد رو دخیره کن",
@@ -269,10 +286,28 @@
                 "NationalCodeRequired": "کدملی لازم است"
             }
         },
-        "Attendance": {
+        "Pet": "خدمات حیوان زنده",
+        "Attendee": {
+            "Genders": {
+                "Male": "آقا",
+                "Female": "خانم"
+            },
+            "List": {
+                "Gender": "جنسیت",
+                "Name": "نام ",
+                "LastName": "نام خانوادگی",
+                "GenderType": {
+                    "Male": "آقای",
+                    "Female": "خانم"
+                }
+            },
             "FormElement": {
-                "FullName": "نام کامل",
-                "FullNameRequired": "نام کامل"
+                "Gender": "جنسیت",
+                "GenderRequired": "جنسیت لازم است",
+                "Name": "نام ",
+                "NameRequired": "نام لازم است",
+                "LastName": "نام خانوادگی",
+                "LastNameRequired": "نام  خانوادگی لازم است"
             }
         }
     },
@@ -283,6 +318,14 @@
             "Contacts": "اشخاص",
             "Services": "سرویسها",
             "ServiceLocations": "محل ارائه سرویس"
+        }
+    },
+    "SummeryPage": {
+        "List": {
+            "Type": "نوع سرویس",
+            "UnitPrice": "قیمت",
+            "QTY": "تعداد",
+            "Description": "توضیحات"
         }
     }
 }

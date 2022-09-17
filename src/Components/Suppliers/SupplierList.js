@@ -1,6 +1,5 @@
 import React from "react";
 import Breadcrumb from "../UI/Breadcrumb";
-import classes from "./SupplierList.module.css";
 const SupplierList = () => {
   return (
     <div className="layout-px-spacing">

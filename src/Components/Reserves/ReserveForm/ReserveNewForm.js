@@ -1,17 +1,10 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import useHttp from "../../../Hooks/use-http";
 import BasicContext from "../../../Store/enviroment-context";
 import FlightInfoForm from "./FlightInfoForm";
 import HeaderLocationInfo from "./HeaderLocationInfo";
 import "./ReserveNewForm.css";
-import Moment from "moment";
 import Opreations from "./Opreations";
 
 import PassengerList from "./ServiceForms/Passenger/PassengerList";
@@ -19,6 +12,8 @@ import ReserveService from "../../../Hooks/Reserve/ReserveService";
 import AttendeeList from "./ServiceForms/Attendee/AttendeeList";
 import TransferList from "./ServiceForms/Transfer/TransferList";
 import ReserveContext from "../../../Store/ReserveContext";
+import PetSection from "./ServiceForms/Pet/PetSection";
+import SuiteList from "./ServiceForms/Suite/SuiteList";
 
 const ReserveNewForm = () => {
   const reserveServiceRef = useRef(null);
@@ -27,8 +22,8 @@ const ReserveNewForm = () => {
   const basicContext = useContext(BasicContext);
   const params = useParams();
   const [location, setlocation] = useState();
-  const [flightDate, setflightDate] = useState();
-  const [serviceList, setserviceList] = useState();
+  const [, setflightDate] = useState();
+  const [serviceList] = useState();
   const [showServiceList, setShowServiceList] = useState();
   const getReserve = (reserve) => {
     setReserve(reserve);
@@ -37,13 +32,18 @@ const ReserveNewForm = () => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-    if (!reserveStorage) {
+    if (
+      reserveStorage &&
+      reserveStorage.locationId &&
+      reserveStorage.locationId.id
+    ) {
+      setlocation(reserveStorage.locationId);
+    } else {
       reserveServiceRef.current.AddReserveTemp(params.LocationId);
       fetchLocation();
-    } else {
-      setlocation(reserveStorage.locationId);
     }
     setReserve(reserveStorage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const GetData = (data) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
@@ -54,9 +54,6 @@ const ReserveNewForm = () => {
     setReserve(reserveStorage);
     setlocation(reserveStorage.locationId);
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
-  };
-  const GetServiceListData = (data) => {
-    setserviceList(data);
   };
 
   const setFlightNumber = (show, value) => {
@@ -76,24 +73,6 @@ const ReserveNewForm = () => {
     },
     GetData
   );
-  const { sendRequest: fetchLocationServiceWithPrice } = useHttp(
-    {
-      url:
-        basicContext.serviceLineAddress +
-        "/ServiceLine/Location/" +
-        params.LocationId +
-        "?DateTime=" +
-        Moment(new Date(flightDate)).format("YYYY-MM-DD"),
-      method: "Get",
-      headers: { "Content-Type": "application/json" },
-      body: null,
-    },
-    GetServiceListData
-  );
-
-  useEffect(() => {
-    fetchLocationServiceWithPrice();
-  }, [showServiceList]);
 
   const reserveUpdated = () => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
@@ -125,24 +104,38 @@ const ReserveNewForm = () => {
               </div>
             </div>
 
-            {reserve && reserve.passenger && (
+            {reserve && (
               <div className="statbox widget box mt-3">
                 <div className="widget-content widget-content-area">
                   <PassengerList></PassengerList>
                 </div>
               </div>
             )}
-            {reserve && reserve.attendee && (
+            {reserve && (
               <div className="statbox widget box mt-3">
                 <div className="widget-content widget-content-area">
                   <AttendeeList></AttendeeList>
                 </div>
               </div>
             )}
-            {reserve && reserve.transfer && (
+            {reserve && (
               <div className="statbox widget box mt-3">
                 <div className="widget-content widget-content-area">
                   <TransferList></TransferList>
+                </div>
+              </div>
+            )}
+            {reserve && (
+              <div className="statbox widget box mt-3">
+                <div className="widget-content widget-content-area">
+                  <PetSection></PetSection>
+                </div>
+              </div>
+            )}
+            {reserve && (
+              <div className="statbox widget box mt-3">
+                <div className="widget-content widget-content-area">
+                  <SuiteList></SuiteList>
                 </div>
               </div>
             )}

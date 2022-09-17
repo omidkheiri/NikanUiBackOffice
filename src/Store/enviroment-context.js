@@ -1,10 +1,12 @@
 import React from "react";
 
 const BasicContext = React.createContext({
-  baseAddress: `http://localhost:30007/GW/Account/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
-  flightAddress: `http://localhost:30007/GW/Account/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
-  serviceLocationAddress: `http://localhost:30007/GW/ServiceLocation/V1/company/1c6c8970-bba4-4408-9280-2a4584a19562`,
-  serviceLineAddress: `http://localhost:30007/GW/ServiceLine/V1/Company/1c6c8970-bba4-4408-9280-2a4584a19562`,
+  baseAddress: `http://gaitway.ribbonid.com/GW/Account/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320`,
+  flightAddress: `http://gaitway.ribbonid.com/GW/Account/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320`,
+  serviceLocationAddress: `http://gaitway.ribbonid.com/GW/ServiceLocation/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320`,
+  serviceLineAddress: `http://gaitway.ribbonid.com/GW/ServiceLine/V1/Company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320`,
+  ReserveAddress:
+    "http://localhost:30007/GW/Reserve/V1/Company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320",
 });
 
 export default BasicContext;
