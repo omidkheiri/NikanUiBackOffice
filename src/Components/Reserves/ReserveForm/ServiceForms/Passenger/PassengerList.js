@@ -41,13 +41,13 @@ const PassengerList = () => {
     });
     reserveStorage.reserveItem = reserveStorage.reserveItem.filter((data) => {
       return (
-        !data.visa || data.visa.relatedPassenger !== event.currentTarget.id
+        !data.visa || data.visa.relatedPassengerId !== event.currentTarget.id
       );
     });
     reserveStorage.reserveItem = reserveStorage.reserveItem.filter((data) => {
       return (
         !data.wheelchair ||
-        data.wheelchair.relatedPassenger !== event.currentTarget.id
+        data.wheelchair.relatedPassengerId !== event.currentTarget.id
       );
     });
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);

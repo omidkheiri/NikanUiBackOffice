@@ -4,9 +4,9 @@ import useHttp from "../../../Hooks/use-http";
 import BasicContext from "../../../Store/enviroment-context";
 import FlightInfoForm from "./FlightInfoForm";
 import HeaderLocationInfo from "./HeaderLocationInfo";
-import "./ReserveNewForm.css";
+import "./ReserveForm.css";
 import Opreations from "./Opreations";
-
+import Moment from "moment";
 import PassengerList from "./ServiceForms/Passenger/PassengerList";
 import ReserveService from "../../../Hooks/Reserve/ReserveService";
 import AttendeeList from "./ServiceForms/Attendee/AttendeeList";
@@ -14,11 +14,13 @@ import TransferList from "./ServiceForms/Transfer/TransferList";
 import ReserveContext from "../../../Store/ReserveContext";
 import PetSection from "./ServiceForms/Pet/PetSection";
 import SuiteList from "./ServiceForms/Suite/SuiteList";
-
-const ReserveNewForm = () => {
+import { v4 as uuid } from "uuid";
+import PriceListService from "../../../Hooks/Prices/PriceListService";
+const ReserveForm = () => {
   const reserveServiceRef = useRef(null);
-
-  const [reserve, setReserve] = useState({});
+  const pricesServiceRef = useRef(null);
+  const [unique_id, setunique_id] = useState(uuid());
+  const [reserve, setReserve] = useState();
   const basicContext = useContext(BasicContext);
   const params = useParams();
   const [location, setlocation] = useState();
@@ -39,7 +41,15 @@ const ReserveNewForm = () => {
     ) {
       setlocation(reserveStorage.locationId);
     } else {
-      reserveServiceRef.current.AddReserveTemp(params.LocationId);
+      if (params.ReserveId !== "null") {
+        reserveServiceRef.current.AddReserveTemp(
+          params.LocationId,
+          params.ReserveId
+        );
+      } else {
+        reserveServiceRef.current.AddReserveTemp(params.LocationId, unique_id);
+      }
+
       fetchLocation();
     }
     setReserve(reserveStorage);
@@ -87,6 +97,8 @@ const ReserveNewForm = () => {
         getReserve={getReserve}
         ref={reserveServiceRef}
       />
+      <PriceListService ref={pricesServiceRef} />
+
       <div id="content" className="main-content">
         <div className="page-header page-header-scrollspy">
           {location && <HeaderLocationInfo location={location} />}
@@ -146,4 +158,4 @@ const ReserveNewForm = () => {
   );
 };
 
-export default ReserveNewForm;
+export default ReserveForm;

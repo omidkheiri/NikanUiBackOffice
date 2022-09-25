@@ -14,7 +14,11 @@ const SuiteList = () => {
   const pricesServiceRef = useRef();
   const [Prices, setPrices] = useState();
   useEffect(() => {
-    if (params.LocationId && JSON.stringify(reserveContext) !== "{}") {
+    if (
+      params.LocationId &&
+      reserveContext.flightInfo &&
+      JSON.stringify(reserveContext) !== "{}"
+    ) {
       let prices = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +

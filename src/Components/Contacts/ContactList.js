@@ -61,7 +61,7 @@ const ContactList = () => {
           />
         </div>
         <div style={{ float: "left", margin: "0px 5px" }}>
-          <GotoButton data={`/Reserve/${data.value}`} />
+          <GotoButton data={`/Reserve/${data.value}/null`} />
         </div>
       </Fragment>
     );

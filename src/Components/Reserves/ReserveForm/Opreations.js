@@ -8,7 +8,7 @@ import React, {
 import { group } from "core-js/actual/array/group";
 import { Popup, ToolbarItem } from "devextreme-react/popup";
 import ScrollView from "devextreme-react/scroll-view";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ReserveContext from "../../../Store/ReserveContext";
 import Moment from "moment";
 import PriceListService from "../../../Hooks/Prices/PriceListService";
@@ -21,7 +21,7 @@ const Opreations = () => {
   const [serviceList, setserviceList] = useState();
   const [, setserviceListItem] = useState();
   const [gettotal, setgettotal] = useState();
-  const [reserveContext, setReserveContext] = useContext(ReserveContext);
+  const [reserveContext] = useContext(ReserveContext);
   const [psassengersTotal, setpsassengersTotal] = useState(0);
   const [attendesssTotal, setattendeesTotal] = useState(0);
   const [transferTotal, settransferTotal] = useState(0);
@@ -32,18 +32,37 @@ const Opreations = () => {
   const [popupVisible, setpopupVisible] = useState(false);
   const basicContext = useContext(BasicContext);
   const [reserveRecord, setreserveRecord] = useState();
-  const GoToPanel = (data) => {
-    console.log(data);
+  const history = useHistory();
+  const [ReserveServerId, setReserveServerId] = useState();
+  const GoToPanel = () => {
+    history.push("/Reserves/");
   };
   const { sendRequest: sendreserve } = useHttp(
     {
-      url: basicContext.ReserveAddress + "/Reserve",
+      url: `http://localhost:5105/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320/Reserve`, //basicContext.ReserveAddress + "/Reserve",
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
       body: reserveRecord,
     },
     GoToPanel
   );
+
+  const { sendRequest: putReserve } = useHttp(
+    {
+      url: `http://localhost:5105/V1/company/5eb7d5c9-a5c0-4045-8d2f-ae37b14cb320/Reserve/${ReserveServerId}`, //basicContext.ReserveAddress + "/Reserve",
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: reserveRecord,
+    },
+    GoToPanel
+  );
+
   const countOccurrences = (arr, val) =>
     arr.reduce((a, v) => (v.serviceTypeId === val ? a + 1 : a), 0);
 
@@ -143,7 +162,7 @@ const Opreations = () => {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reserveContext, visaTotal, wheelchairTotal]);
+  }, [reserveContext.reserveItem]);
   const resetReserve = () => {
     localStorage.removeItem(params.LocationId);
     window.location.reload();
@@ -198,24 +217,13 @@ const Opreations = () => {
   };
 
   const sumPet = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var pet = reserveContext.reserveItem.filter((data) => {
       return data.serviceTypeId === 4;
     });
     if (pet) {
       pet.forEach((element) => {
-        var price = priceList.find((d) => {
-          return d.id === element.serviceLineId;
-        });
-
-        sum = element.serviceQty * price.serviceLinePrices[0].price;
+        sum = element.unitPrice * element.serviceQty;
       });
     }
     setpetTotal(sum);
@@ -223,76 +231,41 @@ const Opreations = () => {
   };
 
   const sumSuite = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var suiteSum = reserveContext.reserveItem.filter((data) => {
       return data.serviceTypeId === 6 && data.serviceQty > 0;
     });
     if (suiteSum) {
       suiteSum.forEach((element) => {
-        var price = priceList.find((d) => {
-          return d.id === element.serviceLineId;
-        });
-
-        sum = sum + price.serviceLinePrices[0].price;
+        sum = sum + element.unitPrice * element.serviceQty;
       });
     }
+
     setsuiteTotal(sum);
     return sum;
   };
 
   const sumAttendee = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var attendeeSum = reserveContext.reserveItem.filter((data) => {
       return data.attendee;
     });
 
     attendeeSum.forEach((element) => {
-      if (!priceList) {
-        return;
-      }
-      var price = priceList.find((d) => {
-        return d.serviceTypeId === 2;
-      });
-
-      sum = sum + price.serviceLinePrices[0].price;
+      sum = sum + element.unitPrice * element.serviceQty;
     });
     setattendeesTotal(sum);
     return sum;
   };
 
   const sumTransfer = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var transferSum = reserveContext.reserveItem.filter((data) => {
       return data.serviceTypeId === 3;
     });
 
     transferSum.forEach((element) => {
-      var price = priceList.find((d) => {
-        return d.id === element.serviceLineId;
-      });
-
-      sum = sum + price.serviceLinePrices[0].price;
+      sum = sum + element.unitPrice * element.serviceQty;
     });
     settransferTotal(sum);
     return sum;
@@ -321,13 +294,21 @@ const Opreations = () => {
   };
   const sendReserveToList = async () => {
     if (reserveContext.customerId) {
-      console.log(reserveContext);
-      await createReserveRecord();
-      sendreserve();
+      createReserveRecord();
     } else {
       alert("select a contact");
     }
   };
+
+  useEffect(() => {
+    if (reserveRecord) {
+      if (reserveRecord.id) {
+        putReserve();
+      } else {
+        sendreserve();
+      }
+    }
+  }, [reserveRecord]);
 
   async function createReserveRecord() {
     var reserveRecordtemp = reserveContext;
@@ -346,6 +327,7 @@ const Opreations = () => {
         );
       }
     });
+    setReserveServerId(reserveContext.id);
     setreserveRecord(reserveRecordtemp);
   }
 

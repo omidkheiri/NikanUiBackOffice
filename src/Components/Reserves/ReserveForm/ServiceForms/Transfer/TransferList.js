@@ -91,7 +91,7 @@ const TransferList = () => {
                 reserveContext.reserveItem.map((data) => {
                   if (data.transfer) {
                     return (
-                      <tr key={data.transfer.id}>
+                      <tr key={data.transfer}>
                         <td className="text-center">{data.serviceLineTitle}</td>
 
                         <td className="text-center">{data.transfer.address}</td>

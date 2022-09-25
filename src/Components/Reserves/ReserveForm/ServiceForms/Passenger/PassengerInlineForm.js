@@ -222,7 +222,7 @@ const PassengerInlineForm = (props) => {
         if (item) {
           reserveStorage.reserveItem = reserveContext.reserveItem.filter(
             (data) => {
-              return !data.visa || data.visa.relatedPassenger != unique_id;
+              return !data.visa || data.visa.relatedPassengerId != unique_id;
             }
           );
           reserveStorage.reserveItem.forEach((element) => {
@@ -301,11 +301,42 @@ const PassengerInlineForm = (props) => {
       setReserveContext(reserveStorage);
       if (Visa) {
         AddVisa();
+      } else {
+        RemoveVisa();
       }
+
       if (Wheelchair) {
         AddWheelchair();
+      } else {
+        RemoveWheelchair();
       }
     }
+  };
+  const RemoveVisa = () => {
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+    var items = reserveStorage.reserveItem.filter((data) => {
+      return !data.visa || data.visa.relatedPassengerId !== unique_id;
+    });
+    reserveStorage.reserveItem = items;
+    reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
+
+    setReserveContext(reserveStorage);
+  };
+  const RemoveWheelchair = () => {
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+    var items = reserveStorage.reserveItem.filter((data) => {
+      return (
+        !data.wheelchair || data.wheelchair.relatedPassengerId !== unique_id
+      );
+    });
+    reserveStorage.reserveItem = items;
+    reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
+
+    setReserveContext(reserveStorage);
   };
 
   const AddVisa = () => {
@@ -331,7 +362,7 @@ const PassengerInlineForm = (props) => {
           return (
             data.serviceTypeId === 5 &&
             data.visa &&
-            data.visa.relatedPassenger === unique_id
+            data.visa.relatedPassengerId === unique_id
           );
         });
         if (existingvisa) {
@@ -343,7 +374,7 @@ const PassengerInlineForm = (props) => {
             unitPrice: price[0].serviceLinePrices[0].price,
             serviceQty: 1,
             visa: {
-              relatedPassenger: unique_id,
+              relatedPassengerId: unique_id,
             },
           };
 
@@ -385,7 +416,7 @@ const PassengerInlineForm = (props) => {
         return (
           data.serviceTypeId === 8 &&
           data.visa &&
-          data.visa.relatedPassenger === unique_id
+          data.visa.relatedPassengerId === unique_id
         );
       });
       if (existingWheelchair) {
@@ -397,14 +428,14 @@ const PassengerInlineForm = (props) => {
             Nationality === 1
               ? priceNoneNative[0].serviceTypeName
               : priceNative[0].serviceTypeName,
-          serviceTypeId: 5,
+          serviceTypeId: 8,
           unitPrice:
             Nationality === 1
               ? priceNoneNative[0].serviceLinePrices[0].price
               : priceNative[0].serviceLinePrices[0].price,
           serviceQty: 1,
           wheelchair: {
-            relatedPassenger: unique_id,
+            relatedPassengerId: unique_id,
           },
         };
 

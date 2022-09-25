@@ -37,6 +37,9 @@ const PetSection = () => {
             "YYYY-MM-DD"
           )
       );
+      if (!priceDatas) {
+        return;
+      }
       var pricedata = priceDatas.find((d) => {
         return d.serviceTypeId === 4;
       });
@@ -44,6 +47,7 @@ const PetSection = () => {
         return data.serviceLineId === pricedata.id;
       });
       setCountervalue(item.serviceQty);
+      setCounter(item.serviceQty);
     } else {
       setCountervalue(0);
     }
@@ -82,7 +86,7 @@ const PetSection = () => {
       let reserveStorage = reserveServiceRef.current.GetReserve(
         params.LocationId
       );
-      setReserveContext(reserveStorage);
+      //setReserveContext(reserveStorage);
       var context = reserveStorage;
       if (!context || !context.flightInfo || !context.flightInfo.flightName) {
         return;
@@ -95,6 +99,9 @@ const PetSection = () => {
           "#" +
           Moment(new Date(context.flightInfo.flightDate)).format("YYYY-MM-DD")
       );
+      if (!priceData) {
+        return;
+      }
       var pricedata = priceData.find((d) => {
         return d.serviceTypeId === 4;
       });

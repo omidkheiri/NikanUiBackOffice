@@ -11,7 +11,15 @@ import { useContext } from "react";
 import BasicContext from "../../../Store/enviroment-context";
 import { useState } from "react";
 import { Fragment } from "react";
+import ReserveContext from "../../../Store/ReserveContext";
+import { useEffect } from "react";
+import { useRef } from "react";
+import ReserveService from "../../../Hooks/Reserve/ReserveService";
+import { useParams } from "react-router-dom";
 const SelectContact = (props) => {
+  const params = useParams();
+  const reserveServiceRef = useRef(null);
+  const [reserveContext, setReserveContext] = useContext(ReserveContext);
   const basicContext = useContext(BasicContext);
   const gridColumns = [
     "contactNumber",
@@ -26,6 +34,29 @@ const SelectContact = (props) => {
   const [isGridBoxOpened, setisGridBoxOpened] = useState();
   const [selectedItemInfo, setselectedItemInfo] = useState();
   const [displayInfo, setdisplayInfo] = useState("");
+
+  useEffect(() => {
+    let reserveStorage = reserveServiceRef.current.GetReserve(
+      params.LocationId
+    );
+    if (
+      reserveStorage &&
+      reserveStorage.contactFullName &&
+      reserveStorage.contactId &&
+      reserveStorage.contactPhone &&
+      reserveStorage.customerId
+    ) {
+      setgridBoxValue(reserveStorage.customerId);
+      setselectedItemInfo({
+        name: reserveStorage.contactFullName,
+        lastName: "",
+        phone: reserveStorage.contactPhone,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function isNotEmpty(value) {
     return value !== undefined && value !== null && value !== "";
   }
@@ -38,15 +69,15 @@ const SelectContact = (props) => {
     var a = e.selectedRowsData[0].accountId;
     setAccountId(a);
     setgridBoxValue(e.selectedRowKeys);
-    props.selectedIdChanged(e.selectedRowKeys);
+
     setselectedItemInfo(e.selectedRowsData[0]);
     gridBoxDisplayExpr(selectedItemInfo);
+    props.selectedIdChanged(e.selectedRowsData[0]);
     setisGridBoxOpened(false);
   };
   const syncDataGridSelection = (e) => {
-    props.selectedIdChanged("");
     setgridBoxValue(e.value);
-    props.selectedIdChanged(e.value);
+    //  props.selectedIdChanged(e.value);
   };
 
   const gridBoxDisplayExpr = (item) => {
@@ -133,6 +164,7 @@ const SelectContact = (props) => {
   };
   return (
     <Fragment>
+      <ReserveService ref={reserveServiceRef} />
       <h4 style={{ textAlign: "right" }}>اطلاعات رزرو کننده</h4>
       <DropDownBox
         value={gridBoxValue}

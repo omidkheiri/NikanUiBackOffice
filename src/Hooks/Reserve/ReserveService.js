@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 
 const ReserveService = forwardRef((props, ref) => {
   const [reserve] = useState({
+    clientReserveId: "",
     locationId: {},
     customerId: "",
     flightInfo: {
@@ -14,7 +15,11 @@ const ReserveService = forwardRef((props, ref) => {
   });
 
   useImperativeHandle(ref, () => ({
-    AddReserveTemp(id) {
+    AddReserveTemp(id, reserveId) {
+      reserve.clientReserveId = reserveId;
+      localStorage.setItem(id, JSON.stringify(reserve));
+    },
+    AddReserve(id, reserve) {
       localStorage.setItem(id, JSON.stringify(reserve));
     },
     UpdateReserve(id, data) {

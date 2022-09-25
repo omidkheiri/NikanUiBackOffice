@@ -201,13 +201,17 @@
     },
     "ReservePage": {
         "List": {
-            "ReserveNumber": "شناسه رزرو",
+            "PageTitle": "فهرست رزرو ها",
             "FlightNumber": "شماره پرواز",
             "FlightDate": "تاریخ پرواز",
             "Approved": "تائید شده",
             "Payment": "پرداخت شده",
             "CustomerName": "نام مشتری",
-            "CustomerId": "شناسه مشتری"
+            "CustomerId": "شناسه مشتری",
+            "LocationTitle": "محل سرویس",
+            "ContactPhone": "تلفن",
+            "Remaining": "باقی مانده",
+            "ReserveNumber": "شناسه رزرو"
         },
         "LocationHeaderTitle": "محل ارائه سرویس",
         "FlightInfoForm": {
@@ -220,7 +224,8 @@
             "ArrivalFlightTime": "ساعت ورود",
             "FlightTimeMessage": "فیلد اجباری",
             "FlightNumberRequiredMessage": "شماره پرواز لازم است",
-            "FlightTypeRequiredMessage": "نوع پرواز لازم است"
+            "FlightTypeRequiredMessage": "نوع پرواز لازم است",
+            "TimeFormatMessage": "فرمت ساعت 23:59"
         },
         "Transfer": {
             "List": {

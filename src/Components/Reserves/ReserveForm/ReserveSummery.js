@@ -172,26 +172,14 @@ const ReserveSummery = () => {
       return 0;
     }
   };
-
   const sumPet = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var pet = reserveContext.reserveItem.filter((data) => {
       return data.serviceTypeId === 4;
     });
     if (pet) {
       pet.forEach((element) => {
-        var price = priceList.find((d) => {
-          return d.id === element.serviceLineId;
-        });
-
-        sum = element.serviceQty * price.serviceLinePrices[0].price;
+        sum = element.unitPrice * element.serviceQty;
       });
     }
     setpetTotal(sum);
@@ -199,76 +187,41 @@ const ReserveSummery = () => {
   };
 
   const sumSuite = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var suiteSum = reserveContext.reserveItem.filter((data) => {
       return data.serviceTypeId === 6 && data.serviceQty > 0;
     });
     if (suiteSum) {
       suiteSum.forEach((element) => {
-        var price = priceList.find((d) => {
-          return d.id === element.serviceLineId;
-        });
-
-        sum = sum + price.serviceLinePrices[0].price;
+        sum = sum + element.unitPrice * element.serviceQty;
       });
     }
+
     setsuiteTotal(sum);
     return sum;
   };
 
   const sumAttendee = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var attendeeSum = reserveContext.reserveItem.filter((data) => {
       return data.attendee;
     });
 
     attendeeSum.forEach((element) => {
-      if (!priceList) {
-        return;
-      }
-      var price = priceList.find((d) => {
-        return d.serviceTypeId === 2;
-      });
-
-      sum = sum + price.serviceLinePrices[0].price;
+      sum = sum + element.unitPrice * element.serviceQty;
     });
     setattendeesTotal(sum);
     return sum;
   };
 
   const sumTransfer = () => {
-    var priceList = pricesServiceRef.current.GetPrices(
-      params.LocationId +
-        "#" +
-        Moment(new Date(reserveContext.flightInfo.flightDate)).format(
-          "YYYY-MM-DD"
-        )
-    );
     var sum = 0;
     var transferSum = reserveContext.reserveItem.filter((data) => {
       return data.serviceTypeId === 3;
     });
 
     transferSum.forEach((element) => {
-      var price = priceList.find((d) => {
-        return d.id === element.serviceLineId;
-      });
-
-      sum = sum + price.serviceLinePrices[0].price;
+      sum = sum + element.unitPrice * element.serviceQty;
     });
     settransferTotal(sum);
     return sum;
@@ -304,11 +257,19 @@ const ReserveSummery = () => {
         reserveStorage
       );
     } else {
-      if (data[0]) {
-        reserveContext["customerId"] = data[0];
+      if (data) {
+        reserveContext["contactNumber"] = data.contactNumber;
+        reserveContext["contactId"] = data.contactId;
+        reserveContext["contactFullName"] = data.name + " " + data.lastName;
+        reserveContext["contactPhone"] = data.phone;
+        reserveContext["customerId"] = data.contactId;
         setReserveContext(reserveContext);
-        reserveStorage["customerId"] = data[0];
 
+        reserveStorage["contactNumber"] = data.contactNumber;
+        reserveStorage["contactId"] = data.contactId;
+        reserveStorage["contactFullName"] = data.name + " " + data.lastName;
+        reserveStorage["contactPhone"] = data.phone;
+        reserveStorage["customerId"] = data.contactId;
         reserveServiceRef.current.UpdateReserve(
           params.LocationId,
           reserveStorage
@@ -448,6 +409,34 @@ const ReserveSummery = () => {
             className="row layout-top-spacing "
             style={{ direction: "rtl", width: "100%" }}
           >
+            <div className="col">
+              <span>
+                Airline: {"     "}
+                <b> {reserveContext.flightInfo.airlineName}</b>
+              </span>
+            </div>
+            <div className="col">
+              <span>
+                Flight Name: {"     "}
+                <b> {reserveContext.flightInfo.flightName}</b>
+              </span>
+            </div>
+
+            <div className="col">
+              <span>
+                Flight Date: {"     "}
+                <b>
+                  {Moment(
+                    new Date(reserveContext.flightInfo.flightDate)
+                  ).format("YYYY-MM-DD")}{" "}
+                </b>
+                time :
+                {reserveContext.flightInfo.flightType === 1
+                  ? reserveContext.flightInfo.departureTime
+                  : reserveContext.flightInfo.arrivalTime}
+              </span>
+            </div>
+
             <div className="col-lg-12 col-12 layout-spacing">
               <div className="form-group col-md-12">
                 <SelectContact selectedIdChanged={selectedIdChanged} />

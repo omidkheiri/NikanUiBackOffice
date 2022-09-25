@@ -29,7 +29,7 @@ const LocationList = (props) => {
   const ItemTemplate = (data) => {
     return (
       <Link
-        to={"/NewReserve/" + data.id}
+        to={"/Reserve/" + data.id + "/null"}
         onClick={closeLocation}
         id={data.id}
         className={"list-group-item list-group-item-action"}

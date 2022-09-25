@@ -12,7 +12,7 @@
   position: fixed;
   left: -30px;
   top: 147px;
-  width: 236px;
+  width: 300px;
   height: auto;
   border-right: 1px solid #e0e6ed;
 }
@@ -56,9 +56,10 @@
 
 #content > .container {
   display: flex;
-  max-width: 58.333333% !important;
+  max-width: 78.333333% !important;
   margin-right: 14px;
   padding: 0 32px !important;
+  min-height: 400px;
 }
 #content > .container > .container {
   padding: 0;

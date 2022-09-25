@@ -22,9 +22,10 @@
   text-align: center;
 }
 .faq .faq-layouting .fq-tab-section h2 span {
-  color: #4361ee;
+  color: #b69234;
 }
-.faq .faq-layouting .fq-tab-section .accordion {  }
+.faq .faq-layouting .fq-tab-section .accordion {
+}
 .faq .faq-layouting .fq-tab-section .accordion .card {
   border: 1px solid #e0e6ed;
   border-radius: 6px;
@@ -39,15 +40,28 @@
   padding: 15px 19px;
   font-weight: 600;
   font-size: 16px;
-  color: #4361ee;
+  color: #b69234;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header > div[aria-expanded="true"] {
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  > div[aria-expanded="true"] {
   border-bottom: 1px solid #e0e6ed;
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div .faq-q-title {
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div
+  .faq-q-title {
   overflow: hidden;
   font-size: 14px;
   color: #3b3f5c;
@@ -55,20 +69,50 @@
   letter-spacing: 1px;
   align-self: center;
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div[aria-expanded="true"] .faq-q-title {
-  color: #4361ee;
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div[aria-expanded="true"]
+  .faq-q-title {
+  color: #b69234;
 }
 .faq .faq-layouting .fq-tab-section .accordion .card .card-header div .icons {
   display: inline-block;
   float: left;
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div .icons svg {
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div
+  .icons
+  svg {
   color: #888ea8;
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div[aria-expanded="true"] .icons svg {
-  color: #4361ee;
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div[aria-expanded="true"]
+  .icons
+  svg {
+  color: #b69234;
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div svg.feather-thumbs-up {
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div
+  svg.feather-thumbs-up {
   cursor: pointer;
   vertical-align: bottom;
   margin-left: 10px;
@@ -76,24 +120,62 @@
   color: #888ea8;
   fill: rgba(0, 23, 55, 0.08);
 }
-.faq .faq-layouting .fq-tab-section .accordion .card:hover .card-header div svg.feather-thumbs-up,
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div[aria-expanded="true"] svg.feather-thumbs-up {
-  color: #4361ee;
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card:hover
+  .card-header
+  div
+  svg.feather-thumbs-up,
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div[aria-expanded="true"]
+  svg.feather-thumbs-up {
+  color: #b69234;
   fill: rgba(27, 85, 226, 0.23921568627450981);
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div span.faq-like-count {
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div
+  span.faq-like-count {
   font-size: 13px;
   font-weight: 700;
   color: #888ea8;
   fill: rgba(0, 23, 55, 0.08);
 }
-.faq .faq-layouting .fq-tab-section .accordion .card:hover .card-header div span.faq-like-count,
-.faq .faq-layouting .fq-tab-section .accordion .card .card-header div[aria-expanded="true"] span.faq-like-count {
-  color: #4361ee;
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card:hover
+  .card-header
+  div
+  span.faq-like-count,
+.faq
+  .faq-layouting
+  .fq-tab-section
+  .accordion
+  .card
+  .card-header
+  div[aria-expanded="true"]
+  span.faq-like-count {
+  color: #b69234;
   fill: rgba(27, 85, 226, 0.23921568627450981);
 }
-.faq .faq-layouting .fq-tab-section .accordion .card .collapse {}
-.faq .faq-layouting .fq-tab-section .accordion .card .card-body {padding: 19px 30px;}
+.faq .faq-layouting .fq-tab-section .accordion .card .collapse {
+}
+.faq .faq-layouting .fq-tab-section .accordion .card .card-body {
+  padding: 19px 30px;
+}
 .faq .faq-layouting .fq-tab-section .accordion .card .card-body p {
   font-size: 13px;
   line-height: 23px;
@@ -106,9 +188,16 @@
 */
 @media (max-width: 575px) {
   .faq .faq-layouting .fq-tab-section {
-      padding: 35px 25px;
+    padding: 35px 25px;
   }
-  .faq .faq-layouting .fq-tab-section .accordion .card .card-header div svg.feather-code {
-      display: none;   
+  .faq
+    .faq-layouting
+    .fq-tab-section
+    .accordion
+    .card
+    .card-header
+    div
+    svg.feather-code {
+    display: none;
   }
 }

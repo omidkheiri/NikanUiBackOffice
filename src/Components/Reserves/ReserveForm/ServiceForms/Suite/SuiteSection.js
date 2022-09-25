@@ -59,14 +59,17 @@ const SuiteSection = (props) => {
         params.LocationId
       );
 
-      var priceData = pricesServiceRef.current.GetPrices(
+      var priceDatas = pricesServiceRef.current.GetPrices(
         params.LocationId +
           "#" +
           Moment(new Date(reserveContext.flightInfo.flightDate)).format(
             "YYYY-MM-DD"
           )
       );
-      var pricedata = priceData.find((d) => {
+      if (!priceDatas) {
+        return;
+      }
+      var pricedata = priceDatas.find((d) => {
         return d.id === props.priceType.id;
       });
 

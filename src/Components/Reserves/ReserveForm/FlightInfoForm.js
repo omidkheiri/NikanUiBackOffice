@@ -52,7 +52,9 @@ const FlightInfoForm = (props) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
-
+    if (!reserveStorage.flightInfo) {
+      return;
+    }
     reserveStorage.flightInfo.flightDate = data;
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setselectedDate(data);
@@ -71,11 +73,37 @@ const FlightInfoForm = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
-  const updateFlightTimeForm = () => {};
+  const updateFlightTimeForm = (data) => {
+    const validValue = new RegExp("^[0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1}$");
+
+    if (validValue.test(data)) {
+      let reserveStorage = reserveServiceRef.current.GetReserve(
+        params.LocationId
+      );
+      if (!reserveStorage.flightInfo) {
+        return;
+      }
+
+      if (reserveStorage.flightInfo.flightType === 1) {
+        reserveStorage.flightInfo.departureTime = data;
+      } else {
+        reserveStorage.flightInfo.arrivalTime = data;
+      }
+
+      reserveServiceRef.current.UpdateReserve(
+        params.LocationId,
+        reserveStorage
+      );
+      setReserveContext(reserveStorage);
+    }
+  };
   const updateFlightType = useCallback((data) => {
     let reserveStorage = reserveServiceRef.current.GetReserve(
       params.LocationId
     );
+    if (!reserveStorage.flightInfo) {
+      return;
+    }
     reserveStorage.flightInfo.flightType = data.value;
     reserveServiceRef.current.UpdateReserve(params.LocationId, reserveStorage);
     setReserveContext(reserveStorage);
@@ -314,7 +342,7 @@ const FlightInfoForm = (props) => {
         {reserveContext && reserveContext.flightInfo && (
           <div className="col">
             <InputText
-              textAlign={styles.textAlign}
+              textAlign={styles.ltr}
               title={
                 reserveContext.flightInfo.flightType === 1
                   ? t("ReservePage.FlightInfoForm.DepartureFlightTime")
@@ -330,6 +358,7 @@ const FlightInfoForm = (props) => {
                   : reserveContext.flightInfo.arrivalTime
               }
               valueCallback={updateFlightTimeForm}
+              formatMassage={t("ReservePage.FlightInfoForm.TimeFormatMessage")}
               requiredMassage={t(
                 "ReservePage.FlightInfoForm.FlightTimeMessage"
               )}

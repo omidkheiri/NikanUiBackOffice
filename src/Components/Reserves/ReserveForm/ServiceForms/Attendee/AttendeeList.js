@@ -95,7 +95,7 @@ const AttendeeList = () => {
                 reserveContext.reserveItem.map((data) => {
                   if (data.attendee) {
                     return (
-                      <tr key={data.attendee.id}>
+                      <tr key={data.attendee}>
                         <td
                           style={{
                             width: "150px",

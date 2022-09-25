@@ -17,7 +17,7 @@ import AirlineNameList from "./Components/FlightNumber/AirlineNameList";
 import ContactList from "./Components/Contacts/ContactList";
 import ContactFormNew from "./Components/Contacts/ContactFormNew.js";
 import ContactPanel from "./Components/Contacts/ContactPanel";
-import ReserveNewForm from "./Components/Reserves/ReserveForm/ReserveNewForm";
+import ReserveForm from "./Components/Reserves/ReserveForm/ReserveForm";
 import ReserveList from "./Components/Reserves/ReserveList";
 function App() {
   const [isLogedIn] = useState(true);
@@ -73,8 +73,8 @@ function App() {
               <Route path="/Reserves">
                 <ReserveList />
               </Route>
-              <Route path="/NewReserve/:LocationId">
-                <ReserveNewForm />
+              <Route path="/Reserve/:LocationId/:ReserveId">
+                <ReserveForm />
               </Route>
 
               <Route path="/Flights" exacts>
